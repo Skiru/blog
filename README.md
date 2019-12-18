@@ -1,1 +1,1 @@
-# blog
+# Purple clouds blog application!
