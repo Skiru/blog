@@ -1,0 +1,20 @@
+FROM php:7.3-fpm
+
+RUN apt-get update && apt-get install -y libpq-dev git unzip zlib1g-dev libzip-dev
+RUN docker-php-ext-install pdo pdo_pgsql zip mbstring bcmath
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY ./composer.json ./
+COPY ./composer.lock ./
+
+RUN composer install --no-dev --no-scripts --ignore-platform-reqs
+
+RUN  mkdir -p /var/www/html/var/log/
+COPY ./ /var/www/html
+
+ENV APP_ENV=prod \
+    APP_SECRET=ca6777ca3b9d07d5a38d4f68036f232d \
+    KERNEL_CLASS=App\Kernel \
+    APP_SECRET=s$cretf0rt3s \
+
+RUN chmod 777 -R /var/www/html
