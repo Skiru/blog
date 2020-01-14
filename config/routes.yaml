@@ -1,3 +1,3 @@
 index:
     path: /
-    controller: Blog\Controller\BlogHomepage::index
+    controller: App\Controller\HomepageController::index

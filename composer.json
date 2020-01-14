@@ -21,8 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Blog\\": "src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {
