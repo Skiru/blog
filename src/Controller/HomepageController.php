@@ -7,23 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomepageController extends AbstractController
 {
-    private int $number;
-
-    /**
-     * @param int $number
-     */
-    public function __construct()
-    {
-        $this->number = rand(0,200);
-    }
-
     /**
      * @return Response
      */
     public function index(): Response
     {
+        $number = rand(0, 200);
+
         return new Response(
-            '<html><body><h1>Your Lucky number is ' . (string)$this->number . '</h1></body></html>'
+            '<html><body><h1>' . sprintf("Your lucky number is %s", (string)$number) . '</h1></body></html>'
         );
     }
 
