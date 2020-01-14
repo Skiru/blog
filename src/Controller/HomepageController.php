@@ -23,7 +23,7 @@ class HomepageController extends AbstractController
     public function index(): Response
     {
         return new Response(
-            '<html><body><h1>Your Lucky number is ' . $this->number . '</h1></body></html>'
+            '<html><body><h1>Your Lucky number is ' . (string)$this->number . '</h1></body></html>'
         );
     }
 
