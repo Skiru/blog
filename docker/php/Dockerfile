@@ -11,5 +11,6 @@ RUN composer install --no-dev --no-scripts --ignore-platform-reqs
 
 RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
+COPY ./.env.dist ./.env
 
 RUN chmod 777 -R /var/www/html
