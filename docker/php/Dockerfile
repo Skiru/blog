@@ -7,7 +7,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY ./composer.json ./
 COPY ./composer.lock ./
 
-RUN composer install --no-dev --no-scripts --ignore-platform-reqs
+RUN composer install --no-dev
 
 RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
