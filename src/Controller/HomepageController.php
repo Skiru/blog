@@ -15,7 +15,7 @@ class HomepageController extends AbstractController
         $number = rand(0, 200);
 
         return new Response(
-            '<html><body><h1>' . sprintf("Your lucky number is %s", (string)$number) . '</h1></body></html>'
+            '<html><body><h1>' . sprintf("1-1 number is %s", (string)$number) . '</h1></body></html>'
         );
     }
 
