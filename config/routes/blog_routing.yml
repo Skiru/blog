@@ -1,0 +1,11 @@
+index:
+  path: /
+  controller: App\Controller\HomepageController::index
+
+dashboard:
+  path: /dashboard/
+  controller: App\Controller\BlogAdminController:dashboard
+
+dashboard_login:
+  path: /login/
+  controller: App\Controller\BlogAdminController:login
