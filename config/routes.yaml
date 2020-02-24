@@ -1,3 +1,7 @@
 index:
     path: /
     controller: App\Controller\HomepageController::index
+
+wedding:
+    path: /wedding
+    controller: App\Controller\HomepageController::weddingCountDown
