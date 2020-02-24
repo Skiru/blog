@@ -25,4 +25,9 @@ class HomepageController extends AbstractController
     {
         return $this->render('homepage/index.html.twig');
     }
+
+    public function weddingCountDown(): Response
+    {
+        return $this->render('wedding/wedding.html.twig', []);
+    }
 }
