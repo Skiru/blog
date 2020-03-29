@@ -11,6 +11,8 @@ security:
         code:
             provider: userprovider
             anonymous: ~
+            logout:
+                path: blog_logout
             guard:
                 authenticators:
                     - App\Infrastructure\Security\TokenAuthenticator
