@@ -1,31 +1,16 @@
 {% extends "base.html.twig" %}
 {% block body %}
 x    <div class="container">
-
         <div class="row my-5 d-flex justify-content-center">
-
             <div class="col-md-6">
-
-                <!-- Card -->
                 <div class="card">
-
-                    <!-- Card image -->
                     <img class="img-fluid" src="https://thumbs.gfycat.com/DelayedGaseousAustraliansilkyterrier-size_restricted.gif" alt="Card image cap">
-
-                    <!-- Card content -->
                     <div class="card-body close text-center">
-                        <!-- Title -->
                         <h4 class="card-title font-weight-bold pt-1 pb-2"><a>Log in with PurpleClouds</a></h4>
-                        <!-- Button -->
-                        <a href="http://ecorp.purpleclouds.pl/idp/login" class="btn btn-primary btn-rounded blue-gradient">Log in with PurpleClouds</a>
+                        <a href="{{ idp_auth_link }}" class="btn btn-primary btn-rounded blue-gradient">Log in with PurpleClouds</a>
                     </div>
-
                 </div>
-                <!-- Card -->
-
             </div>
-
         </div>
-
     </div>
 {% endblock %}

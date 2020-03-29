@@ -3,9 +3,17 @@ index:
   controller: App\Controller\HomepageController::index
 
 dashboard:
-  path: /dashboard/
+  path: /dashboard
   controller: App\Controller\BlogAdminController:dashboard
 
 dashboard_login:
-  path: /login/
+  path: /login
   controller: App\Controller\BlogAdminController:login
+
+handle_code:
+  path: /oauth/v2/code
+  controller: App\Controller\BlogAdminController:handleCode
+
+blog_logout_user:
+  path: /logout
+  methods: ['GET']
