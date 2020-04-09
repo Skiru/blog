@@ -1,0 +1,22 @@
+security:
+    providers:
+        userprovider:
+            id: App\Infrastructure\Security\UserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        code:
+            provider: userprovider
+            anonymous: ~
+            logout:
+                path: blog_logout
+            guard:
+                authenticators:
+                    - App\Infrastructure\Security\TokenAuthenticator
+
+    access_control:
+        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -1,6 +1,6 @@
-index:
-    path: /
-    controller: App\Controller\HomepageController::index
+app_directory:
+    resource: 'routes/'
+    type: directory
 
 wedding:
     path: /wedding
