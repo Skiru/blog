@@ -1,10 +1,10 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     ecorp_idp_login_url: '%env(ECORP_IDP_LOGIN_URL)%'
+    ecorp_client_id: '%env(ECORP_CLIENT_ID)%'
+    ecorp_client_secret: '%env(ECORP_CLIENT_SECRET)%'
+    ecorp_authorize_uri: '%env(ECORP_AUTHORIZE_URI)%'
+    ecorp_token_uri: '%env(ECORP_TOKEN_URI)%'
+    ecorp_redirect_uri: '%env(ECORP_REDIRECT_URI)%'
 
 services:
     # default configuration for services in *this* file
@@ -27,3 +27,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     #App\Infrastructure\Security\TokenAuthenticator: ['%ecorp_idp_login_url%']
+
+    App\Infrastructure\ECorp\Connector:
+        arguments: ['%ecorp_client_id%', '%ecorp_client_secret%', '%ecorp_authorize_uri%', '%ecorp_token_uri%', '%ecorp_redirect_uri%']

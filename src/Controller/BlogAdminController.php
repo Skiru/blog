@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Infrastructure\Authentication\BlogUserToken;
+use App\Infrastructure\ECorp\IdpInterface;
 use App\Infrastructure\Security\TokenAuthenticator;
-use App\Infrastructure\Security\User;
-use Firebase\JWT\JWT;
-use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +15,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class BlogAdminController extends AbstractController
 {
@@ -30,25 +26,27 @@ class BlogAdminController extends AbstractController
 
     private AuthenticationManagerInterface $authentication;
 
+    private IdpInterface $idp;
 
-    public function __construct(TokenStorageInterface $tokenStorage, SessionInterface $session, EventDispatcherInterface $eventDispatcher, AuthenticationManagerInterface $authentication)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session,
+        EventDispatcherInterface $eventDispatcher,
+        AuthenticationManagerInterface $authentication,
+        IdpInterface $idp
+    ) {
         $this->tokenStorage = $tokenStorage;
         $this->session = $session;
         $this->eventDispatcher = $eventDispatcher;
         $this->authentication = $authentication;
+        $this->idp = $idp;
     }
 
     public function login(): Response
     {
-        $idpAuthLink = sprintf(
-            'http://%s/oauth/v2/auth?client_id=%s&redirect_uri=%s&response_type=code&scope=profile',
-            'localhost:8000',
-            '1_4f6ilbknfuo000sw000c0osk0gkgwc0wwkwowog0c404wo4s4k',
-            'http://localhost:8001/oauth/v2/code', //Auth code handle on blog side
-        );
-
-        return $this->render('security/login.html.twig', ['idp_auth_link' => $idpAuthLink]);
+        return $this->render('security/login.html.twig', [
+            'idp_auth_link' => $this->idp->buildAuthorizeUri()
+        ]);
     }
 
     public function logout()
