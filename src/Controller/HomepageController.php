@@ -34,10 +34,9 @@ class HomepageController extends AbstractController
 
     public function index(): Response
     {
-        $items = $this->postQuery->findAll();
-        dump($items);die;
-
-        return $this->render('homepage/index.html.twig');
+        return $this->render('homepage/index.html.twig', [
+            'posts' => $this->postQuery->findAll()
+        ]);
     }
 
     public function insert(Request $request): RedirectResponse

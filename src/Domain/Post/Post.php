@@ -7,6 +7,7 @@ namespace App\Domain\Post;
 use App\Domain\DateTime\DateTimeTrait;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
+use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\Tags;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
@@ -131,5 +132,23 @@ final class Post
     public function isPublished(): bool
     {
         return $this->published;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->getUuid()->asString(),
+            'title' => $this->getTitle()->asString(),
+            'author' => $this->getAuthor()->getUser()->asString(),
+            'content' => $this->getContent()->asString(),
+            'tags' => array_map(fn (Tag $tag) => ['tag' => $tag->asString()], $this->getTags()->getTags()),
+            'category' => $this->getCategory()->asString(),
+            'created_at' => $this->getCreatedAt()->format(DateTimeImmutable::ATOM),
+            'updated_at' => $this->getUpdatedAt()->format(DateTimeImmutable::ATOM),
+            'deleted_at' => null === $this->getDeletedAt()
+                ? null
+                : $this->getDeletedAt()->format(DateTimeImmutable::ATOM),
+            'published' => $this->isPublished()
+        ];
     }
 }
