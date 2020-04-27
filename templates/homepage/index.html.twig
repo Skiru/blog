@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a class="btn btn-amber" href="{{ path('dashboard') }}">Dashboard</a>
-    <a class="btn btn-black" href="{{ path('dashboard_login') }}">Login</a>
+{#    <a class="btn btn-amber" href="{{ path('dashboard') }}">Dashboard</a>#}
+{#    <a class="btn btn-black" href="{{ path('dashboard_login') }}">Login</a>#}
+    {{ parent() }}
 {% endblock %}

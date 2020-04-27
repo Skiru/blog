@@ -23,3 +23,9 @@ blog_post_insert:
   path: /dashboard/posts
   methods: ['POST', 'GET']
   controller: App\Controller\HomepageController:insert
+
+articles:
+  path: /articles
+
+about_me:
+  path: /about

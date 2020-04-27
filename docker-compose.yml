@@ -33,5 +33,14 @@ services:
       - ./docker/mongodata:/data/db
     networks: ["default", "purple_clouds_network"]
 
+  blog_purple_clouds_assets:
+    image: nginx:latest
+    ports:
+      - 8900:8900
+    volumes:
+      - ./public/assets:/static/assets
+      - ./docker/assets/default.conf:/etc/nginx/conf.d/default.conf
+    networks: ["default", "purple_clouds_network"]
+
 networks:
   purple_clouds_network: {"external": {"name": "purple_clouds_network"}}
