@@ -5,6 +5,7 @@ parameters:
     ecorp_authorize_uri: '%env(ECORP_AUTHORIZE_URI)%'
     ecorp_token_uri: '%env(ECORP_TOKEN_URI)%'
     ecorp_redirect_uri: '%env(ECORP_REDIRECT_URI)%'
+    mongodb_connection_uri: '%env(MONGODB_CONNECTION)%'
 
 services:
     # default configuration for services in *this* file
@@ -28,5 +29,12 @@ services:
     # please note that last definitions always *replace* previous ones
     #App\Infrastructure\Security\TokenAuthenticator: ['%ecorp_idp_login_url%']
 
+    App\Infrastructure\CommandBus\CommandBus:
+        calls:
+            - [registerHandler, ['App\Application\Post\Command\PostCreateCommand', '@App\Application\Post\Command\PostCreateCommandHandler']]
+
     App\Infrastructure\ECorp\Connector:
         arguments: ['%ecorp_client_id%', '%ecorp_client_secret%', '%ecorp_authorize_uri%', '%ecorp_token_uri%', '%ecorp_redirect_uri%']
+
+    MongoDB\Client:
+        arguments: ['%mongodb_connection_uri%']

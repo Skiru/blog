@@ -1,69 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\DateTime;
 
-use DateTime;
+use DateTimeImmutable;
 
 trait DateTimeTrait
 {
-    private DateTime $createdAt;
+    private DateTimeImmutable $createdAt;
 
-    private DateTime $updatedAt;
+    private DateTimeImmutable $updatedAt;
 
-    private ?DateTime $deletedAt;
+    private ?DateTimeImmutable $deletedAt;
 
-    /**
-     * @return bool
-     */
     public function isDeleted(): bool
     {
         return null === $this->deletedAt;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTime $createdAt
-     */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param DateTime $updatedAt
-     */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getDeletedAt(): ?DateTime
+    public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param DateTime|null $deletedAt
-     */
-    public function setDeletedAt(?DateTime $deletedAt): void
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }

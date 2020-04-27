@@ -1,8 +1,8 @@
 FROM php:7.4-fpm
 
-RUN apt-get update && apt-get install -y libpq-dev git unzip zlib1g-dev libzip-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libonig-dev
-RUN docker-php-ext-install pdo pdo_pgsql zip bcmath opcache
-RUN docker-php-ext-enable pdo pdo_pgsql zip bcmath opcache
+RUN apt-get update && apt-get install -y libpq-dev git unzip zlib1g-dev libzip-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libonig-dev libcurl4-openssl-dev pkg-config libssl-dev
+RUN docker-php-ext-install zip bcmath opcache
+RUN docker-php-ext-enable zip bcmath opcache
 
 RUN  mkdir -p /var/www/html/var/log/
 
@@ -10,7 +10,7 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php/php-fpm-pool.conf /etc/php7/php-fpm.d/www.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer creates=/usr/local/bin/composer warn=no
-
+RUN pecl install mongodb
 RUN pecl install xdebug
 RUN docker-php-ext-enable --ini-name xdebug.ini xdebug
 RUN { \

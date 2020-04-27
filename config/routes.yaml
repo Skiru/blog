@@ -1,7 +1,25 @@
-app_directory:
-    resource: 'routes/'
-    type: directory
+index:
+  path: /
+  controller: App\Controller\HomepageController::index
 
-wedding:
-    path: /wedding
-    controller: App\Controller\HomepageController::weddingCountDown
+dashboard:
+  path: /dashboard
+  controller: App\Controller\BlogAdminController:dashboard
+
+dashboard_login:
+  path: /login
+  controller: App\Controller\BlogAdminController:login
+
+handle_code:
+  path: /oauth/v2/code
+  controller: App\Controller\BlogAdminController:handleCode
+
+blog_logout:
+  path: /logout
+  methods: ['GET']
+
+#Blog post insertion routes
+blog_post_insert:
+  path: /dashboard/posts
+  methods: ['POST', 'GET']
+  controller: App\Controller\HomepageController:insert

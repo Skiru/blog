@@ -1,34 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\User;
+
+use App\Domain\Shared\Uuid;
 
 final class UserIdentity
 {
-    private string $uuid;
+    private Uuid $uuid;
 
-    /**
-     * UserIdentity constructor.
-     * @param string $uuid
-     */
-    public function __construct(string $uuid)
+    public function __construct(Uuid $uuid)
     {
         $this->uuid = $uuid;
     }
 
-    /**
-     * @return string
-     */
     public function asString(): string
     {
-        return $this->uuid;
+        return $this->uuid->asString();
     }
 
-    /**
-     * @param UserIdentity $identity
-     *
-     * @return bool
-     */
-    public function equal(UserIdentity $identity): bool
+    public function equals(UserIdentity $identity): bool
     {
         return $this->asString() === $identity->asString();
     }

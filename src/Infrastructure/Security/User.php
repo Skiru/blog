@@ -12,6 +12,15 @@ class User implements BlogUserInterface, BlogUserJwtInterface
     private int $age;
     private string $rawToken;
 
+    private function __construct(string $username, string $email, int $age, string $rawToken)
+    {
+        $this->username = $username;
+        $this->roles = [self::DEFAULT_ROLE];
+        $this->email = $email;
+        $this->age = $age;
+        $this->rawToken = $rawToken;
+    }
+
     public static function fromParameters(string $username, string $email, int $age, string $rawToken): User
     {
         return new User(
@@ -20,15 +29,6 @@ class User implements BlogUserInterface, BlogUserJwtInterface
             $age,
             $rawToken
         );
-    }
-
-    private function __construct(string $username, string $email, int $age, string $rawToken)
-    {
-        $this->username = $username;
-        $this->roles = [self::DEFAULT_ROLE];
-        $this->email = $email;
-        $this->age = $age;
-        $this->rawToken = $rawToken;
     }
 
     /**
