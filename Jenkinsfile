@@ -20,7 +20,7 @@ pipeline {
                      doGenerateSubmoduleConfigurations: false,
                      extensions: [],
                      submoduleCfg: [],
-                     userRemoteConfigs: [[credentialsId: 'ecorp-repository', url: "git@github.com:Skiru/blog.git"]]]
+                     userRemoteConfigs: [[credentialsId: 'blog-repository', url: "git@github.com:Skiru/blog.git"]]]
                 )
             }
         }
