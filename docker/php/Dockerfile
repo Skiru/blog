@@ -9,12 +9,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV APP_ENV=prod \
     APP_SECRET=ca6777ca3b9d07d5a38d4f68036f232d \
     APP_SECRET=s$cretf0rt3s \
-    ECORP_IDP_LOGIN_URL="http://ecorp.purpleclouds.local/idp/login" \
-    ECORP_AUTHORIZE_URI="http://ecorp.purpleclouds.local/oauth/v2/auth" \
-    ECORP_TOKEN_URI="http://ecorp.purpleclouds.local/oauth/v2/token" \
-    ECORP_CLIENT_ID="1_1p4ny5gyjmv488csc8oc44w48oo4k00wkkksgk80k0c0wo8gco" \
-    ECORP_CLIENT_SECRET="4fkoqjt0hzeoc484sgwgk440so8kogo0w0oow0kwkw8s0oko8c" \
-    ECORP_REDIRECT_URI="http://blog.purpleclouds.local/oauth/v2/code" \
+    ECORP_IDP_LOGIN_URL="http://ecorp.purpleclouds.pl/idp/login" \
+    ECORP_AUTHORIZE_URI="http://ecorp.purpleclouds.pl/oauth/v2/auth" \
+    ECORP_TOKEN_URI="http://ecorp.purpleclouds.pl/oauth/v2/token" \
+    ECORP_CLIENT_ID="1_5ps4hydqvuo0gcwkccgcwgsksss80kc0kc8oks8w44w4kwg8co" \
+    ECORP_CLIENT_SECRET="1t7ul5l62v8k8844cgscwc0w8kg4wcg8koosgosg0s48c48wkc" \
+    ECORP_REDIRECT_URI="http://blog.purpleclouds.pl/oauth/v2/code" \
     MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017"
 
 COPY ./composer.json ./
