@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Post\Query;
 
+use DateTime;
+use Monolog\DateTimeImmutable;
+
 final class PostView
 {
     private string $uuid;
@@ -13,6 +16,7 @@ final class PostView
     private string $category;
     private array $tags;
     private bool $published;
+    private string $headerImage;
     private string $createdAt;
     private string $updatedAt;
     private ?string $deletedAt;
@@ -25,6 +29,7 @@ final class PostView
         string $category,
         array $tags,
         bool $published,
+        string $headerImage,
         string $createdAt,
         string $updatedAt,
         ?string $deletedAt
@@ -36,6 +41,7 @@ final class PostView
         $this->category = $category;
         $this->tags = $tags;
         $this->published = $published;
+        $this->headerImage = $headerImage;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->deletedAt = $deletedAt;
@@ -78,7 +84,7 @@ final class PostView
 
     public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return (new DateTime($this->createdAt))->format('Y-m-d');
     }
 
     public function getUpdatedAt(): string
@@ -89,5 +95,10 @@ final class PostView
     public function getDeletedAt(): ?string
     {
         return $this->deletedAt;
+    }
+
+    public function getHeaderImage(): string
+    {
+        return $this->headerImage;
     }
 }

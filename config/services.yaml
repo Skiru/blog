@@ -38,3 +38,6 @@ services:
 
     MongoDB\Client:
         arguments: ['%mongodb_connection_uri%']
+
+    App\Infrastructure\ImageUploader:
+        arguments: ['%kernel.project_dir%/public/assets/images']

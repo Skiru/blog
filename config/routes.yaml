@@ -22,7 +22,7 @@ blog_logout:
 blog_post_insert:
   path: /dashboard/posts
   methods: ['POST', 'GET']
-  controller: App\Controller\HomepageController:insert
+  controller: App\Controller\BlogAdminController:insert
 
 articles:
   path: /articles

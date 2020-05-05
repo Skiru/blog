@@ -1,6 +1,11 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    <h1>Adding a new post</h1>
 
-    Welcome!
-
+    {{ form_start(form, {'action': path('blog_post_insert')}) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.headerImage) }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create post</button>
+    {{ form_end(form) }}
 {% endblock %}

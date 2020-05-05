@@ -7,6 +7,7 @@ namespace App\Domain\Post;
 use App\Domain\DateTime\DateTimeTrait;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
+use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\Tags;
 use App\Domain\Post\Title\Title;
@@ -32,6 +33,8 @@ final class Post
 
     private bool $published;
 
+    private HeaderImage $image;
+
     private function __construct(
         Uuid $uuid,
         Title $title,
@@ -40,6 +43,7 @@ final class Post
         Tags $tags,
         Category $category,
         bool $published,
+        HeaderImage $image,
         DateTimeImmutable $createdAt,
         DateTimeImmutable $updatedAt,
         ?DateTimeImmutable $deletedAt
@@ -51,6 +55,7 @@ final class Post
         $this->tags = $tags;
         $this->category = $category;
         $this->published = $published;
+        $this->image = $image;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->deletedAt = $deletedAt;
@@ -62,7 +67,8 @@ final class Post
         BlogUser $author,
         Content $content,
         Tags $tags,
-        Category $category
+        Category $category,
+    HeaderImage $image
     ): Post {
         return new self(
             $uuid,
@@ -72,66 +78,51 @@ final class Post
             $tags,
             $category,
             false,
+            $image,
             new DateTimeImmutable(),
             new DateTimeImmutable(),
             null
         );
     }
 
-    /**
-     * @return Uuid
-     */
     public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    /**
-     * @return Title
-     */
     public function getTitle(): Title
     {
         return $this->title;
     }
 
-    /**
-     * @return BlogUser
-     */
     public function getAuthor(): BlogUser
     {
         return $this->author;
     }
 
-    /**
-     * @return Content
-     */
     public function getContent(): Content
     {
         return $this->content;
     }
 
-    /**
-     * @return Tags
-     */
     public function getTags(): Tags
     {
         return $this->tags;
     }
 
-    /**
-     * @return Category
-     */
     public function getCategory(): Category
     {
         return $this->category;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublished(): bool
     {
         return $this->published;
+    }
+
+    public function getImage(): HeaderImage
+    {
+        return $this->image;
     }
 
     public function toArray(): array
@@ -148,7 +139,8 @@ final class Post
             'deleted_at' => null === $this->getDeletedAt()
                 ? null
                 : $this->getDeletedAt()->format(DateTimeImmutable::ATOM),
-            'published' => $this->isPublished()
+            'published' => $this->isPublished(),
+            'header_image' => $this->getImage()->getUrl()
         ];
     }
 }

@@ -24,6 +24,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
                 'updated_at' => 1,
                 'deleted_at' => 1,
                 'published' => 1,
+                'header_image' => 1
             ]
         ]);
         //TODO check if cursor is not dead
@@ -36,6 +37,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $entry['category'],
             array_map(fn (BSONDocument $tag) => $tag->getArrayCopy(), $entry['tags']->getArrayCopy()),
             $entry['published'],
+            $entry['header_image'],
             $entry['created_at'],
             $entry['updated_at'],
             $entry['deleted_at'],
