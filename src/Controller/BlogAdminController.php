@@ -23,6 +23,7 @@ use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,10 +98,27 @@ class BlogAdminController extends AbstractController
 
                 $this->commandBus->handle($command);
 
+                $this->addFlash(
+                    'success',
+                    'Successfully saved post'
+                );
+
+                return $this->redirectToRoute('dashboard');
             } catch (DomainException $exception) {
                 //TODO when validation will be added then catch exceptions here
+                $this->addFlash(
+                    'danger',
+                    'Coudln\'t save a post'
+                );
+
+                return $this->redirectToRoute('dashboard');
             }
         }
+
+        $this->addFlash(
+            'danger',
+            sprintf('Couldn\'t save a post')
+        );
 
         return $this->redirectToRoute('dashboard');
     }

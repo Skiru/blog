@@ -1,11 +1,53 @@
-{% extends "base.html.twig" %}
-{% block body %}
-    <h1>Adding a new post</h1>
+{% extends 'base.html.twig' %}
 
-    {{ form_start(form, {'action': path('blog_post_insert')}) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.headerImage) }}
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create post</button>
-    {{ form_end(form) }}
+{% block title %} Purple clouds profile {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
 {% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'shared/_profile_nav.html.twig' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Posts</h1>
+                </div>
+                <h2>Create a new post</h2>
+                {% for label, messages in app.flashes(['success', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <section class="justify-content-lg-center order-bottom my-2">
+                        {{ form_start(form, {'action': path('blog_post_insert')}) }}
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.content) }}
+                        {{ form_row(form.headerImage, {
+                            attr: {
+                                'placeholder': 'Select a post header image'
+                            }
+                        }) }}
+                        <button class="btn btn-lg btn-secondary" type="submit">Create post</button>
+                        {{ form_end(form) }}
+                </section>
+            </main>
+        </div>
+    </div>
+    {% block javascripts %}
+        <link rel="stylesheet" href="{{ asset('assets/js/dashboard.js') }}">
+        <script>
+            $('.custom-file-input').on('change', function(event) {
+                const inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+
+

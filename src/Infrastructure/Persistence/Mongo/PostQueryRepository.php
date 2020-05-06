@@ -10,23 +10,11 @@ use MongoDB\Model\BSONDocument;
 
 class PostQueryRepository extends MongoDbClient implements PostQueryInterface
 {
+    private const POST_TABLE = 'posts';
+
     public function findAll(): array
     {
-        $cursor = $this->postCollection->find([], [
-            'projection' => [
-                'uuid' => 1,
-                'title' => 1,
-                'author' => 1,
-                'content' => 1,
-                'tags' => 1,
-                'category' => 1,
-                'created_at' => 1,
-                'updated_at' => 1,
-                'deleted_at' => 1,
-                'published' => 1,
-                'header_image' => 1
-            ]
-        ]);
+        $cursor = $this->database->selectCollection(self::POST_TABLE)->find([]);
         //TODO check if cursor is not dead
 
         return array_map(fn (BSONDocument $entry) => new PostView(

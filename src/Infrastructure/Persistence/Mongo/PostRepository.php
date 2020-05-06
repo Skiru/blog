@@ -9,8 +9,10 @@ use App\Domain\Post\PostRepositoryInterface;
 
 class PostRepository extends MongoDbClient implements PostRepositoryInterface
 {
+    private const POST_TABLE = 'posts';
+
     public function insert(Post $post): void
     {
-        $this->postCollection->insertOne($post->toArray());
+        $this->database->selectCollection(self::POST_TABLE)->insertOne($post->toArray());
     }
 }
