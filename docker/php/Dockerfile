@@ -27,3 +27,4 @@ RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
 
 RUN chmod 777 -R /var/www/html
+RUN chmod 777 -R /var/www/html/public/assets
