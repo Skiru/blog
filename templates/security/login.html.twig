@@ -1,13 +1,15 @@
 {% extends "base.html.twig" %}
 {% block body %}
-x    <div class="container">
+    <div class="container">
         <div class="row my-5 d-flex justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <img class="img-fluid" src="https://thumbs.gfycat.com/DelayedGaseousAustraliansilkyterrier-size_restricted.gif" alt="Card image cap">
+                    <img class="img img-fluid"
+                         src="{{ asset('assets/images/cloud.svg') }}"
+                         alt="Login">
                     <div class="card-body close text-center">
-                        <h4 class="card-title font-weight-bold pt-1 pb-2"><a>Log in with PurpleClouds</a></h4>
-                        <a href="{{ idp_auth_link }}" class="btn btn-primary btn-rounded blue-gradient">Log in with PurpleClouds</a>
+                        <a href="{{ idp_auth_link }}" class="btn btn-lg pc-btn">Log in with
+                            PurpleClouds</a>
                     </div>
                 </div>
             </div>

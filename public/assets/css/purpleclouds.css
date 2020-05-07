@@ -1,0 +1,16 @@
+.pc-btn {
+    color: #fff;
+    background-color: #31009f;
+    border-color: #31009f; }
+.pc-btn:hover {
+    color: #fff;
+    background-color: #7100b7;
+    border-color: #7100b7; }
+.pc-btn:focus, .pc-btn.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5); }
+.pc-btn.disabled, .pc-btn:disabled {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}

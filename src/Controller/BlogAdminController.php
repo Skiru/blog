@@ -23,10 +23,10 @@ use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class BlogAdminController extends AbstractController
 {
@@ -39,8 +39,12 @@ class BlogAdminController extends AbstractController
         $this->commandBus = $commandBus;
     }
 
-    public function login(): Response
+    public function login(AuthorizationCheckerInterface $authorizationChecker): Response
     {
+        if ($authorizationChecker->isGranted('ROLE_USER')) {
+            $this->redirectToRoute('dashboard');
+        }
+
         return $this->render('security/login.html.twig', [
             'idp_auth_link' => $this->idp->buildAuthorizeUri()
         ]);
