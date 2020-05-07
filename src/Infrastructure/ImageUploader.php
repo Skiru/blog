@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
+use App\Domain\DomainException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -16,6 +17,11 @@ class ImageUploader
         $this->imagesDirectory = $imagesDirectory;
     }
 
+    /**
+     * @throws DomainException
+     * @param UploadedFile $file
+     * @return string
+     */
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -24,7 +30,7 @@ class ImageUploader
         try {
             $file->move($this->imagesDirectory, $fileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            throw new DomainException('Could not move the file:' . $e->getMessage());
         }
 
         return $fileName;

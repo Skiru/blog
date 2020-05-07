@@ -108,7 +108,7 @@ class BlogAdminController extends AbstractController
                 //TODO when validation will be added then catch exceptions here
                 $this->addFlash(
                     'danger',
-                    'Coudln\'t save a post'
+                    'Coudln\'t save a post' . $exception->getMessage()
                 );
 
                 return $this->redirectToRoute('dashboard');
