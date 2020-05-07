@@ -7,14 +7,17 @@ namespace App\Infrastructure;
 use App\Domain\DomainException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ImageUploader
 {
     private string $imagesDirectory;
+    private SluggerInterface $slugger;
 
-    public function __construct(string $imagesDirectory)
+    public function __construct(string $imagesDirectory, SluggerInterface $slugger)
     {
         $this->imagesDirectory = $imagesDirectory;
+        $this->slugger = $slugger;
     }
 
     /**
@@ -25,7 +28,8 @@ class ImageUploader
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileName = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $safeFileName = $this->slugger->slug($originalFilename);
+        $fileName = $safeFileName.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
             $file->move($this->imagesDirectory, $fileName);
