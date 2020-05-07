@@ -1,0 +1,8 @@
+twig:
+    form_themes:
+        - '@KMSFroalaEditor/Form/froala_widget.html.twig'
+
+kms_froala_editor:
+    language: pl
+    imageUploadFolder: "/assets/uploads"
+    publicDir: "/public"

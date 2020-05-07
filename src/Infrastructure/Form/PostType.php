@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Form;
 
+use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,7 +26,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Title of your post'
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', FroalaEditorType::class, [
                 'label' => 'Content of the post'
             ]);
 
