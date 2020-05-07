@@ -40,4 +40,4 @@ services:
         arguments: ['%mongodb_connection_uri%']
 
     App\Infrastructure\ImageUploader:
-        arguments: ['%kernel.project_dir%/public/assets/images']
+        arguments: ['%kernel.project_dir%/public/assets/uploads']

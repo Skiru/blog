@@ -15,7 +15,8 @@ ENV APP_ENV=prod \
     ECORP_CLIENT_ID="1_5ps4hydqvuo0gcwkccgcwgsksss80kc0kc8oks8w44w4kwg8co" \
     ECORP_CLIENT_SECRET="1t7ul5l62v8k8844cgscwc0w8kg4wcg8koosgosg0s48c48wkc" \
     ECORP_REDIRECT_URI="http://blog.purpleclouds.pl/oauth/v2/code" \
-    MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017"
+    MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017" \
+    ASSETS_URL="http://purpleclouds.pl:8900/assets"
 
 COPY ./composer.json ./
 COPY ./composer.lock ./
@@ -27,4 +28,3 @@ RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
 
 RUN chmod 777 -R /var/www/html
-RUN chmod 777 -R /var/www/html/public/assets
