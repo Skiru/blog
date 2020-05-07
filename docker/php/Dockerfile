@@ -16,7 +16,7 @@ ENV APP_ENV=prod \
     ECORP_CLIENT_SECRET="1t7ul5l62v8k8844cgscwc0w8kg4wcg8koosgosg0s48c48wkc" \
     ECORP_REDIRECT_URI="http://blog.purpleclouds.pl/oauth/v2/code" \
     MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017" \
-    ASSETS_URL="http://purpleclouds.pl:8900/assets"
+    ASSETS_URL="http://purpleclouds.pl:8900"
 
 COPY ./composer.json ./
 COPY ./composer.lock ./
