@@ -7,7 +7,6 @@
         "ext-iconv": "*",
         "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^6.5",
-        "kms/froala-editor-bundle": "^3.0",
         "mongodb/mongodb": "^1.6",
         "ramsey/uuid": "^4.0",
         "symfony/asset": "5.0.*",
