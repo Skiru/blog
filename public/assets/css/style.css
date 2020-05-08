@@ -8229,7 +8229,7 @@ h1, h2, h3, h4, h5,
     /*background: -ms-linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
     /*background: linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
     background-color: #FAACA8;
-    background-image: linear-gradient(45deg, #FAACA8 0%, #DDD6F3 100%);
+    background-image: linear-gradient(0deg, #FAACA8 0%, #DDD6F3 100%);
 
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#813ec1', endColorstr='#813ec1', GradientType=1 ); }
 
