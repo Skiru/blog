@@ -146,6 +146,7 @@ final class Post
             'content' => $this->getContent()->asString(),
             'tags' => array_map(fn (Tag $tag) => ['tag' => $tag->asString()], $this->getTags()->getTags()),
             'category' => $this->getCategory()->asString(),
+            'read_time' => $this->getReadTime()->asInt(),
             'created_at' => $this->getCreatedAt()->format(DateTimeImmutable::ATOM),
             'updated_at' => $this->getUpdatedAt()->format(DateTimeImmutable::ATOM),
             'deleted_at' => null === $this->getDeletedAt()

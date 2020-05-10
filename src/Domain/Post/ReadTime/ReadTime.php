@@ -18,7 +18,7 @@ final class ReadTime
         return new self($readTimeInMin);
     }
 
-    public function getReadTime(): int
+    public function asInt(): int
     {
         return $this->readTime;
     }

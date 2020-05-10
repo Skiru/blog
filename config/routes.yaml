@@ -30,6 +30,11 @@ articles:
 about_me:
   path: /about
 
+blog_post:
+  path: /posts/{uuid}
+  methods: ['GET']
+  controller: App\Controller\PostController:showPost
+
 blog_post_image_upload:
   path: /dashboard/posts/upload
   methods: ['POST']

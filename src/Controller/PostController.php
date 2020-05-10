@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Application\Post\Command\PostCreateCommand;
+use App\Application\Post\Query\PostQueryInterface;
 use App\Domain\DomainException;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
@@ -26,14 +27,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends AbstractController
 {
     private CommandBusInterface $commandBus;
+    private PostQueryInterface $postQuery;
 
-    public function __construct(CommandBusInterface $commandBus)
+    public function __construct(CommandBusInterface $commandBus, PostQueryInterface $postQuery)
     {
         $this->commandBus = $commandBus;
+        $this->postQuery = $postQuery;
     }
 
     public function upload(Request $request, ImageUploader $imageUploader): JsonResponse
@@ -111,5 +115,13 @@ class PostController extends AbstractController
         );
 
         return $this->redirectToRoute('dashboard');
+    }
+
+    public function showPost(string $uuid): Response
+    {
+        //TODO Use markdown
+        return $this->render('homepage/single_post.html.twig', [
+            'post' => $this->postQuery->getByUuid(new DomainUuid(Uuid::fromString($uuid)->toString()))
+        ]);
     }
 }

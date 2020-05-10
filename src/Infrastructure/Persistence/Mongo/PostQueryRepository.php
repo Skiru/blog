@@ -6,6 +6,8 @@ namespace App\Infrastructure\Persistence\Mongo;
 
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Post\Query\PostView;
+use App\Domain\Shared\Uuid;
+use Exception;
 use MongoDB\Model\BSONDocument;
 
 class PostQueryRepository extends MongoDbClient implements PostQueryInterface
@@ -23,7 +25,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $entry['author'],
             $entry['content'],
             $entry['category'],
-            $entry['readTime'],
+            $entry['read_time'],
             array_map(fn (BSONDocument $tag) => $tag->getArrayCopy(), $entry['tags']->getArrayCopy()),
             $entry['published'],
             $entry['header_image'],
@@ -31,5 +33,39 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $entry['updated_at'],
             $entry['deleted_at'],
         ), $cursor->toArray());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getByUuid(Uuid $uuid): PostView
+    {
+        /**
+         * @var BSONDocument|null $document
+         */
+        $document = $this->database->selectCollection(self::POST_TABLE)->findOne(['uuid' => $uuid->asString()]);
+        //TODO check if cursor is not dead
+
+        if (null === $document) {
+            //TODO Make infrastructure exception
+            throw new Exception('Post not found');
+        }
+
+        $entry = $document->getArrayCopy();
+
+        return new PostView(
+            $entry['uuid'],
+            $entry['title'],
+            $entry['author'],
+            base64_decode($entry['content']),
+            $entry['category'],
+            $entry['read_time'],
+            array_map(fn (BSONDocument $tag) => $tag->getArrayCopy(), $entry['tags']->getArrayCopy()),
+            $entry['published'],
+            $entry['header_image'],
+            $entry['created_at'],
+            $entry['updated_at'],
+            $entry['deleted_at'],
+        );
     }
 }
