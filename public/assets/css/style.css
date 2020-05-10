@@ -8222,15 +8222,12 @@ h1, h2, h3, h4, h5,
     content: '';
     opacity: .6;
     /*background: #7D5873;*/
-    /*background: -moz-linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
-    /*background: -webkit-gradient(left bottom, right top, color-stop(0%, #D29CD9), color-stop(100%, #BFB8D9));*/
-    /*background: -webkit-linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
-    /*background: -o-linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
-    /*background: -ms-linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
-    /*background: linear-gradient(45deg, #D29CD9 0%, #BFB8D9 100%);*/
-    /*background-color: #FAACA8;*/
-    background-image: linear-gradient(0deg, #BF5E78 0%, #F2D5A0 100%);
-
+    background: -moz-linear-gradient(45deg, #BF5E78 0%, #F2D5A0 100%);
+    background: -webkit-gradient(left bottom, right top, color-stop(0%, #BF5E78), color-stop(100%, #F2D5A0));
+    background: -webkit-linear-gradient(45deg, #BF5E78 0%, #F2D5A0 100%);
+    background: -o-linear-gradient(45deg, #BF5E78 0%, #F2D5A0 100%);
+    background: -ms-linear-gradient(45deg, #BF5E78 0%, #F2D5A0 100%);
+    background: linear-gradient(45deg, #BF5E78 0%, #F2D5A0 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A66F7E', endColorstr='#A66F7E', GradientType=1 ); }
 
 .slider-text .text {

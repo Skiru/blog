@@ -8,6 +8,7 @@ use App\Domain\DateTime\DateTimeTrait;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
+use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\Tags;
 use App\Domain\Post\Title\Title;
@@ -31,6 +32,8 @@ final class Post
 
     private Category $category;
 
+    private ReadTime $readTime;
+
     private bool $published;
 
     private HeaderImage $image;
@@ -42,6 +45,7 @@ final class Post
         Content $content,
         Tags $tags,
         Category $category,
+        ReadTime $readTime,
         bool $published,
         HeaderImage $image,
         DateTimeImmutable $createdAt,
@@ -54,6 +58,7 @@ final class Post
         $this->content = $content;
         $this->tags = $tags;
         $this->category = $category;
+        $this->readTime = $readTime;
         $this->published = $published;
         $this->image = $image;
         $this->createdAt = $createdAt;
@@ -68,7 +73,8 @@ final class Post
         Content $content,
         Tags $tags,
         Category $category,
-    HeaderImage $image
+        ReadTime $readTime,
+        HeaderImage $image
     ): Post {
         return new self(
             $uuid,
@@ -77,6 +83,7 @@ final class Post
             $content,
             $tags,
             $category,
+            $readTime,
             false,
             $image,
             new DateTimeImmutable(),
@@ -113,6 +120,11 @@ final class Post
     public function getCategory(): Category
     {
         return $this->category;
+    }
+
+    public function getReadTime(): ReadTime
+    {
+        return $this->readTime;
     }
 
     public function isPublished(): bool

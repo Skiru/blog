@@ -14,9 +14,14 @@ final class Content
         $this->content = $content;
     }
 
-    public static function fromString(string $content): self
+    public static function createEncodedFromString(string $content): self
     {
-        return new self($content);
+        return new self(base64_encode($content));
+    }
+
+    public function decode(): string
+    {
+        return base64_decode($this->content);
     }
 
     public function asString(): string

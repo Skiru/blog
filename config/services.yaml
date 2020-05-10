@@ -6,6 +6,8 @@ parameters:
     ecorp_token_uri: '%env(ECORP_TOKEN_URI)%'
     ecorp_redirect_uri: '%env(ECORP_REDIRECT_URI)%'
     mongodb_connection_uri: '%env(MONGODB_CONNECTION)%'
+    upload_file_url: '%env(ASSETS_URL)%/assets/uploads'
+    upload_file_path: '%kernel.project_dir%/public/assets/uploads'
 
 services:
     # default configuration for services in *this* file
@@ -40,4 +42,4 @@ services:
         arguments: ['%mongodb_connection_uri%']
 
     App\Infrastructure\ImageUploader:
-        arguments: ['%kernel.project_dir%/public/assets/uploads']
+        arguments: ['%upload_file_path%','%upload_file_url%', '@Symfony\Component\String\Slugger\SluggerInterface']

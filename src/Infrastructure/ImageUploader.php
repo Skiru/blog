@@ -12,11 +12,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ImageUploader
 {
     private string $imagesDirectory;
+    private string $fileUrl;
     private SluggerInterface $slugger;
 
-    public function __construct(string $imagesDirectory, SluggerInterface $slugger)
+    public function __construct(string $imagesDirectory, string $fileUrl, SluggerInterface $slugger)
     {
         $this->imagesDirectory = $imagesDirectory;
+        $this->fileUrl = $fileUrl;
         $this->slugger = $slugger;
     }
 
@@ -37,6 +39,6 @@ class ImageUploader
             throw new DomainException('Could not move the file:' . $e->getMessage());
         }
 
-        return $fileName;
+        return sprintf('%s/%s', $this->fileUrl, $fileName);
     }
 }

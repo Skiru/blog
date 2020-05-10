@@ -23,6 +23,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $entry['author'],
             $entry['content'],
             $entry['category'],
+            $entry['readTime'],
             array_map(fn (BSONDocument $tag) => $tag->getArrayCopy(), $entry['tags']->getArrayCopy()),
             $entry['published'],
             $entry['header_image'],

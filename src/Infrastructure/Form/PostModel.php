@@ -9,4 +9,5 @@ class PostModel
     public string $title = '';
     public string $content = '';
     public string $headerImage = '';
+    public int $readTime = 0;
 }

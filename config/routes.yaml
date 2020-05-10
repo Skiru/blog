@@ -22,10 +22,15 @@ blog_logout:
 blog_post_insert:
   path: /dashboard/posts
   methods: ['POST', 'GET']
-  controller: App\Controller\BlogAdminController:insert
+  controller: App\Controller\PostController:insert
 
 articles:
   path: /articles
 
 about_me:
   path: /about
+
+blog_post_image_upload:
+  path: /dashboard/posts/upload
+  methods: ['POST']
+  controller: App\Controller\PostController::upload

@@ -14,6 +14,7 @@ final class PostView
     private string $author;
     private string $content;
     private string $category;
+    private int $readTime;
     private array $tags;
     private bool $published;
     private string $headerImage;
@@ -27,6 +28,7 @@ final class PostView
         string $author,
         string $content,
         string $category,
+        int $readTime,
         array $tags,
         bool $published,
         string $headerImage,
@@ -39,6 +41,7 @@ final class PostView
         $this->author = $author;
         $this->content = $content;
         $this->category = $category;
+        $this->readTime = $readTime;
         $this->tags = $tags;
         $this->published = $published;
         $this->headerImage = $headerImage;
@@ -100,5 +103,10 @@ final class PostView
     public function getHeaderImage(): string
     {
         return $this->headerImage;
+    }
+
+    public function getReadTime(): int
+    {
+        return $this->readTime;
     }
 }
