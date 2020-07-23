@@ -9,14 +9,14 @@ final class Tags
     /**
      * @var Tag[]
      */
-    private array $tag;
+    private array $tags;
 
     /**
-     * @param Tag[]|array $tag
+     * @param Tag[] $tags
      */
-    public function __construct(array $tag)
+    public function __construct(array $tags)
     {
-        $this->tag = $tag;
+        $this->tags = $tags;
     }
 
     /**
@@ -24,6 +24,6 @@ final class Tags
      */
     public function getTags(): array
     {
-        return $this->tag;
+        return $this->tags;
     }
 }
