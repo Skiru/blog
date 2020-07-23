@@ -13,7 +13,7 @@ use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\Post;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Tag\Tag;
-use App\Domain\Post\Tag\Tags;
+use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid as DomainUuid;
 use App\Domain\User\BlogUser;
@@ -81,7 +81,7 @@ class PostController extends AbstractController
                         Title::fromString($userFormModel->title),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        new Tags([
+                        new TagList([
                             Tag::fromString('first-tag')
                         ]),
                         Category::fromString('my-category'),

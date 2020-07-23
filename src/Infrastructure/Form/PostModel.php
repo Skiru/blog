@@ -10,4 +10,6 @@ class PostModel
     public string $content = '';
     public string $headerImage = '';
     public int $readTime = 0;
+    public string $category = '';
+    public array $tags = [];
 }

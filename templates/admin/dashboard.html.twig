@@ -32,7 +32,9 @@
                                 'placeholder': 'Select a post header image'
                             }
                         }) }}
-                        <button class="btn btn-lg btn-secondary" type="submit">Create post</button>
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.tags) }}
+                    <button class="btn btn-lg btn-secondary" type="submit">Create post</button>
                         {{ form_end(form) }}
                 </section>
             </main>

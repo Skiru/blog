@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Purple clouds profile {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'shared/_profile_nav.html.twig' %}
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Tags</h1>
+                </div>
+
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+

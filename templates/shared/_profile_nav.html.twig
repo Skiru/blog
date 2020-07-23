@@ -4,14 +4,25 @@
             Sign out <span data-feather="log-out"></span>
         </a>
         <div class="container">
+{#  TODO uncomment this          #}
 {#            <h3>{{ app.user.email }}</h3>#}
         </div>
 
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <span data-feather="home"></span>
-                    Posts <span class="sr-only"></span>
+                    <span data-feather="home"></span> Posts <span class="sr-only"></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('tags') }}">
+                    <span data-feather="home"></span> Tags <span class="sr-only"></span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span data-feather="home"></span> Categories <span class="sr-only"></span>
                 </a>
             </li>
         </ul>

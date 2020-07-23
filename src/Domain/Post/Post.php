@@ -10,7 +10,7 @@ use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Tag\Tag;
-use App\Domain\Post\Tag\Tags;
+use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
 use App\Domain\User\BlogUser;
@@ -28,7 +28,7 @@ final class Post
 
     private Content $content;
 
-    private Tags $tags;
+    private TagList $tags;
 
     private Category $category;
 
@@ -43,7 +43,7 @@ final class Post
         Title $title,
         BlogUser $author,
         Content $content,
-        Tags $tags,
+        TagList $tags,
         Category $category,
         ReadTime $readTime,
         bool $published,
@@ -71,7 +71,7 @@ final class Post
         Title $title,
         BlogUser $author,
         Content $content,
-        Tags $tags,
+        TagList $tags,
         Category $category,
         ReadTime $readTime,
         HeaderImage $image
@@ -112,7 +112,7 @@ final class Post
         return $this->content;
     }
 
-    public function getTags(): Tags
+    public function getTags(): TagList
     {
         return $this->tags;
     }

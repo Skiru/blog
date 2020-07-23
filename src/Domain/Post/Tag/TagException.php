@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Post\Tag;
 
+use App\Domain\DomainException;
 
-class TagException
+final class TagException extends DomainException
 {
 
 }

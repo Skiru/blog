@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Post\Tag;
 
-final class Tags
+final class TagList
 {
     /**
      * @var Tag[]

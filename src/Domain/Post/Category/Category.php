@@ -4,23 +4,30 @@ declare(strict_types=1);
 
 namespace App\Domain\Post\Category;
 
+use App\Domain\Shared\Uuid;
+
 class Category
 {
-    private string $category;
+    private Uuid $uuid;
+    private CategoryName $categoryName;
 
-    private function __construct(string $category)
+    private function __construct(CategoryName $categoryName)
     {
-        //TODO add $category validation
-        $this->category = $category;
+        $this->categoryName = $categoryName;
     }
 
-    public static function fromString(string $category): self
+    public static function fromCategoryName(CategoryName $categoryName): self
     {
-        return new self($category);
+        return new self($categoryName);
     }
 
-    public function asString(): string
+    public function getUuid(): Uuid
     {
-        return $this->category;
+        return $this->uuid;
+    }
+
+    public function getCategoryName(): CategoryName
+    {
+        return $this->categoryName;
     }
 }
