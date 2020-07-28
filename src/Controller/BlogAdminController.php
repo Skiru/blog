@@ -58,7 +58,7 @@ class BlogAdminController extends AbstractController
     public function tags(): Response
     {
         $tags = $this->tagQuery->getAll();
-        
+
         return $this->render('admin/tags.html.twig', [
             'tags' => $tags
         ]);

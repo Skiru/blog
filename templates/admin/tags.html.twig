@@ -15,6 +15,12 @@
                     <h1 class="h2">Tags</h1>
                 </div>
 
+                <div>
+                    {% if tags is empty %}
+                        There are no tags to display yet.
+
+                    {% endif %}
+                </div>
             </main>
         </div>
     </div>
