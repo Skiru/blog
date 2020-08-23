@@ -11,10 +11,13 @@ use App\Infrastructure\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class BlogAdminController extends AbstractController
 {
+    private const TAGS_CREATE_API_URL = 'blog_tags_create';
+
     private IdpInterface $idp;
     private TagQueryInterface $tagQuery;
 
@@ -60,7 +63,13 @@ class BlogAdminController extends AbstractController
         $tags = $this->tagQuery->getAll();
 
         return $this->render('admin/tags.html.twig', [
-            'tags' => $tags
+            'tags' => $tags,
+            'tags_api_url' => $this->getAbsolutePathForRoute(self::TAGS_CREATE_API_URL)
         ]);
+    }
+
+    private function getAbsolutePathForRoute(string $routeName): string
+    {
+        return $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

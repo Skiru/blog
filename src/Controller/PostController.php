@@ -8,12 +8,14 @@ use App\Application\Post\Command\PostCreateCommand;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Domain\DomainException;
 use App\Domain\Post\Category\Category;
+use App\Domain\Post\Category\CategoryName;
 use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\Post;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagList;
+use App\Domain\Post\Tag\TagName;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid as DomainUuid;
 use App\Domain\User\BlogUser;
@@ -82,9 +84,11 @@ class PostController extends AbstractController
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
                         new TagList([
-                            Tag::fromString('first-tag')
+                            Tag::fromParameters(
+                                TagName::fromString('first-tag'),
+                            )
                         ]),
-                        Category::fromString('my-category'),
+                        Category::fromCategoryName(CategoryName::fromString('my-category')),
                         ReadTime::fromParameter((int)$request->get('readTime')),
                         HeaderImage::createFromString($userFormModel->headerImage)
                     )

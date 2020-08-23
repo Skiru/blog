@@ -144,8 +144,14 @@ final class Post
             'title' => $this->getTitle()->asString(),
             'author' => $this->getAuthor()->getUser()->asString(),
             'content' => $this->getContent()->asString(),
-            'tags' => array_map(fn (Tag $tag) => ['tag' => $tag->asString()], $this->getTags()->getTags()),
-            'category' => $this->getCategory()->asString(),
+            'tags' => array_map(fn (Tag $tag) => [
+                'tag' => [
+                    'name' => $tag->getName(),
+                ]
+            ],
+                $this->getTags()->getTags()
+            ),
+            'category' => $this->getCategory()->getCategoryName()->asString(),
             'read_time' => $this->getReadTime()->asInt(),
             'created_at' => $this->getCreatedAt()->format(DateTimeImmutable::ATOM),
             'updated_at' => $this->getUpdatedAt()->format(DateTimeImmutable::ATOM),

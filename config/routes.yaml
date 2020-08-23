@@ -18,7 +18,7 @@ blog_logout:
   path: /logout
   methods: ['GET']
 
-#Blog post insertion routes
+#POST INSERT
 blog_post_insert:
   path: /dashboard/posts
   methods: ['POST', 'GET']
@@ -45,3 +45,8 @@ tags:
   path: /dashboard/tags
   methods: ['GET']
   controller: App\Controller\BlogAdminController:tags
+
+blog_tags_create:
+  path: /api/v1/tags
+  methods: ['POST']
+  controller: App\Controller\TagController::insert

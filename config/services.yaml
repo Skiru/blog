@@ -34,9 +34,10 @@ services:
     App\Infrastructure\CommandBus\CommandBus:
         calls:
             - [registerHandler, ['App\Application\Post\Command\PostCreateCommand', '@App\Application\Post\Command\PostCreateCommandHandler']]
+            - [registerHandler, ['App\Application\Tag\Command\TagCreateCommand', '@App\Application\Tag\Command\TagCreateCommandHandler']]
 
     App\Infrastructure\ECorp\Connector:
-        arguments: ['%ecorp_client_id%', '%ecorp_client_secret%', '%ecorp_authorize_uri%', '%ecorp_token_uri%', '%ecorp_redirect_uri%']
+        arguments: ['%ecorp_client_id%', '%ecorp_client_secret%', '%ecorp_authorize_uri%', '%ecorp_token_uri%', 'App\Application\Tag\Command%ecorp_redirect_uri%']
 
     MongoDB\Client:
         arguments: ['%mongodb_connection_uri%']

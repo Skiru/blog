@@ -17,7 +17,6 @@ class TagQueryRepository extends MongoDbClient implements TagQueryInterface
         $cursor = $this->database->selectCollection(self::TAG_TABLE)->find([]);
 
         return array_map(fn (BSONDocument $entry) => new TagView(
-            $entry['uuid'],
             $entry['name']
         ), $cursor->toArray());
     }
