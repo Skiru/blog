@@ -41,6 +41,6 @@ RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-aut
 RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
 
-RUN yarn encore production
+RUN yarn install
 
 RUN chmod 777 -R /var/www/html
