@@ -28,7 +28,7 @@ pipeline {
         stage('Building php image') {
           steps{
             script {
-              dockerPhpImage = docker.build(registry + ":" + containerName + "-$BUILD_NUMBER", "-f ./docker/php/Dockerfile .")
+              dockerPhpImage = docker.build(registry + ":" + containerName + "-$BUILD_NUMBER", "-f ./docker/php/Dockerfile . --no-cache")
             }
           }
         }
@@ -36,7 +36,7 @@ pipeline {
         stage('Building assets image') {
           steps{
             script {
-              dockerAssetsImage = docker.build(registry + ":" + assetsContainerName + "-$BUILD_NUMBER", "-f ./docker/assets/Dockerfile . --no-cache=true")
+              dockerAssetsImage = docker.build(registry + ":" + assetsContainerName + "-$BUILD_NUMBER", "-f ./docker/assets/Dockerfile . --no-cache")
             }
           }
         }

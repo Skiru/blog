@@ -34,14 +34,21 @@ ENV APP_ENV=prod \
 
 COPY ./composer.json ./
 COPY ./composer.lock ./
+COPY ./symfony.lock ./
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-autoloader
 
 RUN  mkdir -p /var/www/html/var/log/
-COPY ./ /var/www/html
+
+
+COPY ./packages.json ./
+COPY ./webpack.config.js ./
+COPY ./yarn.lock ./
 
 RUN yarn install
 RUN yarn encore production
+
+COPY ./ /var/www/html
 
 RUN chmod 777 -R /var/www/html
