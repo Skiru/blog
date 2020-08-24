@@ -42,7 +42,7 @@ RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-aut
 RUN  mkdir -p /var/www/html/var/log/
 
 
-COPY ./packages.json ./
+COPY ./package.json ./
 COPY ./webpack.config.js ./
 COPY ./yarn.lock ./
 
