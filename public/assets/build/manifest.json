@@ -1,0 +1,23 @@
+{
+  "assets/build/app.css": "/assets/build/app.css",
+  "assets/build/app.js": "/assets/build/app.js",
+  "assets/build/runtime.js": "/assets/build/runtime.js",
+  "assets/build/fonts/Flaticon.eot": "/assets/build/fonts/Flaticon.5c2ca117.eot",
+  "assets/build/fonts/Flaticon.woff": "/assets/build/fonts/Flaticon.97b0cad9.woff",
+  "assets/build/fonts/Flaticon.ttf": "/assets/build/fonts/Flaticon.acd0150f.ttf",
+  "assets/build/fonts/icomoon.woff?6tt51o": "/assets/build/fonts/icomoon.1b3e525e.woff",
+  "assets/build/fonts/icomoon.ttf?6tt51o": "/assets/build/fonts/icomoon.31964deb.ttf",
+  "assets/build/fonts/icomoon.eot?6tt51o": "/assets/build/fonts/icomoon.f76c54c1.eot",
+  "assets/build/fonts/ionicons.woff2?v=4.0.0-19": "/assets/build/fonts/ionicons.07feb1ed.woff2",
+  "assets/build/fonts/ionicons.eot?v=4.0.0-19": "/assets/build/fonts/ionicons.82062ff4.eot",
+  "assets/build/fonts/ionicons.woff?v=4.0.0-19": "/assets/build/fonts/ionicons.ba380afc.woff",
+  "assets/build/fonts/ionicons.ttf?v=4.0.0-19": "/assets/build/fonts/ionicons.d4df1d7d.ttf",
+  "assets/build/fonts/open-iconic.eot": "/assets/build/fonts/open-iconic.2442644a.eot",
+  "assets/build/fonts/open-iconic.woff": "/assets/build/fonts/open-iconic.42125a17.woff",
+  "assets/build/fonts/open-iconic.ttf": "/assets/build/fonts/open-iconic.7f224b54.ttf",
+  "assets/build/fonts/open-iconic.otf": "/assets/build/fonts/open-iconic.bff1e040.otf",
+  "assets/build/images/Flaticon.svg": "/assets/build/images/Flaticon.fd2edf48.svg",
+  "assets/build/images/icomoon.svg?6tt51o": "/assets/build/images/icomoon.9cc47145.svg",
+  "assets/build/images/ionicons.svg?v=4.0.0-19": "/assets/build/images/ionicons.b26f8536.svg",
+  "assets/build/images/open-iconic.svg": "/assets/build/images/open-iconic.f88a8f00.svg"
+}
