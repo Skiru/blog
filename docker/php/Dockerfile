@@ -1,10 +1,24 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm-alpine
 
-RUN apt-get update && apt-get install -y libpq-dev git unzip zlib1g-dev libzip-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libonig-dev libcurl4-openssl-dev pkg-config libssl-dev
-RUN docker-php-ext-install zip bcmath opcache
-RUN docker-php-ext-enable zip bcmath opcache
+RUN apk add --no-cache \
+    $PHPIZE_DEPS \
+    openssl-dev && \
+    docker-php-ext-install bcmath && \
+    docker-php-ext-enable bcmath && \
+    docker-php-ext-install opcache && \
+    docker-php-ext-enable opcache && \
+    rm -rf /tmp/pear
+
+RUN apk add --update npm yarn
+
+RUN  mkdir -p /var/www/html/var/log/
+
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php-fpm-pool.conf /etc/php7/php-fpm.d/www.conf
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer creates=/usr/local/bin/composer warn=no
+
 RUN pecl install mongodb
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ENV APP_ENV=prod \
     APP_SECRET=ca6777ca3b9d07d5a38d4f68036f232d \
@@ -26,5 +40,7 @@ RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-aut
 
 RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
+
+RUN yarn encore production
 
 RUN chmod 777 -R /var/www/html
