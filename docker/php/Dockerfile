@@ -42,5 +42,6 @@ RUN  mkdir -p /var/www/html/var/log/
 COPY ./ /var/www/html
 
 RUN yarn install
+RUN yarn encore production
 
 RUN chmod 777 -R /var/www/html
