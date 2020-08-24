@@ -41,14 +41,12 @@ RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-aut
 
 RUN  mkdir -p /var/www/html/var/log/
 
-
-COPY ./package.json ./
-COPY ./webpack.config.js ./
-COPY ./yarn.lock ./
+COPY ./ /var/www/html
 
 RUN yarn install
 RUN yarn encore production
 
-COPY ./ /var/www/html
+RUN mkdir -p /var/www/html/public/build/
+COPY ./public/build/ /var/www/html/public/build/
 
 RUN chmod 777 -R /var/www/html
