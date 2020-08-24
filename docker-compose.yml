@@ -36,7 +36,7 @@ services:
     ports:
       - 8900:8900
     volumes:
-      - ./public/assets:/static/assets
+      - ./public:/static
       - ./docker/assets/default.conf:/etc/nginx/conf.d/default.conf
     networks: ["purple_clouds_network_internal"]
 
