@@ -46,7 +46,6 @@ COPY ./ /var/www/html
 RUN yarn install
 RUN yarn encore production
 
-RUN mkdir -p /var/www/html/public/build/
-COPY ./public/build/ /var/www/html/public/build/
+COPY ./public/ /var/www/html/public/
 
 RUN chmod 777 -R /var/www/html
