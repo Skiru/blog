@@ -10,3 +10,5 @@ import '../../public/assets/css/icomoon.css';
 import '../../public/assets/css/style.css';
 import '../../public/assets/css/purpleclouds.css';
 
+const $ = require('jquery');
+
