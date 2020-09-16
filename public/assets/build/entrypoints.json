@@ -3,10 +3,19 @@
     "app": {
       "js": [
         "/assets/build/runtime.js",
+        "/assets/build/vendors~app~tags.js",
         "/assets/build/app.js"
       ],
       "css": [
         "/assets/build/app.css"
+      ]
+    },
+    "tags": {
+      "js": [
+        "/assets/build/runtime.js",
+        "/assets/build/vendors~app~tags.js",
+        "/assets/build/vendors~tags.js",
+        "/assets/build/tags.js"
       ]
     }
   }

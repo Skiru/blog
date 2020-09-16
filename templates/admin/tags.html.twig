@@ -3,29 +3,129 @@
 {% block title %} Purple clouds profile {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+    <style>
+        .lds-ellipsis {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .lds-ellipsis div {
+            position: absolute;
+            top: 33px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #fff;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        .lds-ellipsis div:nth-child(1) {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            {% include 'shared/_profile_nav.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        {% include 'shared/_profile_nav.html.twig' %}
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Tags</h1>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Tags</h1>
+                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createTagModal"
+                        data-backdrop="static">
+                    Create new tag
+                </button>
+            </div>
+
+            <div>
+                {% if tags is empty %}
+                    There are no tags to display yet.
+                {% else %}
+                    <ul class="list-group">
+                        {% for tag in tags %}
+                            <li class="list-group-item">{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+
+    {# Create new tag modal#}
+    <div class="modal fade" id="createTagModal" tabindex="-1" role="dialog" aria-labelledby="createTagModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createTagModal">Create a new tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-
-                {{ dump(tags) }}
-
-                <div>
-                    {% if tags is empty %}
-                        There are no tags to display yet.
-
-                    {% endif %}
+                <div class="modal-body">
+                    <form action="#" method="post" id="js-tags-form" data-tags-api-url="{{ tags_api_url }}">
+                        <div class="form-group">
+                            <label for="tagName">Tag name</label>
+                            <input type="text" class="form-control" name="tagName" id="tagName" aria-describedby="tagHelp"
+                                   required="required">
+                            <small id="tagHelp" class="form-text text-muted">You can specify here a new tag name. Keep
+                                in mind that you can use multiple tags for your post.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="js-form-tags-create-button">Save changes</button>
+                    </form>
                 </div>
-            </main>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="js-tags-modal-close">Close</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('tags') }}
+
 {% endblock %}
 
 
