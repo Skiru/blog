@@ -1,3 +1,9 @@
+FROM composer as composer-prod
+WORKDIR /app
+COPY /composer.json ./
+COPY /composer.lock ./
+RUN composer install --no-scripts --ignore-platform-reqs --optimize-autoloader --prefer-dist
+
 FROM php:7.4-fpm-alpine
 
 RUN apk add --no-cache \
@@ -32,16 +38,10 @@ ENV APP_ENV=prod \
     MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017" \
     ASSETS_URL="http://purpleclouds.pl:8900"
 
-COPY ./composer.json ./
-COPY ./composer.lock ./
-COPY ./symfony.lock ./
-COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
-
-RUN composer install --no-dev --no-scripts --ignore-platform-reqs --optimize-autoloader
-
 RUN  mkdir -p /var/www/html/var/log/
-
+COPY ./docker/php/php.ini /etc/php7/conf.d/php.ini
 COPY ./ /var/www/html
+COPY --from=composer-prod /app/vendor /var/www/html/vendor
 
 RUN yarn install
 RUN yarn encore production
