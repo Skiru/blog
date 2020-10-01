@@ -88,13 +88,6 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
         }
         $entry = $document->getArrayCopy();
 
-        /**
-         * @var BSONDocument $tags
-         */
-        $tags = $entry['tags']->getArrayCopy();
-        dump($tags);
-        die;
-
         return new PostView(
             $entry['uuid'],
             $entry['title'],
