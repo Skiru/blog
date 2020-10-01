@@ -13,6 +13,7 @@ use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\Post;
 use App\Domain\Post\ReadTime\ReadTime;
+use App\Domain\Post\Slug\Slug;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Tag\TagName;
@@ -24,12 +25,14 @@ use App\Infrastructure\CommandBus\CommandBusInterface;
 use App\Infrastructure\Form\PostModel;
 use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PostController extends AbstractController
 {
@@ -61,7 +64,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function insert(Request $request, ImageUploader $imageUploader): RedirectResponse
+    public function insert(Request $request, ImageUploader $imageUploader, SluggerInterface $slugger): RedirectResponse
     {
         $userFormModel = new PostModel();
         $form = $this->createForm(PostType::class, $userFormModel);
@@ -81,6 +84,7 @@ class PostController extends AbstractController
                     Post::createFromParameters(
                         $domainUuid,
                         Title::fromString($userFormModel->title),
+                        Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
                         new TagList([
@@ -121,11 +125,18 @@ class PostController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
-    public function showPost(string $uuid): Response
+    public function showPost(string $slug): Response
     {
         //TODO Use markdown
+        try {
+            $post = $this->postQuery->getOneBySlug(Slug::fromString($slug));
+        } catch (Exception $e) {
+            //TODO: 404 page, but for now go to dashboard
+            return new RedirectResponse('dashboard');
+        }
+
         return $this->render('homepage/single_post.html.twig', [
-            'post' => $this->postQuery->getByUuid(new DomainUuid(Uuid::fromString($uuid)->toString()))
+            'post' => $post
         ]);
     }
 }

@@ -8581,16 +8581,15 @@ h1, h2, h3, h4, h5,
   padding: 20px;
   border: 1px solid rgba(0, 0, 0, 0.05); }
 
-.form-control {
-  height: 52px !important;
-  background: #fff !important;
-  color: #000000 !important;
-  font-size: 18px;
-  border-radius: 5px;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important; }
-  .form-control:focus, .form-control:active {
-    border-color: #000000; }
+/*.form-control {*/
+/*  background: #fff !important;*/
+/*  color: #000000 !important;*/
+/*  font-size: 18px;*/
+/*  border-radius: 5px;*/
+/*  -webkit-box-shadow: none !important;*/
+/*  box-shadow: none !important; }*/
+/*  .form-control:focus, .form-control:active {*/
+/*    border-color: #000000; }*/
 
 textarea.form-control {
   height: inherit !important; }

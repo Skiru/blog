@@ -6,10 +6,10 @@
     <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{ asset('assets/images/background.jpg') }});" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
-            <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
-                <div class="col-md-12 ftco-animate pb-5 text-center">
-                    <h1 class="mb-3 bread">{{ post.title }}</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="{{ path('index') }}">Home <i class="ion-ios-arrow-forward"></i></a></span>  <span>{{ post.title }}</span></p>
+            <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+                <div class="col-md-12 ftco-animate pb-5 justify-content-center text-center">
+                    <h1 class="mb-3 single-post-title">{{ post.title }}</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="{{ path('index') }}">Post <i class="ion-ios-arrow-forward"></i></a></span>  <span>{{ post.title }}</span></p>
                 </div>
             </div>
         </div>
@@ -80,14 +80,10 @@
                     <div class="sidebar-box ftco-animate">
                         <h3>Tag Cloud</h3>
                         <div class="tagcloud">
-                            <a href="#" class="tag-cloud-link">cat</a>
-                            <a href="#" class="tag-cloud-link">abstract</a>
-                            <a href="#" class="tag-cloud-link">people</a>
-                            <a href="#" class="tag-cloud-link">person</a>
-                            <a href="#" class="tag-cloud-link">model</a>
-                            <a href="#" class="tag-cloud-link">delicious</a>
-                            <a href="#" class="tag-cloud-link">desserts</a>
-                            <a href="#" class="tag-cloud-link">drinks</a>
+                            {% for tag in post.tags %}
+                                {{ dump(tag['tag']) }}
+{#                                <a href="#" class="tag-cloud-link">{{ tag }}</a>#}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

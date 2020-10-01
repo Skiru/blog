@@ -28,13 +28,15 @@ class PostType extends AbstractType
 
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Title of your post'
+                'attr' => [
+                    'placeholder' => 'Title...'
+                ]
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Content of the post',
                 'required' => false,
                 'attr' => [
-                    'class' => 'tinymce'
+                    'class' => 'tinymce',
                 ]
             ])
             ->add('readTime', IntegerType::class, [
@@ -72,6 +74,9 @@ class PostType extends AbstractType
             ->add('tags', ChoiceType::class, [
                 'multiple' => true,
                 'required' => false,
+                'attr' => [
+                    'size' => '7'
+                ],
                 'choices' => [
                     'notag' => 'notag',
                     'tag1' => 'tag1',

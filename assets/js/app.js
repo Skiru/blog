@@ -13,5 +13,3 @@ import '../../public/assets/css/purpleclouds.css';
 
 const $ = require('jquery');
 global.$ = $;
-
-

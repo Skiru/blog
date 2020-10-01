@@ -31,7 +31,7 @@ about_me:
   path: /about
 
 blog_post:
-  path: /posts/{uuid}
+  path: /posts/{slug}
   methods: ['GET']
   controller: App\Controller\PostController:showPost
 

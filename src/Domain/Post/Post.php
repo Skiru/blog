@@ -9,6 +9,7 @@ use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\ReadTime\ReadTime;
+use App\Domain\Post\Slug\Slug;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Title\Title;
@@ -38,9 +39,12 @@ final class Post
 
     private HeaderImage $image;
 
+    private Slug $slug;
+
     private function __construct(
         Uuid $uuid,
         Title $title,
+        Slug $slug,
         BlogUser $author,
         Content $content,
         TagList $tags,
@@ -54,6 +58,7 @@ final class Post
     ) {
         $this->uuid = $uuid;
         $this->title = $title;
+        $this->slug = $slug;
         $this->author = $author;
         $this->content = $content;
         $this->tags = $tags;
@@ -69,6 +74,7 @@ final class Post
     public static function createFromParameters(
         Uuid $uuid,
         Title $title,
+        Slug $slug,
         BlogUser $author,
         Content $content,
         TagList $tags,
@@ -79,6 +85,7 @@ final class Post
         return new self(
             $uuid,
             $title,
+            $slug,
             $author,
             $content,
             $tags,
@@ -137,11 +144,17 @@ final class Post
         return $this->image;
     }
 
+    public function getSlug(): Slug
+    {
+        return $this->slug;
+    }
+
     public function toArray(): array
     {
         return [
             'uuid' => $this->getUuid()->asString(),
             'title' => $this->getTitle()->asString(),
+            'slug' => $this->getSlug()->asString(),
             'author' => $this->getAuthor()->getUser()->asString(),
             'content' => $this->getContent()->asString(),
             'tags' => array_map(fn (Tag $tag) => [

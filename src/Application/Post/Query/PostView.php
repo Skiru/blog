@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Application\Post\Query;
 
 use DateTime;
-use Monolog\DateTimeImmutable;
 
 final class PostView
 {
     private string $uuid;
     private string $title;
+    private string $slug;
     private string $author;
     private string $content;
     private string $category;
@@ -25,6 +25,7 @@ final class PostView
     public function __construct(
         string $uuid,
         string $title,
+        string $slug,
         string $author,
         string $content,
         string $category,
@@ -38,6 +39,7 @@ final class PostView
     ) {
         $this->uuid = $uuid;
         $this->title = $title;
+        $this->slug = $slug;
         $this->author = $author;
         $this->content = $content;
         $this->category = $category;
@@ -58,6 +60,11 @@ final class PostView
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function getAuthor(): string
