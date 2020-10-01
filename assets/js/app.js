@@ -1,4 +1,5 @@
-import '../css/app.css';
+// import '../css/app.css';
+import '../../public/assets/css/mdb.min.css';
 import '../../public/assets/css/open-iconic-bootstrap.min.css';
 import '../../public/assets/css/animate.css';
 import '../../public/assets/css/owl.theme.default.min.css';
@@ -11,4 +12,6 @@ import '../../public/assets/css/style.css';
 import '../../public/assets/css/purpleclouds.css';
 
 const $ = require('jquery');
+global.$ = $;
+
 
