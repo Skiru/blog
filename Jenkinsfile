@@ -1,5 +1,14 @@
 #!/usr/bin/env groovy
 
+def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
+def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
+def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
+def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
+
+def deploy() {
+    return sh(script: "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}", returnStdout: true).trim()
+}
+
 pipeline {
     environment {
         HOME = "${WORKSPACE}"
@@ -85,11 +94,7 @@ pipeline {
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-                    def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
-                    def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
-                    def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
-                    def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
-                    sh "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}"
+                    deploy();
                 }
             }
         }
