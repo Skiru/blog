@@ -86,11 +86,11 @@ pipeline {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
 //                     sh "ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl"
-                    sh "ls -al"
+                    sh "pwd"
                     sh "docker login --username mkoziol --password pamietamhaslo"
 //                     sh "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
 //                     sh "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
-                    sh "docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d"
+                    sh "echo docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35"
                 }
             }
         }
