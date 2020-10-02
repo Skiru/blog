@@ -13,15 +13,6 @@ pipeline {
         FULL_ASSETS_IMAGE_NAME = "${REGISTRY}:${ASSETS_IMAGE_NAME}-${BUILD_NUMBER}"
     }
 
-    def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
-    def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
-    def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
-    def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
-
-    def deploy() {
-        return sh(script: "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}", returnStdout: true).trim()
-    }
-
     agent any
 
     stages {
@@ -94,7 +85,12 @@ pipeline {
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-                    deploy();
+                    sh '''
+                    echo export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME};
+                    export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME};
+                    docker login --username mkoziol --password pamietamhaslo;
+                    | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35;
+                    '''
                 }
             }
         }
