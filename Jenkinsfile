@@ -25,71 +25,72 @@ pipeline {
                 '''
             }
         }
-
-        stage('Get code from SCM') {
-            steps{
-                checkout(
-                    [$class: 'GitSCM', branches: [[name: '*/master']],
-                     doGenerateSubmoduleConfigurations: false,
-                     extensions: [],
-                     submoduleCfg: [],
-                     userRemoteConfigs: [[credentialsId: 'blog-repository', url: "git@github.com:Skiru/blog.git"]]]
-                )
-            }
-        }
-
-        stage('Building php image') {
-          steps{
-            script {
-              PHP_IMAGE = docker.build(FULL_PHP_IMAGE_NAME, "-f ./docker/php/Dockerfile . --no-cache")
-            }
-          }
-        }
-
-        stage('Building assets image') {
-          steps{
-            script {
-              ASSETS_IMAGE = docker.build(FULL_ASSETS_IMAGE_NAME, "-f ./docker/assets/Dockerfile . --no-cache")
-            }
-          }
-        }
-
-        stage('Deploy php image to dockerhub') {
-            steps{
-                script {
-                  docker.withRegistry('', REGISTRY_CREDENTIALS ) {
-                    PHP_IMAGE.push()
-                  }
-                }
-           }
-        }
-
-        stage('Deploy assets image to dockerhub') {
-            steps{
-                script {
-                  docker.withRegistry('', REGISTRY_CREDENTIALS ) {
-                    ASSETS_IMAGE.push()
-                  }
-                }
-           }
-        }
-
-        stage('Remove Unused docker image') {
-          steps{
-            sh "docker rmi ${env.FULL_PHP_IMAGE_NAME}"
-            sh "docker rmi ${env.FULL_ASSETS_IMAGE_NAME}"
-            sh "docker image prune -f"
-          }
-        }
+//
+//         stage('Get code from SCM') {
+//             steps{
+//                 checkout(
+//                     [$class: 'GitSCM', branches: [[name: '*/master']],
+//                      doGenerateSubmoduleConfigurations: false,
+//                      extensions: [],
+//                      submoduleCfg: [],
+//                      userRemoteConfigs: [[credentialsId: 'blog-repository', url: "git@github.com:Skiru/blog.git"]]]
+//                 )
+//             }
+//         }
+//
+//         stage('Building php image') {
+//           steps{
+//             script {
+//               PHP_IMAGE = docker.build(FULL_PHP_IMAGE_NAME, "-f ./docker/php/Dockerfile . --no-cache")
+//             }
+//           }
+//         }
+//
+//         stage('Building assets image') {
+//           steps{
+//             script {
+//               ASSETS_IMAGE = docker.build(FULL_ASSETS_IMAGE_NAME, "-f ./docker/assets/Dockerfile . --no-cache")
+//             }
+//           }
+//         }
+//
+//         stage('Deploy php image to dockerhub') {
+//             steps{
+//                 script {
+//                   docker.withRegistry('', REGISTRY_CREDENTIALS ) {
+//                     PHP_IMAGE.push()
+//                   }
+//                 }
+//            }
+//         }
+//
+//         stage('Deploy assets image to dockerhub') {
+//             steps{
+//                 script {
+//                   docker.withRegistry('', REGISTRY_CREDENTIALS ) {
+//                     ASSETS_IMAGE.push()
+//                   }
+//                 }
+//            }
+//         }
+//
+//         stage('Remove Unused docker image') {
+//           steps{
+//             sh "docker rmi ${env.FULL_PHP_IMAGE_NAME}"
+//             sh "docker rmi ${env.FULL_ASSETS_IMAGE_NAME}"
+//             sh "docker image prune -f"
+//           }
+//         }
 
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-                    sh "ssh -o StrictHostKeyChecking=no -l root 77.55.222.35"
+                    sh "ssh -o StrictHostKeyChecking=no -l root@purpleclouds.pl"
                     sh "docker login --username mkoziol --password pamietamhaslo"
-                    sh "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
-                    sh "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
+//                     sh "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
+//                     sh "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
                     sh "docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d"
+                    sh "ls -al"
                 }
             }
         }
