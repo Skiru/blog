@@ -85,12 +85,11 @@ pipeline {
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-//                     sh "ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl"
-                    sh "pwd"
-                    sh "docker login --username mkoziol --password pamietamhaslo"
-//                     sh "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
-//                     sh "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
-                    sh "echo docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35"
+                    def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
+                    def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
+                    def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
+                    def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
+                    sh "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}"
                 }
             }
         }
