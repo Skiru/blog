@@ -27,9 +27,11 @@ class PostCreateCommandHandler
         try {
             $this->postQuery->getOneBySlug($createCommand->getPost()->getSlug());
 
-            $this->postRepository->insert($createCommand->getPost());
+            throw new Exception('Post with such slug already exists!');
         } catch (Exception $exception) {
-            throw $exception;
+            //Post not found do nothing
         }
+
+        $this->postRepository->insert($createCommand->getPost());
     }
 }
