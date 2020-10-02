@@ -1,0 +1,33 @@
+version: '3'
+services:
+  blog_purple_clouds_php:
+    #    image: "${BLOG_NGINX_IMAGE_BUILD_TAG}" change
+    volumes:
+      - /var/www/PurpleClouds/blog/public/assets/uploads:/var/www/html/public/assets/uploads
+    environment:
+      APP_ENV: prod
+    depends_on:
+      - blog_purple_clouds_mongo
+    networks: ["purple_clouds_network_internal"]
+
+  blog_purple_clouds_nginx:
+    image: "bitnami/nginx:latest"
+    ports:
+      - "8001:8001"
+    depends_on:
+      - blog_purple_clouds_assets
+      - blog_purple_clouds_php
+    volumes:
+      - /var/www/PurpleClouds/blog/docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf
+    networks: ["purple_clouds_network_internal"]
+
+  blog_purple_clouds_assets:
+#    image: "${BLOG_NGINX_IMAGE_BUILD_TAG}" change
+    volumes:
+      - /var/www/PurpleClouds/blog/public/assets/uploads:/static/assets/uploads
+    ports:
+      - 8900:8900
+    networks: ["purple_clouds_network_internal"]
+
+networks:
+  purple_clouds_network_internal: {"external": {"name": "purple_clouds_network_internal"}}

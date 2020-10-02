@@ -15,10 +15,11 @@ services:
     ports:
       - "8001:8001"
     depends_on:
+      - blog_purple_clouds_assets
       - blog_purple_clouds_php
     volumes:
       - .:/var/www/html
-      - ./docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf
+      - ./docker/nginx/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf
     networks: ["purple_clouds_network_internal"]
 
   blog_purple_clouds_mongo:
@@ -29,6 +30,7 @@ services:
       MONGODB_USERNAME: mrrobot
       MONGODB_PASSWORD: root
       MONGODB_DATABASE: purpleclouds_blog
+      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
     networks: ["purple_clouds_network_internal"]
 
   blog_purple_clouds_assets:

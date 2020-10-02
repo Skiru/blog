@@ -9,7 +9,7 @@ use MongoDB\Database;
 
 abstract class MongoDbClient
 {
-    private const DATABASE_NAME = 'purpleclods_blog';
+    private const DATABASE_NAME = 'purpleclouds_blog';
 
     protected Database $database;
 

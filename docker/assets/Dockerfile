@@ -1,9 +1,11 @@
 FROM bitnami/nginx:latest
 
-COPY ./docker/assets/nginx.conf /opt/bitnami/nginx/conf/nginx.conf
+USER 0
 
-RUN mkdir /static/assets
-RUN mkdir /static/assets/uploads
+COPY ./docker/assets/nginx.conf /opt/bitnami/nginx/conf/server_blocks/nginx.conf
+
+RUN mkdir -p /static/assets
+RUN mkdir -p /static/assets/uploads
 
 COPY ./public/assets /static/assets
 
