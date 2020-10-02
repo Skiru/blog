@@ -1,14 +1,5 @@
 #!/usr/bin/env groovy
 
-def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
-def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
-def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
-def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
-
-def deploy() {
-    return sh(script: "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}", returnStdout: true).trim()
-}
-
 pipeline {
     environment {
         HOME = "${WORKSPACE}"
@@ -20,6 +11,15 @@ pipeline {
         ASSETS_IMAGE_NAME = "blog-assets"
         FULL_PHP_IMAGE_NAME = "${REGISTRY}:${PHP_IMAGE_NAME}-${BUILD_NUMBER}"
         FULL_ASSETS_IMAGE_NAME = "${REGISTRY}:${ASSETS_IMAGE_NAME}-${BUILD_NUMBER}"
+    }
+
+    def sshToServer  = 'ssh -o StrictHostKeyChecking=no -J root@purpleclouds.pl'
+    def dockerLogin  = 'docker login --username mkoziol --password pamietamhaslo'
+    def exportAssets = "export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME}"
+    def exportPhp    = "export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME}"
+
+    def deploy() {
+        return sh(script: "echo ${exportAssets};${exportPhp};${dockerLogin}; | ${sshToServer}", returnStdout: true).trim()
     }
 
     agent any
