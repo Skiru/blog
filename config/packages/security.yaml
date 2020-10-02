@@ -17,6 +17,6 @@ security:
                 authenticators:
                     - App\Infrastructure\Security\TokenAuthenticator
 
-#    access_control:
-#        - { path: ^/dashboard, roles: ROLE_USER }
-#        - { path: ^/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    access_control:
+        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
