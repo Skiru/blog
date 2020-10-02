@@ -85,14 +85,14 @@ pipeline {
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-                    sh """
+                    sh '''
                     echo \
-                    'docker login --username mkoziol --password pamietamhaslo;\
+                    "docker login --username mkoziol --password pamietamhaslo;\
                     export BLOG_ASSETS_IMAGE_BUILD_TAG=${FULL_ASSETS_IMAGE_NAME};\
                     export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME};\
-                    docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d;'
+                    docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d;"\
                     | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35;
-                    """
+                    '''
                 }
             }
         }
