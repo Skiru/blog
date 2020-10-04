@@ -22,8 +22,6 @@ RUN  mkdir -p /var/www/html/var/log/
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php/php-fpm-pool.conf /etc/php7/php-fpm.d/www.conf
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer creates=/usr/local/bin/composer warn=no
-
 RUN pecl install mongodb
 
 ENV APP_ENV=prod \
