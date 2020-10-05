@@ -125,7 +125,7 @@ class PostController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
-    public function showPost(string $slug): Response
+    public function show(string $slug): Response
     {
         //TODO Use markdown
         try {

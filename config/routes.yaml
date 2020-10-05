@@ -33,7 +33,7 @@ about_me:
 blog_post:
   path: /posts/{slug}
   methods: ['GET']
-  controller: App\Controller\PostController:showPost
+  controller: App\Controller\PostController:show
 
 blog_post_image_upload:
   path: /dashboard/posts/upload
