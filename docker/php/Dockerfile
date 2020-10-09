@@ -27,14 +27,14 @@ RUN pecl install mongodb
 ENV APP_ENV=prod \
     APP_SECRET=ca6777ca3b9d07d5a38d4f68036f232d \
     APP_SECRET=s$cretf0rt3s \
-    ECORP_IDP_LOGIN_URL="http://ecorp.purpleclouds.pl/idp/login" \
-    ECORP_AUTHORIZE_URI="http://ecorp.purpleclouds.pl/oauth/v2/auth" \
-    ECORP_TOKEN_URI="http://ecorp.purpleclouds.pl/oauth/v2/token" \
+    ECORP_IDP_LOGIN_URL="https://ecorp.purpleclouds.pl/idp/login" \
+    ECORP_AUTHORIZE_URI="https://ecorp.purpleclouds.pl/oauth/v2/auth" \
+    ECORP_TOKEN_URI="https://ecorp.purpleclouds.pl/oauth/v2/token" \
     ECORP_CLIENT_ID="1_5ps4hydqvuo0gcwkccgcwgsksss80kc0kc8oks8w44w4kwg8co" \
     ECORP_CLIENT_SECRET="1t7ul5l62v8k8844cgscwc0w8kg4wcg8koosgosg0s48c48wkc" \
-    ECORP_REDIRECT_URI="http://blog.purpleclouds.pl/oauth/v2/code" \
+    ECORP_REDIRECT_URI="https://blog.purpleclouds.pl/oauth/v2/code" \
     MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017/purpleclouds_blog" \
-    ASSETS_URL="http://purpleclouds.pl"
+    ASSETS_URL="https://purpleclouds.pl"
 
 RUN  mkdir -p /var/www/html/var/log/
 COPY ./docker/php/php.ini /etc/php7/conf.d/php.ini
