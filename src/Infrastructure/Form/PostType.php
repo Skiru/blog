@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Form;
 
+use App\Application\Tag\Query\TagQueryInterface;
+use App\Application\Tag\Query\TagView;
+use App\Domain\Post\Tag\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,6 +21,13 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class PostType extends AbstractType
 {
+    private TagQueryInterface $tagQuery;
+
+    public function __construct(TagQueryInterface $tagQuery)
+    {
+        $this->tagQuery = $tagQuery;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /**
@@ -77,18 +87,7 @@ class PostType extends AbstractType
                 'attr' => [
                     'size' => '7'
                 ],
-                'choices' => [
-                    'notag' => 'notag',
-                    'tag1' => 'tag1',
-                    'tag2' => 'tag2',
-                    'tag3' => 'tag2',
-                    'tag4' => 'tag2',
-                    'tag5' => 'tag2',
-                    'tag6' => 'tag2',
-                    'tag7' => 'tag2',
-                    'tag8' => 'tag2',
-                    'tag9' => 'tag2',
-                ]
+                'choices' => $this->findTags()
             ]);
     }
 
@@ -97,5 +96,17 @@ class PostType extends AbstractType
         $resolver->setDefaults([
             'data_class' => PostModel::class,
         ]);
+    }
+
+    private function findTags(): array
+    {
+        $tags = $this->tagQuery->findAll();
+        $output = [Tag::EMPTY_TAG => Tag::EMPTY_TAG];
+        foreach ($tags as $tag => $key) {
+            $tagName = $key->getName();
+            $output[$tagName] = $tagName;
+        }
+
+        return $output;
     }
 }

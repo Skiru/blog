@@ -6,6 +6,8 @@ namespace App\Domain\Post\Tag;
 
 final class Tag
 {
+    public const EMPTY_TAG = '---';
+
     private TagName $name;
 
     public function __construct(TagName $name)

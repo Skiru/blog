@@ -1,10 +1,11 @@
 {
   "assets/build/app.css": "/assets/build/app.css",
   "assets/build/app.js": "/assets/build/app.js",
+  "assets/build/posts.js": "/assets/build/posts.js",
   "assets/build/runtime.js": "/assets/build/runtime.js",
   "assets/build/tags.js": "/assets/build/tags.js",
-  "assets/build/vendors~app~tags.js": "/assets/build/vendors~app~tags.js",
-  "assets/build/vendors~tags.js": "/assets/build/vendors~tags.js",
+  "assets/build/vendors~app~posts~tags.js": "/assets/build/vendors~app~posts~tags.js",
+  "assets/build/vendors~posts~tags.js": "/assets/build/vendors~posts~tags.js",
   "assets/build/fonts/Flaticon.eot": "/assets/build/fonts/Flaticon.5c2ca117.eot",
   "assets/build/fonts/Flaticon.woff": "/assets/build/fonts/Flaticon.97b0cad9.woff",
   "assets/build/fonts/Flaticon.ttf": "/assets/build/fonts/Flaticon.acd0150f.ttf",
@@ -33,5 +34,7 @@
   "assets/build/images/arrow_right.svg": "/assets/build/images/arrow_right.f7c6ac6d.svg",
   "assets/build/images/icomoon.svg?6tt51o": "/assets/build/images/icomoon.9cc47145.svg",
   "assets/build/images/ionicons.svg?v=4.0.0-19": "/assets/build/images/ionicons.b26f8536.svg",
-  "assets/build/images/open-iconic.svg": "/assets/build/images/open-iconic.f88a8f00.svg"
+  "assets/build/images/open-iconic.svg": "/assets/build/images/open-iconic.f88a8f00.svg",
+  "assets/build/vendors~tags.js": "/assets/build/vendors~tags.js",
+  "assets/build/vendors~app~tags.js": "/assets/build/vendors~app~tags.js"
 }

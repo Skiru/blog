@@ -9,5 +9,5 @@ interface TagQueryInterface
     /**
      * @return TagView[]
      */
-    public function getAll(): array;
+    public function findAll(): array;
 }

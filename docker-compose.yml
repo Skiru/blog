@@ -40,6 +40,7 @@ services:
     ports:
       - "8900:8900"
     volumes:
+      - ./public/assets:/static/assets
       - ./public/uploads:/static/assets/uploads
     networks: ["purple_clouds_network_internal"]
 

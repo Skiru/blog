@@ -12,7 +12,7 @@ class TagQueryRepository extends MongoDbClient implements TagQueryInterface
 {
     private const TAG_TABLE = 'tags';
 
-    public function getAll(): array
+    public function findAll(): array
     {
         $cursor = $this->database->selectCollection(self::TAG_TABLE)->find([]);
 

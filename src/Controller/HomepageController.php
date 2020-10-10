@@ -19,6 +19,7 @@ class HomepageController extends AbstractController
 
     public function index(): Response
     {
+        //TODO Change this to call API
         return $this->render('homepage/index.html.twig', [
             'posts' => $this->postQuery->findAll()
         ]);

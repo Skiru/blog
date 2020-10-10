@@ -80,28 +80,31 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
         /**
          * @var BSONDocument|null $document
          */
-        $document = $this->database->selectCollection(self::POST_TABLE)->findOne(['slug' => $slug->asString()]);
+        $document = $this->database
+            ->selectCollection(self::POST_TABLE)
+            ->findOne([
+                'slug' => $slug->asString()
+            ], ['typeMap' => ['array' => 'array']]);
 
         if (null === $document) {
             //TODO Make infrastructure exception
             throw new Exception('Post not found');
         }
-        $entry = $document->getArrayCopy();
 
         return new PostView(
-            $entry['uuid'],
-            $entry['title'],
-            $entry['slug'],
-            $entry['author'],
-            base64_decode($entry['content']),
-            $entry['category'],
-            $entry['read_time'],
-            array_map(fn (BSONDocument $tag) => $tag->getArrayCopy(), $entry['tags']->getArrayCopy()),
-            $entry['published'],
-            $entry['header_image'],
-            $entry['created_at'],
-            $entry['updated_at'],
-            $entry['deleted_at'],
+            $document->uuid,
+            $document->title,
+            $document->slug,
+            $document->author,
+            base64_decode($document->content),
+            $document->category,
+            $document->read_time,
+            $document->tags,
+            $document->published,
+            $document->header_image,
+            $document->created_at,
+            $document->updated_at,
+            $document->deleted_at,
         );
     }
 }

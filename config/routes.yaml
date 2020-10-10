@@ -4,25 +4,19 @@ index:
 
 dashboard:
   path: /dashboard
-  controller: App\Controller\BlogAdminController:dashboard
+  controller: App\Controller\Admin\BlogAdminController:dashboard
 
 dashboard_login:
   path: /login
-  controller: App\Controller\BlogAdminController:login
+  controller: App\Controller\Admin\BlogAdminController:login
 
 handle_code:
   path: /oauth/v2/code
-  controller: App\Controller\BlogAdminController:handleCode
+  controller: App\Controller\Admin\BlogAdminController:handleCode
 
 blog_logout:
   path: /logout
   methods: ['GET']
-
-#POST INSERT
-blog_post_insert:
-  path: /dashboard/posts
-  methods: ['POST', 'GET']
-  controller: App\Controller\PostController:insert
 
 articles:
   path: /articles
@@ -30,23 +24,51 @@ articles:
 about_me:
   path: /about
 
+#POSTS ADMIN
+posts:
+  path: /dashboard/posts
+  methods: ['GET']
+  controller: App\Controller\Admin\BlogAdminController:posts
+
+posts_create:
+  path: /dashboard/posts/create
+  methods: ['GET']
+  controller: App\Controller\Admin\BlogAdminController:postsCreate
+
+#POSTS API
+blogs_posts_find_all:
+  path: /api/v1/posts
+  methods: ['GET']
+  controller: App\Controller\Api\PostController:findAll
+
+blog_posts_create:
+  path: /api/v1/posts
+  methods: ['POST']
+  controller: App\Controller\Api\PostController:create
+
+blog_post_image_upload:
+  path: /api/v1/posts/upload
+  methods: ['POST']
+  controller: App\Controller\Api\PostController::upload
+
+#POSTS BLOG
 blog_post:
   path: /posts/{slug}
   methods: ['GET']
-  controller: App\Controller\PostController:show
-
-blog_post_image_upload:
-  path: /dashboard/posts/upload
-  methods: ['POST']
-  controller: App\Controller\PostController::upload
+  controller: App\Controller\PostController:findBySlug
 
 #Tags
 tags:
   path: /dashboard/tags
   methods: ['GET']
-  controller: App\Controller\BlogAdminController:tags
+  controller: App\Controller\Admin\BlogAdminController:tags
+
+blog_tags_find_all:
+  path: /api/v1/tags
+  methods: ['GET']
+  controller: App\Controller\Api\TagController::findAll
 
 blog_tags_create:
   path: /api/v1/tags
   methods: ['POST']
-  controller: App\Controller\TagController::insert
+  controller: App\Controller\Api\TagController::create
