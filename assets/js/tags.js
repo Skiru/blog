@@ -38,6 +38,7 @@ $(document).ready(function () {
     }
 
     tagsCreateButton.click(function (e) {
+        e.preventDefault();
         const tagName = tagsForm.find("[name=tagName]").val();
 
         if ("" === tagName) {
