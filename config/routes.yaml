@@ -38,12 +38,12 @@ posts_create:
 #POSTS API
 blogs_posts_find_all:
   path: /api/v1/posts
-  methods: ['GET']
+  methods: ['GET', 'POST']
   controller: App\Controller\Api\PostController:findAll
 
 blog_posts_create:
   path: /api/v1/posts
-  methods: ['POST']
+  methods: ['POST', 'GET']
   controller: App\Controller\Api\PostController:create
 
 blog_post_image_upload:
