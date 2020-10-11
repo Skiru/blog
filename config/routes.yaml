@@ -65,12 +65,12 @@ tags:
 
 blog_tags_find_all:
   path: /api/v1/tags
-  methods: ['GET']
+  methods: ['GET', 'POST']
   controller: App\Controller\Api\TagController::findAll
 
 blog_tags_create:
   path: /api/v1/tags
-  methods: ['POST']
+  methods: ['POST', 'GET']
   controller: App\Controller\Api\TagController::create
 
 #Categories
@@ -81,10 +81,10 @@ categories:
 
 blog_categories_find_all:
   path: /api/v1/categories
-  methods: ['GET']
+  methods: ['GET', 'POST']
   controller: App\Controller\Api\CategoryController::findAll
 
 blog_categories_create:
   path: /api/v1/categories
-  methods: ['POST']
+  methods: ['POST', 'GET']
   controller: App\Controller\Api\CategoryController::create
