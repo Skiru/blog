@@ -3,7 +3,7 @@
     "app": {
       "js": [
         "/assets/build/runtime.js",
-        "/assets/build/vendors~app~posts~tags.js",
+        "/assets/build/vendors~app~categories~posts~tags.js",
         "/assets/build/app.js"
       ],
       "css": [
@@ -13,17 +13,25 @@
     "tags": {
       "js": [
         "/assets/build/runtime.js",
-        "/assets/build/vendors~app~posts~tags.js",
-        "/assets/build/vendors~posts~tags.js",
+        "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
         "/assets/build/tags.js"
       ]
     },
     "posts": {
       "js": [
         "/assets/build/runtime.js",
-        "/assets/build/vendors~app~posts~tags.js",
-        "/assets/build/vendors~posts~tags.js",
+        "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
         "/assets/build/posts.js"
+      ]
+    },
+    "categories": {
+      "js": [
+        "/assets/build/runtime.js",
+        "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
+        "/assets/build/categories.js"
       ]
     }
   }

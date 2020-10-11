@@ -1,20 +1,20 @@
 import * as $ from 'jquery';
 
 $(document).ready(function () {
-    const tagsForm = $("#js-tags-form");
-    const tagsCreateApiUrl = tagsForm.data("tags-api-url");
-    const tagsCreateButton = $("#js-form-tags-create-button");
-    const tableBody = $('#js-tags-table-body');
-    const tagsFindAllUrl = tableBody.data("tags-api-url");
+    const categoriesForm = $("#js-categories-form");
+    const categoriesCreateApiUrl = categoriesForm.data("categories-api-url");
+    const categoriesCreateButton = $("#js-form-categories-create-button");
+    const tableBody = $('#js-categories-table-body');
+    const categoriesFindAllApiUrl = tableBody.data("categories-api-url");
 
-    getTags();
+    getCategories();
 
-    function getTags()
+    function getCategories()
     {
         //TODO in future we need to add JWT :)
         const request = $.ajax({
             method: "GET",
-            url: tagsFindAllUrl,
+            url: categoriesFindAllApiUrl,
             headers: {
                 "Accept" : "application/json"
             }
@@ -28,45 +28,45 @@ $(document).ready(function () {
             alert('Something went wrong:' + response.responseText + ' try again');
         });
 
-        function render(tag) {
+        function render(category) {
             tableBody.append(
                 '<tr>' +
-                '<td>' + tag.name + '</td>' +
+                '<td>' + category.name + '</td>' +
                 '<td> Update / Delete </td>' +
                 '</tr>'
             );
         }
     }
 
-    tagsCreateButton.click(function (e) {
+    categoriesCreateButton.click(function (e) {
         e.preventDefault();
-        const tagName = tagsForm.find("[name=tagName]").val();
+        const categoryName = categoriesForm.find("[name=categoryName]").val();
 
-        if ("" === tagName) {
-            alert('Fill the name of the tag first!');
+        if ("" === categoryName) {
+            alert('Fill the name of the category first!');
             return false;
         }
 
-        const copyOfText = tagsCreateButton.html();
+        const copyOfText = categoriesCreateButton.html();
 
         const request = $.ajax({
             method: "POST",
-            url: tagsCreateApiUrl,
-            data: JSON.stringify({name: tagName}),
+            url: categoriesCreateApiUrl,
+            data: JSON.stringify({name: categoryName}),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             beforeSend: function () {
-                tagsCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                categoriesCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             }
         });
 
         request.done(function (response) {
-            tagsForm.trigger('reset');
+            categoriesForm.trigger('reset');
             location.reload();
         });
 
         request.fail(function (response) {
-            tagsCreateButton.html(copyOfText);
+            categoriesCreateButton.html(copyOfText);
             alert('Something went wrong:' + response.responseText + ' try again');
         });
 

@@ -7,6 +7,7 @@ namespace App\Infrastructure\Form;
 use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Application\Tag\Query\TagView;
+use App\Domain\Post\Category\Category;
 use App\Domain\Post\Tag\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -114,9 +115,14 @@ class PostType extends AbstractType
     {
         $categories = $this->categoryQuery->findAll();
         if (empty($categories)) {
-            return ['blog' => 'blog'];
+            return [Category::DEFAULT_CATEGORY => Category::DEFAULT_CATEGORY];
         }
 
-        return $categories;
+        $output = [];
+        foreach ($categories as $category => $key) {
+            $output[$key->getName()] = $key->getName();
+        }
+
+        return $output;
     }
 }

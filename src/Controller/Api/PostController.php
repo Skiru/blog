@@ -81,8 +81,8 @@ class PostController extends AbstractController
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
                         $this->createTagListFromModel($userFormModel),
-                        Category::fromCategoryName(CategoryName::fromString($request->get('category'))),
-                        ReadTime::fromParameter((int)$request->get('readTime')),
+                        Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
+                        ReadTime::fromParameter((int)$userFormModel->readTime),
                         HeaderImage::createFromString($userFormModel->headerImage)
                     )
                 );

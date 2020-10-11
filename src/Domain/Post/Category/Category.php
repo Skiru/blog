@@ -6,6 +6,8 @@ namespace App\Domain\Post\Category;
 
 class Category
 {
+    public const DEFAULT_CATEGORY = 'blog';
+
     private CategoryName $categoryName;
 
     private function __construct(CategoryName $categoryName)

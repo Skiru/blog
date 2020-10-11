@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Domain\Post\Slug\Slug;
@@ -16,11 +17,13 @@ class PostController extends AbstractController
 {
     private PostQueryInterface $postQuery;
     private TagQueryInterface $tagQuery;
+    private CategoryQueryInterface $categoryQuery;
 
-    public function __construct(PostQueryInterface $postQuery, TagQueryInterface $tagQuery)
+    public function __construct(PostQueryInterface $postQuery, TagQueryInterface $tagQuery, CategoryQueryInterface $categoryQuery)
     {
         $this->postQuery = $postQuery;
         $this->tagQuery = $tagQuery;
+        $this->categoryQuery = $categoryQuery;
     }
 
     public function findBySlug(string $slug): Response
@@ -34,7 +37,8 @@ class PostController extends AbstractController
 
         return $this->render('homepage/single_post.html.twig', [
             'post' => $post,
-            'tags' => $this->tagQuery->findAll()
+            'tags' => $this->tagQuery->findAll(),
+            'categories' => $this->categoryQuery->findAll()
         ]);
     }
 }

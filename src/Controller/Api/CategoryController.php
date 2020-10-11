@@ -7,7 +7,6 @@ namespace App\Controller\Api;
 use App\Application\Category\Command\CategoryCreateCommand;
 use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Category\Query\CategoryView;
-use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Category\CategoryName;
 use App\Domain\Post\Category\CategoryRepositoryInterface;

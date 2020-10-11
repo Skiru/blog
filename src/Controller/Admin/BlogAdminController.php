@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class BlogAdminController extends AbstractController
 {
     private const TAGS_CREATE_API_ROUTE_NAME = 'blog_tags_create';
+    private const TAGS_FIND_ALL_API_ROUTE_NAME = 'blog_tags_find_all';
     private const CATEGORIES_CREATE_API_ROUTE_NAME = 'blog_categories_create';
     private const POSTS_CREATE_API_ROUTE_NAME = 'blog_posts_create';
     private const POSTS_FIND_ALL_API_ROUTE_NAME = 'blogs_posts_find_all';
@@ -96,7 +97,8 @@ class BlogAdminController extends AbstractController
 
         return $this->render('admin/tags.html.twig', [
             'tags' => $tags,
-            'tags_api_url' => $this->getAbsolutePathForRoute(self::TAGS_CREATE_API_ROUTE_NAME)
+            'tags_create_api_url' => $this->getAbsolutePathForRoute(self::TAGS_CREATE_API_ROUTE_NAME),
+            'tags_find_all_api_url' => $this->getAbsolutePathForRoute(self::TAGS_FIND_ALL_API_ROUTE_NAME)
         ]);
     }
 
@@ -106,7 +108,8 @@ class BlogAdminController extends AbstractController
 
         return $this->render('admin/categories.html.twig', [
             'categories' => $categories,
-            'tags_api_url' => $this->getAbsolutePathForRoute(self::CATEGORIES_CREATE_API_ROUTE_NAME)
+            'categories_create_api_url' => $this->getAbsolutePathForRoute(self::CATEGORIES_CREATE_API_ROUTE_NAME),
+            'categories_find_all_api_url' => $this->getAbsolutePathForRoute(self::CATEGORIES_FIND_ALL_API_ROUTE_NAME)
         ]);
     }
 
