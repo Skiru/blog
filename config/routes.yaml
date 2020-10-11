@@ -38,12 +38,12 @@ posts_create:
 #POSTS API
 blogs_posts_find_all:
   path: /api/v1/posts
-  methods: ['GET', 'POST']
+  methods: ['GET']
   controller: App\Controller\Api\PostController:findAll
 
 blog_posts_create:
   path: /api/v1/posts
-  methods: ['POST', 'GET']
+  methods: ['POST']
   controller: App\Controller\Api\PostController:create
 
 blog_post_image_upload:
@@ -65,12 +65,12 @@ tags:
 
 blog_tags_find_all:
   path: /api/v1/tags
-  methods: ['GET', 'POST']
+  methods: ['GET']
   controller: App\Controller\Api\TagController::findAll
 
 blog_tags_create:
   path: /api/v1/tags
-  methods: ['POST', 'GET']
+  methods: ['POST']
   controller: App\Controller\Api\TagController::create
 
 #Categories
@@ -81,10 +81,10 @@ categories:
 
 blog_categories_find_all:
   path: /api/v1/categories
-  methods: ['GET', 'POST']
+  methods: ['GET']
   controller: App\Controller\Api\CategoryController::findAll
 
 blog_categories_create:
   path: /api/v1/categories
-  methods: ['POST', 'GET']
+  methods: ['POST']
   controller: App\Controller\Api\CategoryController::create

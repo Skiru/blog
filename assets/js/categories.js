@@ -38,7 +38,7 @@ $(document).ready(function () {
         }
     }
 
-    categoriesCreateButton.click(function (e) {
+    categoriesForm.submit(function (e) {
         e.preventDefault();
         const categoryName = categoriesForm.find("[name=categoryName]").val();
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
             url: categoriesCreateApiUrl,
             data: JSON.stringify({name: categoryName}),
             dataType: "json",
-            contentType: 'application/json; charset=utf-8',
+            contentType: "application/json; charset=utf-8",
             beforeSend: function () {
                 categoriesCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             }

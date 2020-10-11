@@ -38,8 +38,9 @@ $(document).ready(function () {
         }
     }
 
-    tagsCreateButton.click(function (e) {
+    tagsForm.submit(function (e) {
         e.preventDefault();
+
         const tagName = tagsForm.find("[name=tagName]").val();
 
         if ("" === tagName) {
@@ -54,7 +55,7 @@ $(document).ready(function () {
             url: tagsCreateApiUrl,
             data: JSON.stringify({name: tagName}),
             dataType: "json",
-            contentType: 'application/json; charset=utf-8',
+            contentType: "application/json; charset=utf-8",
             beforeSend: function () {
                 tagsCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
             }
