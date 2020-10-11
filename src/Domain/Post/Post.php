@@ -157,13 +157,7 @@ final class Post
             'slug' => $this->getSlug()->asString(),
             'author' => $this->getAuthor()->getUser()->asString(),
             'content' => $this->getContent()->asString(),
-            'tags' => array_map(fn (Tag $tag) => [
-                'tag' => [
-                    'name' => $tag->getName(),
-                ]
-            ],
-                $this->getTags()->getTags()
-            ),
+            'tags' => $this->tags->toArray(),
             'category' => $this->getCategory()->getCategoryName()->asString(),
             'read_time' => $this->getReadTime()->asInt(),
             'created_at' => $this->getCreatedAt()->format(DateTimeImmutable::ATOM),

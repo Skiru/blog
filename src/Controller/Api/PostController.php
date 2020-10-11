@@ -49,7 +49,7 @@ class PostController extends AbstractController
 
     public function findAll(): JsonResponse
     {
-        $posts['data'] = array_map(fn(PostView $view) : array => $this->serializer->normalize($view, 'array'), $this->postQuery->findAll());
+        $posts['data'] = array_map(fn(PostView $view): array => $this->serializer->normalize($view, 'array'), $this->postQuery->findAll());
 
         return new JsonResponse(
             $posts,
@@ -80,11 +80,7 @@ class PostController extends AbstractController
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        new TagList([
-                            Tag::fromParameters(
-                                TagName::fromString('first-tag'),
-                                )
-                        ]),
+                        $this->createTagListFromModel($userFormModel),
                         Category::fromCategoryName(CategoryName::fromString('my-category')),
                         ReadTime::fromParameter((int)$request->get('readTime')),
                         HeaderImage::createFromString($userFormModel->headerImage)
@@ -108,9 +104,9 @@ class PostController extends AbstractController
         }
 
         return new JsonResponse([
-            'success' => false,
-            'message' => 'Could not create post, check with the administrator'
-        ], Response::HTTP_BAD_REQUEST
+                'success' => false,
+                'message' => 'Could not create post, check with the administrator'
+            ], Response::HTTP_BAD_REQUEST
         );
     }
 
@@ -130,5 +126,10 @@ class PostController extends AbstractController
         return new JsonResponse([
             'location' => $filePath
         ]);
+    }
+
+    private function createTagListFromModel(PostModel $model): TagList
+    {
+        return new TagList(array_map(fn(string $tag): Tag => Tag::fromParameters(TagName::fromString($tag)), $model->tags));
     }
 }

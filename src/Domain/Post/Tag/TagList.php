@@ -26,4 +26,9 @@ final class TagList
     {
         return $this->tags;
     }
+
+    public function toArray(): array
+    {
+        return array_map(fn (Tag $tag) => $tag->getName()->asString(), $this->getTags());
+    }
 }

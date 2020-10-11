@@ -13,6 +13,8 @@ class PostRepository extends MongoDbClient implements PostRepositoryInterface
 
     public function insert(Post $post): void
     {
-        $this->database->selectCollection(self::POST_TABLE)->insertOne($post->toArray());
+        $this->database
+            ->selectCollection(self::POST_TABLE)
+            ->insertOne($post->toArray());
     }
 }

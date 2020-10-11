@@ -33,7 +33,7 @@ ENV APP_ENV=prod \
     ECORP_CLIENT_ID="4_4s2r0jk457ok4sw4c84cog8go4sgwkk4s0gw084kos080kww08" \
     ECORP_CLIENT_SECRET="4zejysz8c000g80o8o04gwko80k8c4cc40840c0o4kgcsc0048" \
     ECORP_REDIRECT_URI="https://blog.purpleclouds.pl/oauth/v2/code" \
-    MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017/purpleclouds_blog" \
+    MONGODB_CONNECTION="mongodb://mrrobot:root@blog_blog_purple_clouds_mongo_1:27017" \
     ASSETS_URL="https://purpleclouds.pl"
 
 RUN  mkdir -p /var/www/html/var/log/
