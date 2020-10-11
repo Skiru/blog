@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Form;
 
+use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Tag\Tag;
@@ -22,10 +23,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
 class PostType extends AbstractType
 {
     private TagQueryInterface $tagQuery;
+    private CategoryQueryInterface $categoryQuery;
 
-    public function __construct(TagQueryInterface $tagQuery)
+    public function __construct(TagQueryInterface $tagQuery, CategoryQueryInterface $categoryQuery)
     {
         $this->tagQuery = $tagQuery;
+        $this->categoryQuery = $categoryQuery;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -76,10 +79,7 @@ class PostType extends AbstractType
             ->add('category', ChoiceType::class, [
                 'label' => 'Post Category',
                 'required' => true,
-                'choices' => [
-                    'category1' => 'Category1',
-                    'category2' => 'Category2'
-                ]
+                'choices' => $this->findCategories()
             ])
             ->add('tags', ChoiceType::class, [
                 'multiple' => true,
@@ -108,5 +108,15 @@ class PostType extends AbstractType
         }
 
         return $output;
+    }
+
+    private function findCategories(): array
+    {
+        $categories = $this->categoryQuery->findAll();
+        if (empty($categories)) {
+            return ['blog' => 'blog'];
+        }
+
+        return $categories;
     }
 }

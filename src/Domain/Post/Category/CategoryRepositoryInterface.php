@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Domain\Post\Category;
 
-
-class CategoryRepositoryInterface
+interface CategoryRepositoryInterface
 {
-
+    public function insert(Category $category): void;
 }

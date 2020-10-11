@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Infrastructure\ECorp\IdpInterface;
@@ -18,18 +19,22 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class BlogAdminController extends AbstractController
 {
     private const TAGS_CREATE_API_ROUTE_NAME = 'blog_tags_create';
+    private const CATEGORIES_CREATE_API_ROUTE_NAME = 'blog_categories_create';
     private const POSTS_CREATE_API_ROUTE_NAME = 'blog_posts_create';
     private const POSTS_FIND_ALL_API_ROUTE_NAME = 'blogs_posts_find_all';
+    private const CATEGORIES_FIND_ALL_API_ROUTE_NAME = 'blog_categories_find_all';
 
     private IdpInterface $idp;
     private TagQueryInterface $tagQuery;
     private PostQueryInterface $postQuery;
+    private CategoryQueryInterface $categoryQuery;
 
-    public function __construct(IdpInterface $idp, TagQueryInterface $tagQuery, PostQueryInterface $postQuery)
+    public function __construct(IdpInterface $idp, TagQueryInterface $tagQuery, PostQueryInterface $postQuery, CategoryQueryInterface $categoryQuery)
     {
         $this->idp = $idp;
         $this->tagQuery = $tagQuery;
         $this->postQuery = $postQuery;
+        $this->categoryQuery = $categoryQuery;
     }
 
     public function login(AuthorizationCheckerInterface $authorizationChecker): Response
@@ -92,6 +97,16 @@ class BlogAdminController extends AbstractController
         return $this->render('admin/tags.html.twig', [
             'tags' => $tags,
             'tags_api_url' => $this->getAbsolutePathForRoute(self::TAGS_CREATE_API_ROUTE_NAME)
+        ]);
+    }
+
+    public function categories(): Response
+    {
+        $categories = $this->categoryQuery->findAll();
+
+        return $this->render('admin/categories.html.twig', [
+            'categories' => $categories,
+            'tags_api_url' => $this->getAbsolutePathForRoute(self::CATEGORIES_CREATE_API_ROUTE_NAME)
         ]);
     }
 

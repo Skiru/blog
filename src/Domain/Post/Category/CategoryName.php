@@ -26,7 +26,7 @@ final class CategoryName
     /**
      * @throws CategoryException
      */
-    public static function fromString(string $name): self
+    public static function fromString(string $name): CategoryName
     {
         return new self($name);
     }

@@ -72,3 +72,19 @@ blog_tags_create:
   path: /api/v1/tags
   methods: ['POST']
   controller: App\Controller\Api\TagController::create
+
+#Categories
+categories:
+  path: /dashboard/categories
+  methods: ['GET']
+  controller: App\Controller\Admin\BlogAdminController:categories
+
+blog_categories_find_all:
+  path: /api/v1/categories
+  methods: ['GET']
+  controller: App\Controller\Api\CategoryController::findAll
+
+blog_categories_create:
+  path: /api/v1/categories
+  methods: ['POST']
+  controller: App\Controller\Api\CategoryController::create

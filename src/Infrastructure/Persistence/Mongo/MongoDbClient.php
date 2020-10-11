@@ -10,6 +10,7 @@ use MongoDB\Database;
 abstract class MongoDbClient
 {
     private const DATABASE_NAME = 'purpleclouds_blog';
+    protected const CATEGORY_TABLE = 'categories';
 
     protected Database $database;
 
