@@ -93,7 +93,7 @@ pipeline {
                     docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d;\
                     docker rmi $(docker images | grep "blog-php") || true;\
                     docker rmi $(docker images | grep "blog-assets") || true;"\
-                    | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35;'
+                    | ssh -tt -o StrictHostKeyChecking=no -l root 77.55.222.35;'
                 }
             }
         }
