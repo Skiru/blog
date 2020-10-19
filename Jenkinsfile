@@ -5,6 +5,7 @@ pipeline {
         HOME = "${WORKSPACE}"
         REGISTRY = "mkoziol/purpleclouds"
         REGISTRY_CREDENTIALS = 'dockerhub'
+        GITHUB_CREDENTIALS = 'github-credential'
         PHP_IMAGE = ""
         ASSETS_IMAGE = ""
         PHP_IMAGE_NAME = "blog-php"
@@ -33,7 +34,7 @@ pipeline {
                      doGenerateSubmoduleConfigurations: false,
                      extensions: [],
                      submoduleCfg: [],
-                     userRemoteConfigs: [[credentialsId: 'blog-repository', url: "git@github.com:Skiru/blog.git"]]]
+                     userRemoteConfigs: [[credentialsId: "${GITHUB_CREDENTIALS}", url: "git@github.com:Skiru/blog.git"]]]
                 )
             }
         }
@@ -92,7 +93,7 @@ pipeline {
                     docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d;\
                     docker rmi $(docker images | grep "blog-php") || true;\
                     docker rmi $(docker images | grep "blog-assets") || true;"\
-                    | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35;'
+                    | ssh -tt -o StrictHostKeyChecking=no -l root 77.55.222.35;'
                 }
             }
         }
