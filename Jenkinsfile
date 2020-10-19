@@ -86,7 +86,10 @@ pipeline {
         stage('Build blog application') {
             steps{
                 sshagent (credentials: ['purple-clouds-server']) {
-                    sh 'ls -l'
+                    sh '''
+                        echo "ls -l; \
+                        docker login --username mkoziol --password pamietamhaslo;"
+                       '''
 
 //                     sh 'echo \
 //                     "docker login --username mkoziol --password pamietamhaslo;\
