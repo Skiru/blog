@@ -88,7 +88,8 @@ pipeline {
                 sshagent (credentials: ['purple-clouds-server']) {
                     sh '''
                         echo "ls -l; \
-                        docker login --username mkoziol --password pamietamhaslo;"
+                        docker login --username mkoziol --password pamietamhaslo;" \
+                        | ssh -tt -o StrictHostKeyChecking=no -l root 77.55.222.35;
                        '''
 
 //                     sh 'echo \
