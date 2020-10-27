@@ -1,4 +1,9 @@
 // import '../css/app.css';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import HelloWorld from "./Components/hello-world";
+
+// css
 import '../../public/assets/css/mdb.min.css';
 import '../../public/assets/css/open-iconic-bootstrap.min.css';
 import '../../public/assets/css/animate.css';
@@ -13,3 +18,6 @@ import '../../public/assets/css/purpleclouds.css';
 
 const $ = require('jquery');
 global.$ = $;
+
+ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test'));
+ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test2'));
