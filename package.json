@@ -1,6 +1,5 @@
 {
     "devDependencies": {
-        "@babel/preset-react": "^7.12.1",
         "@symfony/webpack-encore": "^0.31.0",
         "core-js": "^3.0.0",
         "regenerator-runtime": "^0.13.2",
@@ -16,9 +15,6 @@
     },
     "dependencies": {
         "jquery": "^3.5.1",
-        "mdbootstrap": "^4.19.1",
-        "prop-types": "^15.7.2",
-        "react": "^17.0.1",
-        "react-dom": "^17.0.1"
+        "mdbootstrap": "^4.19.1"
     }
 }

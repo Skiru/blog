@@ -4,7 +4,6 @@
       "js": [
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~posts~tags.js",
-        "/assets/build/vendors~app.js",
         "/assets/build/app.js"
       ],
       "css": [
@@ -15,6 +14,7 @@
       "js": [
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
         "/assets/build/tags.js"
       ]
     },
@@ -22,6 +22,7 @@
       "js": [
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
         "/assets/build/posts.js"
       ]
     },
@@ -29,6 +30,7 @@
       "js": [
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~posts~tags.js",
+        "/assets/build/vendors~categories~posts~tags.js",
         "/assets/build/categories.js"
       ]
     }
