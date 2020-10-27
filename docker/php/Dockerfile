@@ -1,4 +1,4 @@
-FROM composer as composer-prod
+FROM composer:1.10.16 as composer-prod
 WORKDIR /app
 COPY ./composer.json ./
 COPY ./composer.lock ./
