@@ -24,4 +24,7 @@ COPY --from=composer-prod /app/vendor /var/www/html/vendor
 RUN yarn install
 RUN yarn encore production
 
+RUN rm -rf /var/www/html/public/assets/build/*
+COPY ./public/assets/build /var/www/html/public/assets/build
+
 RUN chmod 777 -R /var/www/html
