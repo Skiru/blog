@@ -6,8 +6,6 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-p
 
 FROM mkoziol/purpleclouds:php-base
 
-RUN pecl install mongodb
-
 ENV APP_ENV=prod \
     APP_SECRET=ca6777ca3b9d07d5a38d4f68036f232d \
     APP_SECRET=s$cretf0rt3s \
