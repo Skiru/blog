@@ -27,6 +27,16 @@ pipeline {
             }
         }
 
+        stage('PHP Base Image') {
+            steps {
+                script {
+                    docker.withRegistry(env.REGISTRY, env.REGISTRY_CREDENTIALS) {
+                        sh "docker pull mkoziol/purpleclouds:php-base"
+                    }
+                }
+            }
+        }
+
         stage('Get code from SCM') {
             steps{
                 checkout(
