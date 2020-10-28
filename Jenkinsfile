@@ -30,7 +30,7 @@ pipeline {
         stage('PHP Base Image') {
             steps {
                 script {
-                    docker.withRegistry(env.REGISTRY, env.REGISTRY_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com', env.REGISTRY_CREDENTIALS) {
                         sh "docker pull mkoziol/purpleclouds:php-base"
                     }
                 }
