@@ -113,8 +113,8 @@ pipeline {
     post {
         always {
             script {
-                sh "docker rmi ${env.FULL_PHP_IMAGE_NAME}"
-                sh "docker rmi ${env.FULL_ASSETS_IMAGE_NAME}"
+                sh "docker rmi -f ${env.FULL_PHP_IMAGE_NAME}"
+                sh "docker rmi -f ${env.FULL_ASSETS_IMAGE_NAME}"
             }
         }
     }
