@@ -49,48 +49,49 @@ pipeline {
             }
         }
 
-        stage('Building php image') {
-          steps{
-            script {
-              PHP_IMAGE = docker.build(FULL_PHP_IMAGE_NAME, "-f ./docker/php/Dockerfile . --no-cache")
-            }
-          }
-        }
-
-        stage('Building assets image') {
-          steps{
-            script {
-              ASSETS_IMAGE = docker.build(FULL_ASSETS_IMAGE_NAME, "-f ./docker/assets/Dockerfile . --no-cache")
-            }
-          }
-        }
-
-        stage('Deploy php image to dockerhub') {
-            steps{
-                script {
-                  docker.withRegistry('', REGISTRY_CREDENTIALS ) {
-                    PHP_IMAGE.push()
+        stage('Docker') {
+            parallel {
+                stage('Building php image') {
+                  steps{
+                    script {
+                      PHP_IMAGE = docker.build(FULL_PHP_IMAGE_NAME, "-f ./docker/php/Dockerfile . --no-cache")
+                    }
                   }
                 }
-           }
-        }
 
-        stage('Deploy assets image to dockerhub') {
-            steps{
-                script {
-                  docker.withRegistry('', REGISTRY_CREDENTIALS ) {
-                    ASSETS_IMAGE.push()
+                stage('Building assets image') {
+                  steps{
+                    script {
+                      ASSETS_IMAGE = docker.build(FULL_ASSETS_IMAGE_NAME, "-f ./docker/assets/Dockerfile . --no-cache")
+                    }
                   }
                 }
-           }
+            }
         }
 
-        stage('Remove Unused docker image') {
-          steps{
-            sh "docker rmi ${env.FULL_PHP_IMAGE_NAME}"
-            sh "docker rmi ${env.FULL_ASSETS_IMAGE_NAME}"
-            sh "docker image prune -f"
-          }
+
+        stage('Dockerhub') {
+            parallel {
+              stage('Deploy php image to dockerhub') {
+                  steps{
+                      script {
+                        docker.withRegistry('', REGISTRY_CREDENTIALS ) {
+                          PHP_IMAGE.push()
+                        }
+                      }
+                 }
+              }
+
+              stage('Deploy assets image to dockerhub') {
+                  steps{
+                      script {
+                        docker.withRegistry('', REGISTRY_CREDENTIALS ) {
+                          ASSETS_IMAGE.push()
+                        }
+                      }
+                 }
+              }
+            }
         }
 
         stage('Build blog application') {
@@ -107,5 +108,14 @@ pipeline {
             }
         }
 
+    }  // stages
+
+    post {
+        always {
+            script {
+                sh "docker rmi ${env.FULL_PHP_IMAGE_NAME}"
+                sh "docker rmi ${env.FULL_ASSETS_IMAGE_NAME}"
+            }
+        }
     }
 }
