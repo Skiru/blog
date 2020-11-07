@@ -76,26 +76,22 @@
             </div>
 
             <div>
-                {% if posts is empty %}
-                    There are no posts to display yet.
-                {% else %}
-                    <table class="table table-striped table-responsive-md btn-table">
-                        <thead>
-                            <tr>
-                                <th>Header image</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Published</th>
-                                <th>Created at</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                <table class="table table-striped table-responsive-md btn-table">
+                    <thead>
+                        <tr>
+                            <th>Header image</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Published</th>
+                            <th>Created at</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        <tbody id="js-post-table-body" data-posts-api-url="{{ posts_api_url }}">
-                        </tbody>
+                    <tbody id="js-post-table-body" data-posts-api-url="{{ posts_api_url }}">
+                    </tbody>
 
-                    </table>
-                {% endif %}
+                </table>
             </div>
         </main>
     </div>

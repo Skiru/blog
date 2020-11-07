@@ -44,7 +44,13 @@ blogs_posts_find_all:
 blog_posts_create:
   path: /api/v1/posts
   methods: ['POST']
-  controller: App\Controller\Api\PostController:create
+  controller: App\Controller\Admin\BlogAdminController:handlePostCreate
+
+# IN FUTURE THIS WILL BE IN API BUT FOR NOW CASAUL SYMFONY CREATE
+#blog_posts_create:
+#  path: /api/v1/posts
+#  methods: ['POST']
+#  controller: App\Controller\Api\PostController:create
 
 blog_post_image_upload:
   path: /api/v1/posts/upload

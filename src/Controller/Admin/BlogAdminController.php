@@ -5,16 +5,38 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Application\Category\Query\CategoryQueryInterface;
+use App\Application\Post\Command\PostCreateCommand;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
+use App\Domain\DomainException;
+use App\Domain\Post\Category\Category;
+use App\Domain\Post\Category\CategoryName;
+use App\Domain\Post\Content\Content;
+use App\Domain\Post\Image\HeaderImage;
+use App\Domain\Post\Post;
+use App\Domain\Post\ReadTime\ReadTime;
+use App\Domain\Post\Slug\Slug;
+use App\Domain\Post\Tag\Tag;
+use App\Domain\Post\Tag\TagList;
+use App\Domain\Post\Tag\TagName;
+use App\Domain\Post\Title\Title;
+use App\Domain\Shared\Uuid as DomainUuid;
+use App\Domain\User\BlogUser;
+use App\Domain\User\UserIdentity;
+use App\Infrastructure\CommandBus\CommandBusInterface;
 use App\Infrastructure\ECorp\IdpInterface;
 use App\Infrastructure\Form\PostModel;
 use App\Infrastructure\Form\PostType;
+use App\Infrastructure\ImageUploader;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BlogAdminController extends AbstractController
 {
@@ -29,13 +51,20 @@ class BlogAdminController extends AbstractController
     private TagQueryInterface $tagQuery;
     private PostQueryInterface $postQuery;
     private CategoryQueryInterface $categoryQuery;
+    private CommandBusInterface $commandBus;
 
-    public function __construct(IdpInterface $idp, TagQueryInterface $tagQuery, PostQueryInterface $postQuery, CategoryQueryInterface $categoryQuery)
-    {
+    public function __construct(
+        IdpInterface $idp,
+        TagQueryInterface $tagQuery,
+        PostQueryInterface $postQuery,
+        CategoryQueryInterface $categoryQuery,
+        CommandBusInterface $commandBus
+    ) {
         $this->idp = $idp;
         $this->tagQuery = $tagQuery;
         $this->postQuery = $postQuery;
         $this->categoryQuery = $categoryQuery;
+        $this->commandBus = $commandBus;
     }
 
     public function login(AuthorizationCheckerInterface $authorizationChecker): Response
@@ -84,6 +113,55 @@ class BlogAdminController extends AbstractController
     {
         $postModel = new PostModel();
         $form = $this->createForm(PostType::class, $postModel);
+
+        return $this->render('admin/posts_create.html.twig', [
+            'form' => $form->createView(),
+            'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_CREATE_API_ROUTE_NAME)
+        ]);
+    }
+
+    public function handlePostCreate(Request $request, ImageUploader $imageUploader, SluggerInterface $slugger): Response
+    {
+        $userFormModel = new PostModel();
+        $form = $this->createForm(PostType::class, $userFormModel);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $domainUuid = new DomainUuid(Uuid::uuid4()->toString());
+
+                $headerImage = $form['headerImage']->getData();
+                if ($headerImage) {
+                    $headerImageName = $imageUploader->upload($headerImage);
+                    $userFormModel->headerImage = $headerImageName;
+                }
+
+                $command = new PostCreateCommand(
+                    $post = Post::createFromParameters(
+                        $domainUuid,
+                        Title::fromString($userFormModel->title),
+                        Slug::fromString($slugger->slug($userFormModel->title)->toString()),
+                        new BlogUser(new UserIdentity($domainUuid)),
+                        Content::createEncodedFromString($userFormModel->content),
+                        $userFormModel->createTagList(),
+                        Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
+                        ReadTime::fromParameter((int)$userFormModel->readTime),
+                        HeaderImage::createFromString($userFormModel->headerImage)
+                    )
+                );
+
+                $this->commandBus->handle($command);
+
+                return $this->render('admin/posts.html.twig', [
+                    'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_FIND_ALL_API_ROUTE_NAME)
+                ]);
+            } catch (DomainException $exception) {
+                return $this->render('admin/posts_create.html.twig', [
+                    'form' => $form->createView(),
+                    'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_CREATE_API_ROUTE_NAME)
+                ]);
+            }
+        }
 
         return $this->render('admin/posts_create.html.twig', [
             'form' => $form->createView(),

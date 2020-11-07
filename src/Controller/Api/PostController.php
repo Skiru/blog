@@ -28,6 +28,7 @@ use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,7 +81,7 @@ class PostController extends AbstractController
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        $this->createTagListFromModel($userFormModel),
+                        $userFormModel->createTagList(),
                         Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
                         ReadTime::fromParameter((int)$userFormModel->readTime),
                         HeaderImage::createFromString($userFormModel->headerImage)
@@ -105,8 +106,9 @@ class PostController extends AbstractController
 
         return new JsonResponse([
                 'success' => false,
-                'message' => 'Could not create post, check with the administrator'
-            ], Response::HTTP_BAD_REQUEST
+                'message' => 'Could not create post, check with the administrator',
+                'errors' => (string) $form->getErrors(true, false)
+        ], Response::HTTP_BAD_REQUEST
         );
     }
 
@@ -126,10 +128,5 @@ class PostController extends AbstractController
         return new JsonResponse([
             'location' => $filePath
         ]);
-    }
-
-    private function createTagListFromModel(PostModel $model): TagList
-    {
-        return new TagList(array_map(fn(string $tag): Tag => Tag::fromParameters(TagName::fromString($tag)), $model->tags));
     }
 }

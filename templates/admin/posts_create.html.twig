@@ -73,7 +73,7 @@
             </div>
 
             <section class="justify-content-lg-center order-bottom my-2">
-                {{ form_start(form, {'action': posts_api_url}) }}
+                {{ form_start(form, {'action': posts_api_url, 'attr': {'id': 'js-post-create-form'}}) }}
                 {{ form_row(form.title) }}
                 {{ form_row(form.content) }}
                 {{ form_row(form.readTime) }}
@@ -129,8 +129,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('tags') }}#}
-
 {% endblock %}
 
 

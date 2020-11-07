@@ -27,7 +27,6 @@ Encore
     .addEntry('tags', './assets/js/tags.js')
     .addEntry('posts', './assets/js/posts.js')
     .addEntry('categories', './assets/js/categories.js')
-    //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
