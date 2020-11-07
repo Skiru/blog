@@ -85,7 +85,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post" id="js-categories-form" data-categories-api-url="{{ categories_create_api_url }}">
+                    <form method="POST" id="js-categories-form" data-categories-api-url="{{ categories_create_api_url }}">
                         <div class="form-group">
                             <label for="categoryName">Category name</label>
                             <input type="text" class="form-control" name="categoryName" id="categoryName" aria-describedby="categoryHelp"
@@ -94,8 +94,8 @@
                                 You can specify here a new category name. Keep
                                 in mind that you can use only one category for your post.</small>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="js-form-categories-create-button">Save changes</button>
                     </form>
+                    <button type="submit" class="btn btn-primary" id="js-form-categories-create-button">Save changes</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="js-tags-modal-close">Close</button>

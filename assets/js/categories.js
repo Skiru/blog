@@ -38,7 +38,11 @@ $(document).ready(function () {
         }
     }
 
-    categoriesForm.submit(function (e) {
+    categoriesForm.on('submit', function () {
+        return false;
+    });
+
+    categoriesCreateButton.click(function (e) {
         e.preventDefault();
         const categoryName = categoriesForm.find("[name=categoryName]").val();
 
