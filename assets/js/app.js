@@ -18,6 +18,6 @@ import '../../public/assets/css/purpleclouds.css';
 
 const $ = require('jquery');
 global.$ = $;
-
-ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test'));
-ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test2'));
+//
+// ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test'));
+// ReactDOM.render(<HelloWorld />, document.getElementById('js-react-test2'));
