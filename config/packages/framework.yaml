@@ -1,5 +1,6 @@
 framework:
     secret: '%env(APP_SECRET)%'
+    validation: { enabled: true }
     session:
         name: blog
 #        cookie_path: 'http://localhost:8001/'

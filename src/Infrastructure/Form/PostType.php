@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -58,8 +59,15 @@ class PostType extends AbstractType
             ]);
 
         $imageConstraints = [
-            new Image([
-                'maxSize' => '5M'
+            new File([
+                'maxSize' => '2048k',
+                'mimeTypes' => [
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                    'image/bmp'
+                ],
+                'mimeTypesMessage' => 'Please upload a valid Image',
             ])
         ];
 
