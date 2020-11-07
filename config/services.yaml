@@ -8,6 +8,8 @@ parameters:
     mongodb_connection_uri: '%env(MONGODB_CONNECTION)%'
     upload_file_url: '%env(ASSETS_URL)%/assets/uploads'
     upload_file_path: '%kernel.project_dir%/public/assets/uploads'
+    router.request_context.scheme: 'https'
+    asset.request_context.secure: true
 
 services:
     # default configuration for services in *this* file

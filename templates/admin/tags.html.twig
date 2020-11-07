@@ -85,7 +85,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post" id="js-tags-form" data-tags-api-url="{{ tags_create_api_url }}">
+                    <form method="POST" id="js-tags-form" data-tags-api-url="{{ tags_create_api_url }}">
                         <div class="form-group">
                             <label for="tagName">Tag name</label>
                             <input type="text" class="form-control" name="tagName" id="tagName" aria-describedby="tagHelp"
@@ -93,8 +93,8 @@
                             <small id="tagHelp" class="form-text text-muted">You can specify here a new tag name. Keep
                                 in mind that you can use multiple tags for your post.</small>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="js-form-tags-create-button">Save changes</button>
                     </form>
+                    <button type="submit" class="btn btn-primary" id="js-form-tags-create-button">Save changes</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="js-tags-modal-close">Close</button>
@@ -108,7 +108,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('tags') }}
-
 {% endblock %}
 
 

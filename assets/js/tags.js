@@ -38,7 +38,11 @@ $(document).ready(function () {
         }
     }
 
-    tagsForm.submit(function (e) {
+    tagsForm.on('submit', function () {
+        return false;
+    });
+
+    tagsCreateButton.click(function (e) {
         e.preventDefault();
 
         const tagName = tagsForm.find("[name=tagName]").val();
