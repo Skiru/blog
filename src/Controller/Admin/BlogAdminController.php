@@ -113,8 +113,13 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
-    private function getAbsolutePathForRoute(string $routeName): string
+    private function getAbsolutePathForRoute(string $routeName, string $scheme = 'https'): string
     {
-        return $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        if ('https' === $scheme) {
+            return str_replace('http', 'https', $url);
+        }
+
+        return $url;
     }
 }
