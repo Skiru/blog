@@ -18,3 +18,11 @@
 h1.single-post-title {
     font-size: 6rem;
 }
+
+.post-content {
+    width: 100%;
+}
+
+.post-content img {
+    max-width: 100%;
+}
