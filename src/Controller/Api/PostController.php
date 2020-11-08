@@ -119,7 +119,8 @@ class PostController extends AbstractController
             $filePath = $imageUploader->upload($uploadedFile);
         } catch (DomainException $exception) {
             return new JsonResponse([
-                'error' => 'Could not upload image'
+                'error' => 'Could not upload image',
+                'message' => $exception->getMessage()
             ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
