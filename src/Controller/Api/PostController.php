@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Application\Post\Command\PostCreateCommand;
+use App\Application\Post\Command\PostUpdateCommand;
+use App\Application\Post\Dto\PostUpdateDto;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Post\Query\PostView;
 use App\Domain\DomainException;
@@ -58,6 +60,7 @@ class PostController extends AbstractController
         );
     }
 
+    //TODO Neeeds to be adjusted to api needs
     public function create(Request $request, ImageUploader $imageUploader, SluggerInterface $slugger): JsonResponse
     {
         $userFormModel = new PostModel();
@@ -110,6 +113,25 @@ class PostController extends AbstractController
                 'errors' => (string) $form->getErrors(true, false)
         ], Response::HTTP_BAD_REQUEST
         );
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        $postUpdateDto = $this->serializer->deserialize($request->getContent(), PostUpdateDto::class, 'json');
+
+        dump($postUpdateDto);die;
+
+//        $post = $this->postQuery->getByUuid(
+//            new DomainUuid(
+//                Uuid::fromString($content['uuid'])->toString()
+//            )
+//        );
+
+        $command = new PostUpdateCommand(
+
+        );
+
+        $this->commandBus->handle($command);
     }
 
     public function upload(Request $request, ImageUploader $imageUploader): JsonResponse

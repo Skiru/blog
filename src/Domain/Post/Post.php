@@ -10,7 +10,6 @@ use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Slug\Slug;
-use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;

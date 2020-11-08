@@ -34,6 +34,7 @@ services:
     App\Infrastructure\CommandBus\CommandBus:
         calls:
             - [registerHandler, ['App\Application\Post\Command\PostCreateCommand', '@App\Application\Post\Command\PostCreateCommandHandler']]
+            - [registerHandler, ['App\Application\Post\Command\PostUpdateCommand', '@App\Application\Post\Command\PostUpdateCommandHandler']]
             - [registerHandler, ['App\Application\Tag\Command\TagCreateCommand', '@App\Application\Tag\Command\TagCreateCommandHandler']]
             - [registerHandler, ['App\Application\Category\Command\CategoryCreateCommand', '@App\Application\Category\Command\CategoryCreateCommandHandler']]
 

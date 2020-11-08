@@ -28,6 +28,7 @@ use App\Infrastructure\ECorp\IdpInterface;
 use App\Infrastructure\Form\PostModel;
 use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -120,6 +121,34 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
+    public function postUpdate(string $uuid): Response
+    {
+        try {
+            $post = $this->postQuery->getByUuid(
+                new DomainUuid(Uuid::fromString($uuid)->toString())
+            );
+
+            //TODO PACK THIS INTO POSTFACADE
+            $postModel = new PostModel();
+            $postModel->content = $post->getContent();
+            $postModel->readTime = $post->getReadTime();
+            $postModel->tags = $post->getTags();
+            $postModel->category = $post->getCategory();
+            $postModel->headerImage = $post->getHeaderImage();
+            $form = $this->createForm(PostType::class, $postModel);
+
+            return $this->render('admin/posts_update.html.twig', [
+                'form' => $form->createView(),
+                'uuid' => $post->getUuid(),
+                'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_CREATE_API_ROUTE_NAME)
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('danger', 'This post does not exist!');
+
+            return new RedirectResponse('posts');
+        }
+    }
+
     public function handlePostCreate(Request $request, ImageUploader $imageUploader, SluggerInterface $slugger): Response
     {
         $userFormModel = new PostModel();
@@ -195,7 +224,7 @@ class BlogAdminController extends AbstractController
     {
         $url = $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
-            return str_replace('http', 'https', $url);
+            return str_replace('http', 'http', $url);
         }
 
         return $url;

@@ -52,6 +52,11 @@ blog_posts_create:
 #  methods: ['POST']
 #  controller: App\Controller\Api\PostController:create
 
+blog_posts_update:
+  path: /api/v1/posts
+  methods: ['PATCH']
+  controller: App\Controller\Api\PostController:update
+
 blog_post_image_upload:
   path: /api/v1/posts/upload
   methods: ['POST']
