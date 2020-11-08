@@ -23,6 +23,6 @@ h1.single-post-title {
     width: 100%;
 }
 
-.post-content img {
+.post-content img, .post-content iframe {
     max-width: 100%;
 }
