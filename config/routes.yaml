@@ -35,6 +35,11 @@ posts_create:
   methods: ['GET']
   controller: App\Controller\Admin\BlogAdminController:postsCreate
 
+posts_update:
+  path: /dashboard/posts/{uuid}/update
+  methods: ['GET']
+  controller: App\Controller\Admin\BlogAdminController:postUpdate
+
 #POSTS API
 blogs_posts_find_all:
   path: /api/v1/posts

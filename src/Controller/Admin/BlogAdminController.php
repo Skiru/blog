@@ -102,10 +102,7 @@ class BlogAdminController extends AbstractController
     public function posts(): Response
     {
         //TODO Change later to call api
-        $posts = $this->postQuery->findAll();
-
         return $this->render('admin/posts.html.twig', [
-            'posts' => $posts,
             'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_FIND_ALL_API_ROUTE_NAME)
         ]);
     }
@@ -172,7 +169,7 @@ class BlogAdminController extends AbstractController
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        $userFormModel->createTagList(),
+                        PostModel::createTagList($userFormModel->tags),
                         Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
                         ReadTime::fromParameter((int)$userFormModel->readTime),
                         HeaderImage::createFromString($userFormModel->headerImage)

@@ -32,7 +32,7 @@ $(document).ready(function () {
                 '<td>' + post.author + '</td>' +
                 '<td>' + post.published + '</td>' +
                 '<td>' + post.createdAt + '</td>' +
-                '<td> Update / Delete </td>' +
+                '<td> <a href="#">Update</a> / <a href="#">Delete</a> </td>' +
             '</tr>'
         );
     }
