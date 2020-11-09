@@ -17,4 +17,15 @@ class PostRepository extends MongoDbClient implements PostRepositoryInterface
             ->selectCollection(self::POST_TABLE)
             ->insertOne($post->toArray());
     }
+
+    public function update(Post $post): void
+    {
+        $this->database
+            ->selectCollection(self::POST_TABLE)
+            ->updateOne(
+                ['uuid' => $post->getUuid()->asString()],
+                ['$set' => $post->toArray()],
+                ['typeMap' => ['document' => 'array']]
+            );
+    }
 }

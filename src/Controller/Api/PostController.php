@@ -17,9 +17,6 @@ use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\Post;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Slug\Slug;
-use App\Domain\Post\Tag\Tag;
-use App\Domain\Post\Tag\TagList;
-use App\Domain\Post\Tag\TagName;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid as DomainUuid;
 use App\Domain\User\BlogUser;
@@ -28,16 +25,16 @@ use App\Infrastructure\CommandBus\CommandBusInterface;
 use App\Infrastructure\Form\PostModel;
 use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class PostController extends AbstractController
+final class PostController extends AbstractController
 {
     private PostQueryInterface $postQuery;
     private CommandBusInterface $commandBus;
@@ -84,7 +81,7 @@ class PostController extends AbstractController
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        $userFormModel->createTagList(),
+                        PostModel::createTagList($userFormModel->tags),
                         Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
                         ReadTime::fromParameter((int)$userFormModel->readTime),
                         HeaderImage::createFromString($userFormModel->headerImage)
@@ -115,23 +112,52 @@ class PostController extends AbstractController
         );
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(string $uuid, Request $request): JsonResponse
     {
-        $postUpdateDto = $this->serializer->deserialize($request->getContent(), PostUpdateDto::class, 'json');
+        try {
+            $post = $this->postQuery->getByUuid(
+                new DomainUuid(
+                    Uuid::fromString($uuid)->toString()
+                )
+            );
 
-        dump($postUpdateDto);die;
+            /**
+             * @var PostUpdateDto $postUpdateDto
+             */
+            $postUpdateDto = $this->serializer->deserialize(
+                $request->getContent(),
+                PostUpdateDto::class,
+                'json'
+            );
 
-//        $post = $this->postQuery->getByUuid(
-//            new DomainUuid(
-//                Uuid::fromString($content['uuid'])->toString()
-//            )
-//        );
+            $this->commandBus->handle(
+                new PostUpdateCommand($post, $postUpdateDto)
+            );
 
-        $command = new PostUpdateCommand(
+            return new JsonResponse([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 
-        );
+    public function findByUuid(string $uuid): JsonResponse
+    {
+        try {
+            $post = $this->postQuery->getByUuid(
+                new DomainUuid(
+                    Uuid::fromString($uuid)->toString()
+                )
+            );
 
-        $this->commandBus->handle($command);
+            return new JsonResponse($post->toArray(), Response::HTTP_OK);
+        } catch (Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 
     public function upload(Request $request, ImageUploader $imageUploader): JsonResponse

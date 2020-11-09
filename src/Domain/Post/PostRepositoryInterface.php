@@ -7,4 +7,5 @@ namespace App\Domain\Post;
 interface PostRepositoryInterface
 {
     public function insert(Post $post): void;
+    public function update(Post $post): void;
 }

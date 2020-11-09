@@ -17,8 +17,8 @@ class PostModel
     public string $category = '';
     public array $tags = [];
 
-    public function createTagList(): TagList
+    public static function createTagList(array $tags): TagList
     {
-        return new TagList(array_map(fn(string $tag): Tag => Tag::fromParameters(TagName::fromString($tag)), $this->tags));
+        return new TagList(array_map(fn(string $tag): Tag => Tag::fromParameters(TagName::fromString($tag)), $tags));
     }
 }

@@ -46,3 +46,17 @@ services:
 
     App\Infrastructure\ImageUploader:
         arguments: ['%upload_file_path%','%upload_file_url%', '@Symfony\Component\String\Slugger\SluggerInterface']
+
+    Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
+        arguments:
+            - null
+            - '@serializer.name_converter.camel_case_to_snake_case'
+
+    Symfony\Component\Serializer\Encoder\JsonEncoder: ~
+
+    Symfony\Component\Serializer\Serializer:
+        arguments:
+            $normalizers:
+                - '@Symfony\Component\Serializer\Normalizer\ObjectNormalizer'
+            $encoders:
+                - '@Symfony\Component\Serializer\Encoder\JsonEncoder'

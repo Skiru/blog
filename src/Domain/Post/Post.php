@@ -15,6 +15,7 @@ use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
 use App\Domain\User\BlogUser;
 use DateTimeImmutable;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 final class Post
 {
@@ -98,6 +99,36 @@ final class Post
         );
     }
 
+    public static function updateFromParameters(
+        Uuid $uuid,
+        Title $title,
+        Slug $slug,
+        BlogUser $author,
+        Content $content,
+        TagList $tags,
+        Category $category,
+        ReadTime $readTime,
+        HeaderImage $image,
+        bool $published,
+        DateTimeImmutable $createdAt
+    ): Post {
+        return new self(
+            $uuid,
+            $title,
+            $slug,
+            $author,
+            $content,
+            $tags,
+            $category,
+            $readTime,
+            $published,
+            $image,
+            $createdAt,
+            new DateTimeImmutable(),
+            null
+        );
+    }
+
     public function getUuid(): Uuid
     {
         return $this->uuid;
@@ -146,6 +177,11 @@ final class Post
     public function getSlug(): Slug
     {
         return $this->slug;
+    }
+
+    public function publish(): void
+    {
+        $this->published = true;
     }
 
     public function toArray(): array

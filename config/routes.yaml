@@ -53,9 +53,14 @@ blog_posts_create:
 #  controller: App\Controller\Api\PostController:create
 
 blog_posts_update:
-  path: /api/v1/posts
+  path: /api/v1/posts/{uuid}
   methods: ['PATCH']
   controller: App\Controller\Api\PostController:update
+
+blog_posts_find_one_by_uuid:
+  path: /api/v1/posts/{uuid}
+  methods: ['GET']
+  controller: App\Controller\Api\PostController:findByUuid
 
 blog_post_image_upload:
   path: /api/v1/posts/upload
