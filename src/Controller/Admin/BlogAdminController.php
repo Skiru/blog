@@ -45,6 +45,7 @@ class BlogAdminController extends AbstractController
     private const TAGS_FIND_ALL_API_ROUTE_NAME = 'blog_tags_find_all';
     private const CATEGORIES_CREATE_API_ROUTE_NAME = 'blog_categories_create';
     private const POSTS_CREATE_API_ROUTE_NAME = 'blog_posts_create';
+    private const POSTS_UPDATE_API_ROUTE_NAME = 'blog_posts_update';
     private const POSTS_FIND_ALL_API_ROUTE_NAME = 'blogs_posts_find_all';
     private const CATEGORIES_FIND_ALL_API_ROUTE_NAME = 'blog_categories_find_all';
 
@@ -132,12 +133,17 @@ class BlogAdminController extends AbstractController
             $postModel->tags = $post->getTags();
             $postModel->category = $post->getCategory();
             $postModel->headerImage = $post->getHeaderImage();
+            $postModel->title = $post->getTitle();
             $form = $this->createForm(PostType::class, $postModel);
 
             return $this->render('admin/posts_update.html.twig', [
                 'form' => $form->createView(),
-                'uuid' => $post->getUuid(),
-                'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_CREATE_API_ROUTE_NAME)
+                'post_update_api_url' => $this->getAbsolutePathForRoute(
+                    self::POSTS_UPDATE_API_ROUTE_NAME,
+                    [
+                        'uuid' => $post->getUuid()
+                    ]
+                )
             ]);
         } catch (Exception $e) {
             $this->addFlash('danger', 'This post does not exist!');
@@ -217,9 +223,9 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
-    private function getAbsolutePathForRoute(string $routeName, string $scheme = 'https'): string
+    private function getAbsolutePathForRoute(string $routeName, array $params = [], string $scheme = 'https'): string
     {
-        $url = $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl($routeName, $params, UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
             return str_replace('http', 'http', $url);
         }
