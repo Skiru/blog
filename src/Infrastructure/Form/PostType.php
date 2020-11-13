@@ -6,12 +6,11 @@ namespace App\Infrastructure\Form;
 
 use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
-use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Tag\Tag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class PostType extends AbstractType
@@ -49,7 +47,6 @@ class PostType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Content of the post',
-                'required' => false,
                 'attr' => [
                     'class' => 'tinymce',
                 ]
@@ -83,6 +80,11 @@ class PostType extends AbstractType
                 'required' => false,
                 'constraints' => $imageConstraints
             ]);
+
+        $builder->add('published', CheckboxType::class, [
+            'label' => 'Publish this post?',
+            'value' => null === $post ? false : $post->published
+        ]);
 
         $builder
             ->add('category', ChoiceType::class, [

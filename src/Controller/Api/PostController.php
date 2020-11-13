@@ -121,6 +121,21 @@ final class PostController extends AbstractController
                 )
             );
 
+            dump($request->getContent());die;
+
+            $json = json_decode($request->getContent(), true);
+            dump(PostModel::createFromArray($json));die;
+            $form = $this->createForm(PostType::class, PostModel::createFromArray($json));
+            $form->submit($json);
+
+            dump($form->isValid());die;
+
+            if (!$form->isValid()) {
+                throw new FormException($form);
+            }
+
+            dump($request->getContent());die;
+
             /**
              * @var PostUpdateDto $postUpdateDto
              */
@@ -129,6 +144,8 @@ final class PostController extends AbstractController
                 PostUpdateDto::class,
                 'json'
             );
+
+            dump($postUpdateDto);die;
 
             $this->commandBus->handle(
                 new PostUpdateCommand($post, $postUpdateDto)

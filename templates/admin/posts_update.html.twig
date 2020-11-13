@@ -83,7 +83,7 @@
                         'placeholder': 'Select a post header image'
                     }
                 }) }}
-
+                {{ form_row(form.published) }}
                 {{ form_row(form.category) }}
                 {{ form_row(form.tags) }}
                 {{ form_end(form) }}
@@ -104,10 +104,13 @@
             let data = {
                 "title": formData.get('post[title]'),
                 "content": formData.get('post[content]'),
-                "readTime": formData.get('post[readTime]'),
+                "readTime": parseInt(formData.get('post[readTime]')),
                 "category": formData.get('post[category]'),
-                "tags": formData.getAll('post[tags][]')
+                "tags": formData.getAll('post[tags][]'),
+                "published": formData.get('post[published]') !== null,
+                "headerImage": formData.get('post[headerImage]')
             };
+
             //TODO First upload a photo!
 
 

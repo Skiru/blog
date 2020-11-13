@@ -84,12 +84,12 @@ final class PostUpdateCommandHandler
                 $dtoCategory ?? $command->getPostView()->getCategory()
             )),
             ReadTime::fromParameter(
-                (int) $command->getDto()->readTime ?? $command->getPostView()->getReadTime()
+                $command->getDto()->readTime ?? $command->getPostView()->getReadTime()
             ),
             HeaderImage::createFromString(
                 $command->getDto()->headerImage ?? $command->getPostView()->getHeaderImage()
             ),
-            (bool) $command->getDto()->published ?? $command->getPostView()->isPublished(),
+            $command->getDto()->published ?? $command->getPostView()->isPublished(),
             new DateTimeImmutable($command->getPostView()->getCreatedAt())
         );
 

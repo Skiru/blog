@@ -119,7 +119,7 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
-    public function postUpdate(string $uuid): Response
+    public function handlePostUpdate(string $uuid): Response
     {
         try {
             $post = $this->postQuery->getByUuid(
@@ -134,6 +134,7 @@ class BlogAdminController extends AbstractController
             $postModel->category = $post->getCategory();
             $postModel->headerImage = $post->getHeaderImage();
             $postModel->title = $post->getTitle();
+            $postModel->published = $post->isPublished();
             $form = $this->createForm(PostType::class, $postModel);
 
             return $this->render('admin/posts_update.html.twig', [
