@@ -95,23 +95,29 @@
 {% endblock %}
 {% block custom_javascripts %}
     <script>
-
         const updateForm = $("#js-post-update-form");
         const updateButton = $("#js-post-update-button");
 
         updateButton.click(function (e) {
-            console.log(updateForm[0]);
             let formData = new FormData(updateForm[0]);
 
-            //First upload a photo!
+            let data = {
+                "title": formData.get('post[title]'),
+                "content": formData.get('post[content]'),
+                "readTime": formData.get('post[readTime]'),
+                "category": formData.get('post[category]'),
+                "tags": formData.getAll('post[tags][]')
+            };
+            //TODO First upload a photo!
+
 
             //TODO in future we need to add JWT :)
             const request = $.ajax({
                 method: 'PATCH',
-                data: formData,
+                data: JSON.stringify(data),
                 processData: false,
                 contentType: false,
-                dataType: "json",
+                dataType: 'json',
                 url: '{{ post_update_api_url }}',
                 headers: {
                     "Accept" : "application/json"

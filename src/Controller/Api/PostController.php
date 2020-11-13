@@ -121,9 +121,6 @@ final class PostController extends AbstractController
                 )
             );
 
-            //HERE IS A PROBLEM
-            return new JsonResponse(['post' => $request->getContent()]);
-
             /**
              * @var PostUpdateDto $postUpdateDto
              */

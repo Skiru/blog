@@ -9,7 +9,7 @@ final class PostUpdateDto
     public ?string $title = null;
     public ?string $content = null;
     public ?string $category = null;
-    public ?int $readTime = null;
+    public ?string $readTime = null;
     public ?array $tags = null;
     public ?bool $published = null;
     public ?string $headerImage = null;
