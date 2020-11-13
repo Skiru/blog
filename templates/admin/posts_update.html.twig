@@ -98,8 +98,38 @@
         const updateForm = $("#js-post-update-form");
         const updateButton = $("#js-post-update-button");
 
+        async function upload(file) {
+            let uploadForm = new FormData();
+            uploadForm.append('file', file);
+            const request = $.ajax({
+                method: 'POST',
+                data: uploadForm,
+                processData: false,
+                contentType: false,
+                url: '/api/v1/posts/upload',
+                headers: {
+                    "Accept" : "application/json"
+                }
+            });
+
+            request.done(function (response) {
+                return response.location;
+            });
+
+            request.fail(function (response) {
+                alert('Something went wrong:' + response.responseText + ' try again');
+                return null;
+            });
+
+        }
+
         updateButton.click(function (e) {
             let formData = new FormData(updateForm[0]);
+            let headerImageFile = formData.get('post[headerImage]');
+            let headerImage = null;
+            if (headerImageFile.size !== 0) {
+                headerImage = upload(headerImageFile) //THIS RETURNS PROMISE NEED TO WAIT FOR IT;
+            }
 
             let data = {
                 "title": formData.get('post[title]'),
@@ -108,11 +138,8 @@
                 "category": formData.get('post[category]'),
                 "tags": formData.getAll('post[tags][]'),
                 "published": formData.get('post[published]') !== null,
-                "headerImage": formData.get('post[headerImage]')
+                "headerImage": headerImage
             };
-
-            //TODO First upload a photo!
-
 
             //TODO in future we need to add JWT :)
             const request = $.ajax({
