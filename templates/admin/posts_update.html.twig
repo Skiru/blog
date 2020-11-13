@@ -87,7 +87,7 @@
                 {{ form_row(form.category) }}
                 {{ form_row(form.tags) }}
                 {{ form_end(form) }}
-                <button id="js-post-update-button" class="btn btn-lg btn-secondary" type="submit">Create post</button>
+                <button id="js-post-update-button" class="btn btn-lg btn-secondary" type="submit">Update post</button>
             </section>
         </main>
     </div>
@@ -98,10 +98,10 @@
         const updateForm = $("#js-post-update-form");
         const updateButton = $("#js-post-update-button");
 
-        async function upload(file) {
+        function upload(file) {
             let uploadForm = new FormData();
             uploadForm.append('file', file);
-            const request = $.ajax({
+            return  $.ajax({
                 method: 'POST',
                 data: uploadForm,
                 processData: false,
@@ -111,34 +111,17 @@
                     "Accept" : "application/json"
                 }
             });
-
-            request.done(function (response) {
-                return response.location;
-            });
-
-            request.fail(function (response) {
-                alert('Something went wrong:' + response.responseText + ' try again');
-                return null;
-            });
-
         }
 
-        updateButton.click(function (e) {
-            let formData = new FormData(updateForm[0]);
-            let headerImageFile = formData.get('post[headerImage]');
-            let headerImage = null;
-            if (headerImageFile.size !== 0) {
-                headerImage = upload(headerImageFile) //THIS RETURNS PROMISE NEED TO WAIT FOR IT;
-            }
-
+        function updatePostCall(headerImageUrl, postUpdateFormData) {
             let data = {
-                "title": formData.get('post[title]'),
-                "content": formData.get('post[content]'),
-                "readTime": parseInt(formData.get('post[readTime]')),
-                "category": formData.get('post[category]'),
-                "tags": formData.getAll('post[tags][]'),
-                "published": formData.get('post[published]') !== null,
-                "headerImage": headerImage
+                "title": postUpdateFormData.get('post[title]'),
+                "content": postUpdateFormData.get('post[content]'),
+                "readTime": parseInt(postUpdateFormData.get('post[readTime]')),
+                "category": postUpdateFormData.get('post[category]'),
+                "tags": postUpdateFormData.getAll('post[tags][]'),
+                "published": postUpdateFormData.get('post[published]') !== null,
+                "headerImage": headerImageUrl
             };
 
             //TODO in future we need to add JWT :)
@@ -164,6 +147,27 @@
             request.fail(function (response) {
                 alert('Something went wrong:' + response.responseText + ' try again');
             });
+        }
+
+        updateButton.click(function (e) {
+            e.preventDefault();
+            let formData = new FormData(updateForm[0]);
+            let headerImageFile = formData.get('post[headerImage]');
+
+            if (headerImageFile.size !== 0) {
+                const request = upload(headerImageFile);
+                request.done(function (response) {
+                    updatePostCall(response.location, formData);
+                    return false;
+                });
+
+                request.fail(function (response) {
+                    alert('Something went wrong during upload of a image:' + response.responseText + ' try again');
+                    return false;
+                });
+            } else {
+                updatePostCall(null, formData);
+            }
 
             return false;
         });

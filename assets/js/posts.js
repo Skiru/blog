@@ -38,6 +38,7 @@ $(document).ready(function () {
                 '<td>' + post.author + '</td>' +
                 '<td>' + post.published + '</td>' +
                 '<td>' + post.created_at + '</td>' +
+                '<td>' + post.updated_at + '</td>' +
                 '<td> ' + updateButton + ' </td>' +
             '</tr>'
         );

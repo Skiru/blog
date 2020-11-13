@@ -130,8 +130,6 @@ final class PostController extends AbstractController
                 'json'
             );
 
-            dump($postUpdateDto);die;
-
             $this->commandBus->handle(
                 new PostUpdateCommand($post, $postUpdateDto)
             );
