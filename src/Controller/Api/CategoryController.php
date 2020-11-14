@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
-class CategoryController extends AbstractController
+final class CategoryController extends AbstractController
 {
     private CommandBusInterface $commandBus;
     private CategoryQueryInterface $categoryQuery;

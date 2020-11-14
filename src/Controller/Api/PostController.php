@@ -115,11 +115,7 @@ final class PostController extends AbstractController
     public function update(string $uuid, Request $request): JsonResponse
     {
         try {
-            $post = $this->postQuery->getByUuid(
-                new DomainUuid(
-                    Uuid::fromString($uuid)->toString()
-                )
-            );
+            $post = $this->postQuery->getByUuid(new DomainUuid(Uuid::fromString($uuid)->toString()));
 
             /**
              * @var PostUpdateDto $postUpdateDto
@@ -130,9 +126,7 @@ final class PostController extends AbstractController
                 'json'
             );
 
-            $this->commandBus->handle(
-                new PostUpdateCommand($post, $postUpdateDto)
-            );
+            $this->commandBus->handle(new PostUpdateCommand($post, $postUpdateDto));
 
             return new JsonResponse([
                 'success' => true
@@ -170,7 +164,7 @@ final class PostController extends AbstractController
                 'error' => 'Could not upload image',
                 'message' => $exception->getMessage()
             ],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_BAD_REQUEST
             );
         }
 

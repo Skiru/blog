@@ -73,7 +73,7 @@
             </div>
 
             <section class="justify-content-lg-center order-bottom my-2">
-                {{ form_start(form, {'attr': {'id': 'js-post-update-form'}}) }}
+                {{ form_start(form, {'attr': {'id': 'js-post-update-form', 'data-post-update-api-url': post_update_api_url }}) }}
                 {{ form_row(form.title) }}
                 {{ form_row(form.content) }}
                 {{ form_row(form.readTime) }}
@@ -95,84 +95,6 @@
 {% endblock %}
 {% block custom_javascripts %}
     <script>
-        const updateForm = $("#js-post-update-form");
-        const updateButton = $("#js-post-update-button");
-
-        function upload(file) {
-            let uploadForm = new FormData();
-            uploadForm.append('file', file);
-            return  $.ajax({
-                method: 'POST',
-                data: uploadForm,
-                processData: false,
-                contentType: false,
-                url: '/api/v1/posts/upload',
-                headers: {
-                    "Accept" : "application/json"
-                }
-            });
-        }
-
-        function updatePostCall(headerImageUrl, postUpdateFormData) {
-            let data = {
-                "title": postUpdateFormData.get('post[title]'),
-                "content": postUpdateFormData.get('post[content]'),
-                "readTime": parseInt(postUpdateFormData.get('post[readTime]')),
-                "category": postUpdateFormData.get('post[category]'),
-                "tags": postUpdateFormData.getAll('post[tags][]'),
-                "published": postUpdateFormData.get('post[published]') !== null,
-                "headerImage": headerImageUrl
-            };
-
-            //TODO in future we need to add JWT :)
-            const request = $.ajax({
-                method: 'PATCH',
-                data: JSON.stringify(data),
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                url: '{{ post_update_api_url }}',
-                headers: {
-                    "Accept" : "application/json"
-                }
-                // beforeSend: function () {
-                //     tagsCreateButton.html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
-                // }
-            });
-
-            request.done(function (response) {
-                console.log(response);
-            });
-
-            request.fail(function (response) {
-                alert('Something went wrong:' + response.responseText + ' try again');
-            });
-        }
-
-        updateButton.click(function (e) {
-            e.preventDefault();
-            let formData = new FormData(updateForm[0]);
-            let headerImageFile = formData.get('post[headerImage]');
-
-            if (headerImageFile.size !== 0) {
-                const request = upload(headerImageFile);
-                request.done(function (response) {
-                    updatePostCall(response.location, formData);
-                    return false;
-                });
-
-                request.fail(function (response) {
-                    alert('Something went wrong during upload of a image:' + response.responseText + ' try again');
-                    return false;
-                });
-            } else {
-                updatePostCall(null, formData);
-            }
-
-            return false;
-        });
-
-
         function uploadHandler (blobInfo, success, failure, progress) {
             let xhr, formData;
 
@@ -259,6 +181,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('post_update') }}
 {% endblock %}
 
 

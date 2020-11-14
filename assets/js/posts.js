@@ -29,11 +29,13 @@ $(document).ready(function () {
     };
 
     function render(post) {
+
+        console.log(post);
         let uuid = '\'' + post.uuid + '\'';
         let updateButton = '<button onclick="updatePost('+ uuid +')" class="btn btn-yellow">Update</button>';
         tableBody.append(
             '<tr>' +
-                '<td class="list-image"> <img src="' + post.headerImage + '" class="img-fluid"></td>' +
+                '<td class="list-image"> <img src="' + post.header_image + '" class="img-fluid"></td>' +
                 '<td>' + post.title + '</td>' +
                 '<td>' + post.author + '</td>' +
                 '<td>' + post.published + '</td>' +
