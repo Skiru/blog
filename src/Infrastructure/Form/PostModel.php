@@ -50,4 +50,9 @@ class PostModel
 
         return $postModel;
     }
+
+    public function isEdit(): bool
+    {
+        return $this->title !== '';
+    }
 }

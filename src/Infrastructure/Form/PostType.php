@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class PostType extends AbstractType
@@ -37,12 +38,19 @@ class PostType extends AbstractType
          * @var PostModel|null $post
          */
         $post = $options['data'] ?? null;
-        $isEdit = $post && '' !== $post->headerImage;
+        $isEdit = null === $post ?  false : $post->isEdit();
 
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Title...'
+                ],
+                'empty_data' => '',
+                'constraints' => [
+                    new Length([
+                        'min' => 1,
+                        'max' => 255
+                    ])
                 ]
             ])
             ->add('content', TextareaType::class, [
@@ -68,14 +76,14 @@ class PostType extends AbstractType
             ])
         ];
 
-        if (!$isEdit || !$post->headerImage) {
+        if (!$isEdit) {
             $imageConstraints[] = new NotNull([
                 'message' => 'Please upload an image',
             ]);
         }
         $builder
             ->add('headerImage', FileType::class, [
-                'label' => 'Header image (*.jpg, *.png, *.svg)',
+                'label' => 'Header image (*.jpeg, *.png, *.gif, *.bnp)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => $imageConstraints
@@ -106,6 +114,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PostModel::class,
+            'csrf_token_id' => 'post_token'
         ]);
     }
 

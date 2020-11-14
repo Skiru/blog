@@ -28,6 +28,8 @@ use App\Infrastructure\ImageUploader;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,6 +118,16 @@ final class PostController extends AbstractController
     {
         try {
             $post = $this->postQuery->getByUuid(new DomainUuid(Uuid::fromString($uuid)->toString()));
+            $jsonContent = json_decode($request->getContent(), true);
+            $form = $this->createForm(PostType::class, PostModel::createFromArray($jsonContent));
+            $form->submit(array_merge($jsonContent, ['_token' => $request->headers->get('X-CSRF-TOKEN')]), true);
+
+            if ($form->isSubmitted() && !$form->isValid()) {
+                return new JsonResponse([
+                    'success' => false,
+                    'error' => $this->getErrorsFromForm($form)
+                ]);
+            }
 
             /**
              * @var PostUpdateDto $postUpdateDto
@@ -156,8 +168,20 @@ final class PostController extends AbstractController
 
     public function upload(Request $request, ImageUploader $imageUploader): JsonResponse
     {
+        /**
+         * @var UploadedFile $uploadedFile
+         */
         $uploadedFile = $request->files->get('file');
         try {
+            if (!$uploadedFile->isValid()) {
+                return new JsonResponse([
+                    'error' => 'Could not upload image',
+                    'message' => 'Invalid file provided, probably file is too big or in wrong format'
+                ],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
             $filePath = $imageUploader->upload($uploadedFile);
         } catch (DomainException $exception) {
             return new JsonResponse([
@@ -171,5 +195,22 @@ final class PostController extends AbstractController
         return new JsonResponse([
             'location' => $filePath
         ]);
+    }
+
+    private function getErrorsFromForm(FormInterface $form)
+    {
+        $errors = [];
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                if ($childErrors = $this->getErrorsFromForm($childForm)) {
+                    $errors[$childForm->getName()] = $childErrors;
+                }
+            }
+        }
+
+        return $errors;
     }
 }

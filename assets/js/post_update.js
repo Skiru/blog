@@ -42,6 +42,7 @@ $(document).ready(function () {
             dataType: 'json',
             url: updateForm.data('post-update-api-url'),
             headers: {
+                "X-CSRF-TOKEN": postUpdateFormData.get(['post[_token]']),
                 "Accept" : "application/json"
             }
         });

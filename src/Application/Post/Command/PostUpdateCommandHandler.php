@@ -16,6 +16,7 @@ use App\Domain\Post\Post;
 use App\Domain\Post\PostRepositoryInterface;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Slug\Slug;
+use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagName;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
@@ -55,6 +56,9 @@ final class PostUpdateCommandHandler
         $slug = Slug::fromString($this->slugger->slug($title)->toString());
 
         foreach ($tags as $tag) {
+            if (TagName::fromString($tag)->equals(TagName::fromString(Tag::EMPTY_TAG))) {
+                continue;
+            }
             if (null === $this->tagQuery->findOneByName(TagName::fromString($tag))) {
                 throw new DomainException(sprintf('Could not find tag %s', $tag));
             }
