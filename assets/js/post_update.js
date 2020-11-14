@@ -7,22 +7,23 @@ $(document).ready(function () {
     function upload(file) {
         let uploadForm = new FormData();
         uploadForm.append('file', file);
-        return  $.ajax({
+        return $.ajax({
             method: 'POST',
             data: uploadForm,
             processData: false,
             contentType: false,
             url: '/api/v1/posts/upload',
             headers: {
-                "Accept" : "application/json"
+                "Accept": "application/json"
             }
         });
     }
 
-    function updatePostCall(headerImageUrl, postUpdateFormData) {
+    function updatePostCall(headerImageUrl, postUpdateFormData)
+    {
         let data = {
             "title": postUpdateFormData.get('post[title]'),
-            "content": postUpdateFormData.get('post[content]'),
+            "content": tinymce.activeEditor.getContent(),
             "readTime": parseInt(postUpdateFormData.get('post[readTime]')),
             "category": postUpdateFormData.get('post[category]'),
             "tags": postUpdateFormData.getAll('post[tags][]'),
