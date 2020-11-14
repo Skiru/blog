@@ -28,6 +28,7 @@ use App\Infrastructure\ECorp\IdpInterface;
 use App\Infrastructure\Form\PostModel;
 use App\Infrastructure\Form\PostType;
 use App\Infrastructure\ImageUploader;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,6 +45,7 @@ class BlogAdminController extends AbstractController
     private const TAGS_FIND_ALL_API_ROUTE_NAME = 'blog_tags_find_all';
     private const CATEGORIES_CREATE_API_ROUTE_NAME = 'blog_categories_create';
     private const POSTS_CREATE_API_ROUTE_NAME = 'blog_posts_create';
+    private const POSTS_UPDATE_API_ROUTE_NAME = 'blog_posts_update';
     private const POSTS_FIND_ALL_API_ROUTE_NAME = 'blogs_posts_find_all';
     private const CATEGORIES_FIND_ALL_API_ROUTE_NAME = 'blog_categories_find_all';
 
@@ -101,10 +103,7 @@ class BlogAdminController extends AbstractController
     public function posts(): Response
     {
         //TODO Change later to call api
-        $posts = $this->postQuery->findAll();
-
         return $this->render('admin/posts.html.twig', [
-            'posts' => $posts,
             'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_FIND_ALL_API_ROUTE_NAME)
         ]);
     }
@@ -118,6 +117,40 @@ class BlogAdminController extends AbstractController
             'form' => $form->createView(),
             'posts_api_url' => $this->getAbsolutePathForRoute(self::POSTS_CREATE_API_ROUTE_NAME)
         ]);
+    }
+
+    public function handlePostUpdate(string $uuid): Response
+    {
+        try {
+            $post = $this->postQuery->getByUuid(
+                new DomainUuid(Uuid::fromString($uuid)->toString())
+            );
+
+            //TODO PACK THIS INTO POSTFACADE
+            $postModel = new PostModel();
+            $postModel->content = $post->getContent();
+            $postModel->readTime = $post->getReadTime();
+            $postModel->tags = $post->getTags();
+            $postModel->category = $post->getCategory();
+            $postModel->headerImage = $post->getHeaderImage();
+            $postModel->title = $post->getTitle();
+            $postModel->published = $post->isPublished();
+            $form = $this->createForm(PostType::class, $postModel);
+
+            return $this->render('admin/posts_update.html.twig', [
+                'form' => $form->createView(),
+                'post_update_api_url' => $this->getAbsolutePathForRoute(
+                    self::POSTS_UPDATE_API_ROUTE_NAME,
+                    [
+                        'uuid' => $post->getUuid()
+                    ]
+                )
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('danger', 'This post does not exist!');
+
+            return new RedirectResponse('posts');
+        }
     }
 
     public function handlePostCreate(Request $request, ImageUploader $imageUploader, SluggerInterface $slugger): Response
@@ -143,7 +176,7 @@ class BlogAdminController extends AbstractController
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
                         new BlogUser(new UserIdentity($domainUuid)),
                         Content::createEncodedFromString($userFormModel->content),
-                        $userFormModel->createTagList(),
+                        PostModel::createTagList($userFormModel->tags),
                         Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
                         ReadTime::fromParameter((int)$userFormModel->readTime),
                         HeaderImage::createFromString($userFormModel->headerImage)
@@ -191,9 +224,10 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
-    private function getAbsolutePathForRoute(string $routeName, string $scheme = 'https'): string
+    //Todo THIS NEEDS TO BE CHANGED: Find out how to force https in router
+    private function getAbsolutePathForRoute(string $routeName, array $params = [], string $scheme = 'https'): string
     {
-        $url = $this->generateUrl($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl($routeName, $params, UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
             return str_replace('http', 'https', $url);
         }

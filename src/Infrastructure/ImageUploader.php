@@ -24,10 +24,8 @@ class ImageUploader
 
     /**
      * @throws DomainException
-     * @param UploadedFile $file
-     * @return string
      */
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFileName = $this->slugger->slug($originalFilename);

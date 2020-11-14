@@ -24,15 +24,27 @@ $(document).ready(function () {
         alert('Something went wrong:' + response.responseText + ' try again');
     });
 
+    window.updatePost = function (uuid) {
+        window.location.href = '/dashboard/posts/' + uuid + '/update';
+    };
+
     function render(post) {
+
+        console.log(post);
+        let uuid = '\'' + post.uuid + '\'';
+        let updateButton = '<button onclick="updatePost('+ uuid +')" class="btn btn-yellow">Update</button>';
         tableBody.append(
             '<tr>' +
-                '<td class="list-image"> <img src="' + post.headerImage + '" class="img-fluid"></td>' +
+                '<td class="list-image"> <img src="' + post.header_image + '" class="img-fluid"></td>' +
                 '<td>' + post.title + '</td>' +
                 '<td>' + post.author + '</td>' +
+                '<td>' + post.category + '</td>' +
+                '<td>' + post.tags + '</td>' +
                 '<td>' + post.published + '</td>' +
-                '<td>' + post.createdAt + '</td>' +
-                '<td> Update / Delete </td>' +
+                '<td>' + post.read_time + '</td>' +
+                '<td>' + post.created_at + '</td>' +
+                '<td>' + post.updated_at + '</td>' +
+                '<td> ' + updateButton + ' </td>' +
             '</tr>'
         );
     }

@@ -6,12 +6,11 @@ namespace App\Infrastructure\Form;
 
 use App\Application\Category\Query\CategoryQueryInterface;
 use App\Application\Tag\Query\TagQueryInterface;
-use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Tag\Tag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class PostType extends AbstractType
@@ -39,17 +38,23 @@ class PostType extends AbstractType
          * @var PostModel|null $post
          */
         $post = $options['data'] ?? null;
-        $isEdit = $post && '' !== $post->headerImage;
+        $isEdit = null === $post ?  false : $post->isEdit();
 
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Title...'
+                ],
+                'empty_data' => '',
+                'constraints' => [
+                    new Length([
+                        'min' => 1,
+                        'max' => 255
+                    ])
                 ]
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Content of the post',
-                'required' => false,
                 'attr' => [
                     'class' => 'tinymce',
                 ]
@@ -71,18 +76,23 @@ class PostType extends AbstractType
             ])
         ];
 
-        if (!$isEdit || !$post->headerImage) {
+        if (!$isEdit) {
             $imageConstraints[] = new NotNull([
                 'message' => 'Please upload an image',
             ]);
         }
         $builder
             ->add('headerImage', FileType::class, [
-                'label' => 'Header image (*.jpg, *.png, *.svg)',
+                'label' => 'Header image (*.jpeg, *.png, *.gif, *.bnp)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => $imageConstraints
             ]);
+
+        $builder->add('published', CheckboxType::class, [
+            'label' => 'Publish this post?',
+            'value' => null === $post ? false : $post->published
+        ]);
 
         $builder
             ->add('category', ChoiceType::class, [
@@ -104,6 +114,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PostModel::class,
+            'csrf_token_id' => 'post_token'
         ]);
     }
 

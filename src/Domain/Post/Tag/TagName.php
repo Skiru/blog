@@ -35,4 +35,9 @@ final class TagName
     {
         return $this->name;
     }
+
+    public function equals(TagName $name): bool
+    {
+        return $this->name === $name->asString();
+    }
 }

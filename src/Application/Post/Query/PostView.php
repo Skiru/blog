@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Post\Query;
 
-use DateTime;
+use DateTimeImmutable;
 
 final class PostView
 {
@@ -94,17 +94,21 @@ final class PostView
 
     public function getCreatedAt(): string
     {
-        return (new DateTime($this->createdAt))->format('Y-m-d');
+        return (new DateTimeImmutable($this->createdAt))->format('Y-m-d');
     }
 
     public function getUpdatedAt(): string
     {
-        return $this->updatedAt;
+        return (new DateTimeImmutable($this->updatedAt))->format('Y-m-d');
     }
 
     public function getDeletedAt(): ?string
     {
-        return $this->deletedAt;
+        if (null === $this->deletedAt) {
+            return null;
+        }
+
+        return (new DateTimeImmutable($this->deletedAt))->format('Y-m-d');
     }
 
     public function getHeaderImage(): string
@@ -115,5 +119,24 @@ final class PostView
     public function getReadTime(): int
     {
         return $this->readTime;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->getUuid(),
+            'title' => $this->getTitle(),
+            'slug' => $this->getSlug(),
+            'author' => $this->getAuthor(),
+            'content' => $this->getContent(),
+            'tags' => $this->getTags(),
+            'category' => $this->getCategory(),
+            'read_time' => $this->getReadTime(),
+            'created_at' => $this->getCreatedAt(),
+            'updated_at' => $this->getUpdatedAt(),
+            'deleted_at' => $this->getDeletedAt(),
+            'published' => $this->isPublished(),
+            'header_image' => $this->getHeaderImage()
+        ];
     }
 }

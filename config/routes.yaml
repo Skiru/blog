@@ -35,6 +35,11 @@ posts_create:
   methods: ['GET']
   controller: App\Controller\Admin\BlogAdminController:postsCreate
 
+posts_update:
+  path: /dashboard/posts/{uuid}/update
+  methods: ['GET']
+  controller: App\Controller\Admin\BlogAdminController:handlePostUpdate
+
 #POSTS API
 blogs_posts_find_all:
   path: /api/v1/posts
@@ -51,6 +56,16 @@ blog_posts_create:
 #  path: /api/v1/posts
 #  methods: ['POST']
 #  controller: App\Controller\Api\PostController:create
+
+blog_posts_update:
+  path: /api/v1/posts/{uuid}
+  methods: ['PATCH']
+  controller: App\Controller\Api\PostController:update
+
+blog_posts_find_one_by_uuid:
+  path: /api/v1/posts/{uuid}
+  methods: ['GET']
+  controller: App\Controller\Api\PostController:findByUuid
 
 blog_post_image_upload:
   path: /api/v1/posts/upload

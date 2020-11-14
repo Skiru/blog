@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
-class TagController extends AbstractController
+final class TagController extends AbstractController
 {
     private TagQueryInterface $tagQuery;
     private CommandBusInterface $bus;
