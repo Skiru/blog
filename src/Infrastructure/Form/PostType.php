@@ -55,6 +55,8 @@ class PostType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Content of the post',
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'class' => 'tinymce',
                 ]
@@ -91,7 +93,8 @@ class PostType extends AbstractType
 
         $builder->add('published', CheckboxType::class, [
             'label' => 'Publish this post?',
-            'value' => null === $post ? false : $post->published
+            'value' => null === $post ? false : $post->published,
+            'required' => false
         ]);
 
         $builder

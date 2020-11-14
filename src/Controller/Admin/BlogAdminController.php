@@ -110,8 +110,7 @@ class BlogAdminController extends AbstractController
 
     public function postsCreate(): Response
     {
-        $postModel = new PostModel();
-        $form = $this->createForm(PostType::class, $postModel);
+        $form = $this->createForm(PostType::class, new PostModel());
 
         return $this->render('admin/posts_create.html.twig', [
             'form' => $form->createView(),
