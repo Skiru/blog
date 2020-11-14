@@ -21,7 +21,7 @@ class HomepageController extends AbstractController
     {
         //TODO Change this to call API
         return $this->render('homepage/index.html.twig', [
-            'posts' => $this->postQuery->findAll()
+            'posts' => $this->postQuery->findAllPublished()
         ]);
     }
 }

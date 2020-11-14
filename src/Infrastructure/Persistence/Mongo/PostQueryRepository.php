@@ -22,7 +22,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             ->selectCollection(self::POST_TABLE)
             ->find([], ['typeMap' => ['document' => 'array']]);
 
-        return array_map(fn (stdClass $document) => new PostView(
+        return array_map(fn(stdClass $document) => new PostView(
             $document->uuid,
             $document->title,
             $document->slug,
@@ -109,5 +109,37 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $document->updated_at,
             $document->deleted_at,
         );
+    }
+
+    public function findAllPublished(): array
+    {
+        $document = $this->database
+            ->selectCollection(self::POST_TABLE)
+            ->find([
+                'published' => true
+            ], [
+                'typeMap' => [
+                    'document' => 'array'
+                ],
+                'sort' => [
+                    'created_at' => -1
+                ]
+            ]);
+
+        return array_map(fn(stdClass $document) => new PostView(
+            $document->uuid,
+            $document->title,
+            $document->slug,
+            $document->author,
+            base64_decode($document->content),
+            $document->category,
+            $document->read_time,
+            $document->tags,
+            $document->published,
+            $document->header_image,
+            $document->created_at,
+            $document->updated_at,
+            $document->deleted_at,
+        ), $document->toArray());
     }
 }

@@ -16,6 +16,11 @@ interface PostQueryInterface
     public function findAll(): array;
 
     /**
+     * @return PostView[]
+     */
+    public function findAllPublished(): array;
+
+    /**
      * @throws Exception
      */
     public function getByUuid(Uuid $uuid): PostView;
