@@ -38,7 +38,10 @@ $(document).ready(function () {
                 '<td class="list-image"> <img src="' + post.header_image + '" class="img-fluid"></td>' +
                 '<td>' + post.title + '</td>' +
                 '<td>' + post.author + '</td>' +
+                '<td>' + post.category + '</td>' +
+                '<td>' + post.tags + '</td>' +
                 '<td>' + post.published + '</td>' +
+                '<td>' + post.read_time + '</td>' +
                 '<td>' + post.created_at + '</td>' +
                 '<td>' + post.updated_at + '</td>' +
                 '<td> ' + updateButton + ' </td>' +

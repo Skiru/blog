@@ -224,11 +224,12 @@ class BlogAdminController extends AbstractController
         ]);
     }
 
+    //Todo THIS NEEDS TO BE CHANGED: Find out how to force https in router
     private function getAbsolutePathForRoute(string $routeName, array $params = [], string $scheme = 'https'): string
     {
         $url = $this->generateUrl($routeName, $params, UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
-            return str_replace('http', 'http', $url);
+            return str_replace('http', 'https', $url);
         }
 
         return $url;

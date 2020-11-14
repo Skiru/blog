@@ -15,9 +15,6 @@ $(document).ready(function () {
             url: '/api/v1/posts/upload',
             headers: {
                 "Accept" : "application/json"
-            },
-            beforeSend: function () {
-                updateButton.html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
             }
         });
     }
@@ -48,20 +45,22 @@ $(document).ready(function () {
         });
 
         request.done(function (response) {
-            console.log(response);
+            window.location.href = '/dashboard/posts';
         });
 
         request.fail(function (response) {
             alert('Something went wrong:' + response.responseText + ' try again');
-
         });
     }
 
     updateButton.click(function (e) {
         e.preventDefault();
+
         let formData = new FormData(updateForm[0]);
         let headerImageFile = formData.get('post[headerImage]');
         const copyOfText = updateButton.html();
+        //Update the spinner!
+        updateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
 
         if (headerImageFile.size !== 0) {
             if ((headerImageFile.size/1000) > 2048) {
