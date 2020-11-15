@@ -39,7 +39,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class BlogAdminController extends AbstractController
+final class BlogAdminController extends AbstractController
 {
     private const TAGS_CREATE_API_ROUTE_NAME = 'blog_tags_create';
     private const TAGS_FIND_ALL_API_ROUTE_NAME = 'blog_tags_find_all';
@@ -228,7 +228,7 @@ class BlogAdminController extends AbstractController
     {
         $url = $this->generateUrl($routeName, $params, UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
-            return str_replace('http', 'https', $url);
+            return str_replace('http', 'http', $url);
         }
 
         return $url;

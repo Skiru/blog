@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Post;
 
 use App\Domain\DateTime\DateTimeTrait;
+use App\Domain\DomainException;
 use App\Domain\Post\Category\Category;
 use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
@@ -15,7 +16,6 @@ use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
 use App\Domain\User\BlogUser;
 use DateTimeImmutable;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 final class Post
 {
@@ -127,6 +127,18 @@ final class Post
             new DateTimeImmutable(),
             null
         );
+    }
+
+    /**
+     * @throws DomainException
+     */
+    public function delete(): void
+    {
+        if (null !== $this->deletedAt) {
+            throw new DomainException('Post has already been deleted!');
+        }
+
+        $this->updatedAt = $this->deletedAt = new DateTimeImmutable('now');
     }
 
     public function getUuid(): Uuid

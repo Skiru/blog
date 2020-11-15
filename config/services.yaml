@@ -37,6 +37,7 @@ services:
             - [registerHandler, ['App\Application\Post\Command\PostUpdateCommand', '@App\Application\Post\Command\PostUpdateCommandHandler']]
             - [registerHandler, ['App\Application\Tag\Command\TagCreateCommand', '@App\Application\Tag\Command\TagCreateCommandHandler']]
             - [registerHandler, ['App\Application\Category\Command\CategoryCreateCommand', '@App\Application\Category\Command\CategoryCreateCommandHandler']]
+            - [registerHandler, ['App\Application\Post\Command\PostDeleteCommand', '@App\Application\Post\Command\PostDeleteCommandHandler']]
 
     App\Infrastructure\ECorp\Connector:
         arguments: ['%ecorp_client_id%', '%ecorp_client_secret%', '%ecorp_authorize_uri%', '%ecorp_token_uri%', '%ecorp_redirect_uri%']

@@ -67,6 +67,11 @@ blog_posts_find_one_by_uuid:
   methods: ['GET']
   controller: App\Controller\Api\PostController:findByUuid
 
+blog_posts_delete:
+  path: /api/v1/posts/{uuid}
+  methods: ['DELETE']
+  controller: App\Controller\Api\PostController:delete
+
 blog_post_image_upload:
   path: /api/v1/posts/upload
   methods: ['POST']

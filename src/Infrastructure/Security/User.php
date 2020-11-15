@@ -11,23 +11,26 @@ class User implements BlogUserInterface, BlogUserJwtInterface
     private string $email;
     private int $age;
     private string $rawToken;
+    private string $uuid;
 
-    private function __construct(string $username, string $email, int $age, string $rawToken)
+    private function __construct(string $username, string $email, int $age, string $rawToken, string $uuid)
     {
         $this->username = $username;
         $this->roles = [self::DEFAULT_ROLE];
         $this->email = $email;
         $this->age = $age;
         $this->rawToken = $rawToken;
+        $this->uuid = $uuid;
     }
 
-    public static function fromParameters(string $username, string $email, int $age, string $rawToken): User
+    public static function fromParameters(string $username, string $email, int $age, string $rawToken, string $uuid): User
     {
         return new User(
             $username,
             $email,
             $age,
-            $rawToken
+            $rawToken,
+            $uuid
         );
     }
 
@@ -91,5 +94,10 @@ class User implements BlogUserInterface, BlogUserJwtInterface
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
     }
 }

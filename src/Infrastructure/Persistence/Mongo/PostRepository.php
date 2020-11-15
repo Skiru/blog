@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Mongo;
 
 use App\Domain\Post\Post;
 use App\Domain\Post\PostRepositoryInterface;
+use DateTimeImmutable;
 
 class PostRepository extends MongoDbClient implements PostRepositoryInterface
 {
@@ -27,5 +28,18 @@ class PostRepository extends MongoDbClient implements PostRepositoryInterface
                 ['$set' => $post->toArray()],
                 ['typeMap' => ['document' => 'array']]
             );
+    }
+
+    public function delete(Post $post): void
+    {
+        $this->database
+            ->selectCollection(self::POST_TABLE)
+            ->updateOne([
+                'uuid' => $post->getUuid()->asString()
+            ],[
+                '$set' => ['deleted_at' => $post->getDeletedAt()->format(DateTimeImmutable::ATOM)]
+            ],[
+                'typeMap' => ['document' => 'array']
+            ]);
     }
 }

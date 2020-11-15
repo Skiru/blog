@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Application\Post\Command\PostCreateCommand;
+use App\Application\Post\Command\PostDeleteCommand;
 use App\Application\Post\Command\PostUpdateCommand;
 use App\Application\Post\Dto\PostUpdateDto;
 use App\Application\Post\Query\PostQueryInterface;
@@ -81,7 +82,7 @@ final class PostController extends AbstractController
                         $domainUuid,
                         Title::fromString($userFormModel->title),
                         Slug::fromString($slugger->slug($userFormModel->title)->toString()),
-                        new BlogUser(new UserIdentity($domainUuid)),
+                        new BlogUser(new UserIdentity($this->getUser()->getUuid())),
                         Content::createEncodedFromString($userFormModel->content),
                         PostModel::createTagList($userFormModel->tags),
                         Category::fromCategoryName(CategoryName::fromString($userFormModel->category)),
@@ -162,7 +163,12 @@ final class PostController extends AbstractController
 
             return new JsonResponse($post->toArray(), Response::HTTP_OK);
         } catch (Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+            return new JsonResponse([
+                'success' => false,
+                'error' => $e->getMessage()
+            ],
+                Response::HTTP_NOT_FOUND
+            );
         }
     }
 
@@ -175,6 +181,7 @@ final class PostController extends AbstractController
         try {
             if (!$uploadedFile->isValid()) {
                 return new JsonResponse([
+                    'success' => false,
                     'error' => 'Could not upload image',
                     'message' => 'Invalid file provided, probably file is too big or in wrong format'
                 ],
@@ -182,19 +189,38 @@ final class PostController extends AbstractController
                 );
             }
 
-            $filePath = $imageUploader->upload($uploadedFile);
+            return new JsonResponse([
+                'success' => true,
+                'location' => $imageUploader->upload($uploadedFile)
+            ]);
         } catch (DomainException $exception) {
             return new JsonResponse([
+                'success' => false,
                 'error' => 'Could not upload image',
                 'message' => $exception->getMessage()
             ],
                 Response::HTTP_BAD_REQUEST
             );
         }
+    }
 
-        return new JsonResponse([
-            'location' => $filePath
-        ]);
+    public function delete(string $uuid): JsonResponse
+    {
+        try {
+            $command = new PostDeleteCommand($this->postQuery->getByUuid(new DomainUuid($uuid)));
+            $this->commandBus->handle($command);
+
+            return new JsonResponse([
+                'success' => true
+            ], Response::HTTP_OK);
+
+        } catch (Exception $exception) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'Could not delete post',
+                'message' => $exception->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     private function getErrorsFromForm(FormInterface $form)

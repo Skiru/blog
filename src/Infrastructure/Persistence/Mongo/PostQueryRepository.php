@@ -20,7 +20,11 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
     {
         $document = $this->database
             ->selectCollection(self::POST_TABLE)
-            ->find([], ['typeMap' => ['document' => 'array']]);
+            ->find([
+                'deleted_at' => null
+            ], [
+                'typeMap' => ['document' => 'array']
+            ]);
 
         return array_map(fn(stdClass $document) => new PostView(
             $document->uuid,
@@ -50,7 +54,8 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
         $document = $this->database
             ->selectCollection(self::POST_TABLE)
             ->findOne([
-                'uuid' => $uuid->asString()
+                'uuid' => $uuid->asString(),
+                'deleted_at' => null
             ], ['typeMap' => ['document' => 'array']]);
 
         if (null === $document) {
@@ -86,7 +91,8 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
         $document = $this->database
             ->selectCollection(self::POST_TABLE)
             ->findOne([
-                'slug' => $slug->asString()
+                'slug' => $slug->asString(),
+                'deleted_at' => null
             ], ['typeMap' => ['document' => 'array']]);
 
         if (null === $document) {
@@ -116,7 +122,8 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
         $document = $this->database
             ->selectCollection(self::POST_TABLE)
             ->find([
-                'published' => true
+                'published' => true,
+                'deleted_at' => null
             ], [
                 'typeMap' => [
                     'document' => 'array'

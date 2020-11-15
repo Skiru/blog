@@ -74,7 +74,8 @@ final class Connector implements IdpInterface
             $userArrayResponse['username'],
             $userArrayResponse['email'],
             $userArrayResponse['age'],
-            $token
+            $token,
+            $decodedJwt->user
         );
     }
 
