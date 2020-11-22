@@ -7,4 +7,6 @@ namespace App\Domain\Post\Tag;
 interface TagRepositoryInterface
 {
     public function insert(Tag $tag): void;
+    public function delete(Tag $tag): void;
+    public function isUsed(Tag $tag): bool;
 }

@@ -99,6 +99,11 @@ blog_tags_create:
   methods: ['POST']
   controller: App\Controller\Api\TagController::create
 
+blog_tags_delete:
+  path: /api/v1/tags/{name}
+  methods: ['DELETE']
+  controller: App\Controller\Api\TagController::delete
+
 #Categories
 categories:
   path: /dashboard/categories

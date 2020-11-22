@@ -10,7 +10,7 @@ use DateTimeImmutable;
 
 class PostRepository extends MongoDbClient implements PostRepositoryInterface
 {
-    private const POST_TABLE = 'posts';
+    public const POST_TABLE = 'posts';
 
     public function insert(Post $post): void
     {

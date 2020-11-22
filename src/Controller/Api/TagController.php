@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Application\Tag\Command\TagCreateCommand;
+use App\Application\Tag\Command\TagDeleteCommand;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Tag\Tag;
@@ -56,7 +57,27 @@ final class TagController extends AbstractController
             return new JsonResponse(['success' => true], 201);
         } catch (Throwable $exception) {
 
-            return new JsonResponse(['error' => $exception->getMessage()], 403);
+            return new JsonResponse([
+                'success' => false,
+                'error' => $exception->getMessage()
+            ], 403);
+        }
+    }
+
+    public function delete(string $name): JsonResponse
+    {
+        try {
+            $tagDeleteCommand = new TagDeleteCommand(Tag::fromParameters(TagName::fromString($name)));
+
+            $this->bus->handle($tagDeleteCommand);
+
+            return new JsonResponse(['success' => true], 200);
+        } catch (Throwable $exception) {
+
+            return new JsonResponse([
+                'success' => false,
+                'error' => $exception->getMessage()
+            ], 403);
         }
     }
 }
