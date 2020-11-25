@@ -55,21 +55,20 @@ import * as $ from 'jquery';
         );
     }
 
-    $(document).ready(function () {
-        const request = $.ajax({
-            method: 'GET',
-            url: postsApiUrl,
-            headers: {
-                "Accept" : "application/json"
-            }
-        });
-
-        request.done(function (response) {
-            response.data.forEach(element => render(element, tableBody))
-        });
-
-        request.fail(function (response) {
-            alert('Something went wrong:' + response.responseText + ' try again');
-        });
+    const request = $.ajax({
+        method: 'GET',
+        url: postsApiUrl,
+        headers: {
+            "Accept" : "application/json"
+        }
     });
+
+    request.done(function (response) {
+        response.data.forEach(element => render(element, tableBody))
+    });
+
+    request.fail(function (response) {
+        alert('Something went wrong:' + response.responseText + ' try again');
+    });
+
 })();
