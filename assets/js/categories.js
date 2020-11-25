@@ -1,16 +1,16 @@
 import * as $ from 'jquery';
+require('jquery-validation');
 
-$(document).ready(function () {
+(function(){
+    'use strict';
+
     const categoriesForm = $("#js-categories-form");
     const categoriesCreateApiUrl = categoriesForm.data("categories-api-url");
     const categoriesCreateButton = $("#js-form-categories-create-button");
     const tableBody = $('#js-categories-table-body');
     const categoriesFindAllApiUrl = tableBody.data("categories-api-url");
 
-    getCategories();
-
-    function getCategories()
-    {
+    window.getCategories = function () {
         //TODO in future we need to add JWT :)
         const request = $.ajax({
             method: "GET",
@@ -36,45 +36,66 @@ $(document).ready(function () {
                 '</tr>'
             );
         }
-    }
+    };
 
-    categoriesForm.on('submit', function () {
-        return false;
-    });
+    getCategories();
 
-    categoriesCreateButton.click(function (e) {
-        e.preventDefault();
-        const categoryName = categoriesForm.find("[name=categoryName]").val();
+    categoriesCreateButton.on('click', function (e) {
+        categoriesForm.validate({
+            rules: {
+                categoryName: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 128
+                }
+            },
+            messages: {
+                categoryName: {
+                    required: "Category name is required!",
+                    minlength: jQuery.validator.format("At least {0} characters required!")
+                }
+            },
+            errorElement: "em",
+            errorPlacement: function ( error, element ) {
+                error.addClass( "invalid-feedback" );
 
-        if ("" === categoryName) {
-            alert('Fill the name of the category first!');
-            return false;
-        }
-
-        const copyOfText = categoriesCreateButton.html();
-
-        const request = $.ajax({
-            method: "POST",
-            url: categoriesCreateApiUrl,
-            data: JSON.stringify({name: categoryName}),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            beforeSend: function () {
-                categoriesCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+            },
+            submitHandler: function (form) {
+                return false;
             }
         });
 
-        request.done(function (response) {
-            categoriesForm.trigger('reset');
-            location.reload();
-        });
+        if (categoriesForm.valid()) {
+            const categoryName = categoriesForm.find("[name=categoryName]").val();
+            const copyOfText = categoriesCreateButton.html();
 
-        request.fail(function (response) {
-            categoriesCreateButton.html(copyOfText);
-            alert('Something went wrong:' + response.responseText + ' try again');
-        });
+            const request = $.ajax({
+                method: "POST",
+                url: categoriesCreateApiUrl,
+                data: JSON.stringify({name: categoryName}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function () {
+                    categoriesCreateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                }
+            });
+
+            request.done(function (response) {
+                categoriesForm.trigger('reset');
+                location.reload();
+            });
+
+            request.fail(function (response) {
+                categoriesCreateButton.html(copyOfText);
+                alert('Something went wrong:' + response.responseText + ' try again');
+            });
+        }
 
         return false;
     });
-
-});
+})();

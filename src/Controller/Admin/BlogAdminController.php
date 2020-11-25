@@ -228,7 +228,7 @@ final class BlogAdminController extends AbstractController
     {
         $url = $this->generateUrl($routeName, $params, UrlGeneratorInterface::ABSOLUTE_URL);
         if ('https' === $scheme) {
-            return str_replace('http', 'https', $url);
+            return str_replace('http', 'http', $url);
         }
 
         return $url;

@@ -17,6 +17,7 @@
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~post_update~posts~tags.js",
         "/assets/build/vendors~app~categories~tags.js",
+        "/assets/build/vendors~categories~tags.js",
         "/assets/build/tags.js"
       ]
     },
@@ -39,6 +40,7 @@
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~post_update~posts~tags.js",
         "/assets/build/vendors~app~categories~tags.js",
+        "/assets/build/vendors~categories~tags.js",
         "/assets/build/categories.js"
       ]
     }
