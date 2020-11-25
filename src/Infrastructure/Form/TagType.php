@@ -15,7 +15,8 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name of the tag'
+                'label' => 'Name of the tag',
+                'required' => true
             ]);
     }
 
@@ -23,6 +24,7 @@ class TagType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TagModel::class,
+            'csrf_token_id' => 'tag_token'
         ]);
     }
 }

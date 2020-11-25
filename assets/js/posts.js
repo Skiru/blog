@@ -44,7 +44,7 @@ import * as $ from 'jquery';
             '<td>' + post.title + '</td>' +
             '<td>' + post.author + '</td>' +
             '<td>' + post.category + '</td>' +
-            '<td>' + post.tags + '</td>' +
+            '<td>' + Object.values(post.tags) + '</td>' +
             '<td>' + post.published + '</td>' +
             '<td>' + post.read_time + '</td>' +
             '<td>' + post.created_at + '</td>' +
@@ -55,21 +55,20 @@ import * as $ from 'jquery';
         );
     }
 
-    $(document).ready(function () {
-        const request = $.ajax({
-            method: 'GET',
-            url: postsApiUrl,
-            headers: {
-                "Accept" : "application/json"
-            }
-        });
-
-        request.done(function (response) {
-            response.data.forEach(element => render(element, tableBody))
-        });
-
-        request.fail(function (response) {
-            alert('Something went wrong:' + response.responseText + ' try again');
-        });
+    const request = $.ajax({
+        method: 'GET',
+        url: postsApiUrl,
+        headers: {
+            "Accept" : "application/json"
+        }
     });
+
+    request.done(function (response) {
+        response.data.forEach(element => render(element, tableBody))
+    });
+
+    request.fail(function (response) {
+        alert('Something went wrong:' + response.responseText + ' try again');
+    });
+
 })();

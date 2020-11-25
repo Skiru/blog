@@ -10,6 +10,10 @@ require('jquery-validation');
     const tableBody = $('#js-tags-table-body');
     const tagsFindAllUrl = tableBody.data("tags-api-url");
 
+    //Update
+    const updateTagForm = $("#js-tag-update-form");
+    const tagUpdateButton = $("#js-form-tag-update-button");
+
     window.deleteTag = function(name) {
         if (confirm('Do you really want to delete tag?')) {
             const request = $.ajax({
@@ -34,6 +38,12 @@ require('jquery-validation');
         }
     };
 
+    window.triggerUpdateModal = function(tagName) {
+        const url = tagsCreateApiUrl + '/' + tagName;
+        updateTagForm.attr("data-tag-update-api-url", url);
+        updateTagForm.find("[name=tagName]").val(tagName);
+    };
+
     window.getTags = function () {
         //TODO in future we need to add JWT :)
         const request = $.ajax({
@@ -55,12 +65,12 @@ require('jquery-validation');
         function render(tag) {
             let name = '\'' + tag.name + '\'';
             let deleteButton = '<button onclick="deleteTag('+ name + ')" class="btn btn-danger">Delete</button>';
+            let updateButton = '<button onclick="triggerUpdateModal('+ name + ')" class="btn btn-yellow" data-toggle="modal" data-target="#updateTagModal">Update</button>';
 
             tableBody.append(
                 '<tr>' +
                 '<td>' + tag.name + '</td>' +
-                '<td> Update </td>' +
-                '<td>' + deleteButton +'</td>' +
+                '<td>' + updateButton + deleteButton +'</td>' +
                 '</tr>'
             );
         }
@@ -119,6 +129,69 @@ require('jquery-validation');
 
             request.fail(function (response) {
                 tagsCreateButton.html(copyOfText);
+                alert('Something went wrong:' + response.responseText + ' try again');
+            });
+        }
+
+        return false;
+    });
+
+    tagUpdateButton.on('click', function (e) {
+        updateTagForm.validate({
+            rules: {
+                tagName: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 128
+                }
+            },
+            messages: {
+                tagName: {
+                    required: "Tag name is required!",
+                    minlength: jQuery.validator.format("At least {0} characters required!")
+                }
+            },
+            errorElement: "em",
+            errorPlacement: function ( error, element ) {
+                error.addClass( "invalid-feedback" );
+
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+            },
+            submitHandler: function (form) {
+                return false;
+            }
+        });
+
+        if (updateTagForm.valid()) {
+            const tagName = updateTagForm.find("[name=tagName]").val();
+            const copyOfText = tagUpdateButton.html();
+            //TODO in future we need to add JWT :)
+            const request = $.ajax({
+                method: 'PATCH',
+                data: JSON.stringify({name: tagName}),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                url: updateTagForm.data('tag-update-api-url'),
+                headers: {
+                    "Accept" : "application/json"
+                },
+                beforeSend: function () {
+                    tagUpdateButton.html('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+                }
+            });
+
+            request.done(function (response) {
+                updateTagForm.trigger('reset');
+                location.reload();
+            });
+
+            request.fail(function (response) {
+                tagUpdateButton.html(copyOfText);
                 alert('Something went wrong:' + response.responseText + ' try again');
             });
         }

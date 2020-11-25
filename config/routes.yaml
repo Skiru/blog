@@ -104,6 +104,11 @@ blog_tags_delete:
   methods: ['DELETE']
   controller: App\Controller\Api\TagController::delete
 
+blog_tags_update:
+  path: /api/v1/tags/{name}
+  methods: ['PATCH']
+  controller: App\Controller\Api\TagController::update
+
 #Categories
 categories:
   path: /dashboard/categories

@@ -40,5 +40,8 @@
   "assets/build/images/ionicons.svg?v=4.0.0-19": "/assets/build/images/ionicons.b26f8536.svg",
   "assets/build/images/open-iconic.svg": "/assets/build/images/open-iconic.f88a8f00.svg",
   "assets/build/vendors~app~categories.js": "/assets/build/vendors~app~categories.js",
-  "assets/build/vendors~categories~tags.js": "/assets/build/vendors~categories~tags.js"
+  "assets/build/vendors~categories~tags.js": "/assets/build/vendors~categories~tags.js",
+  "assets/build/vendors~app~categories~posts~tags.js": "/assets/build/vendors~app~categories~posts~tags.js",
+  "assets/build/vendors~app~posts.js": "/assets/build/vendors~app~posts.js",
+  "assets/build/vendors~posts.js": "/assets/build/vendors~posts.js"
 }

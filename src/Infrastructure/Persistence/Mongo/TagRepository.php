@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Mongo;
 
 use App\Domain\Post\PostRepositoryInterface;
 use App\Domain\Post\Tag\Tag;
+use App\Domain\Post\Tag\TagName;
 use App\Domain\Post\Tag\TagRepositoryInterface;
 
 class TagRepository extends MongoDbClient implements TagRepositoryInterface
@@ -51,5 +52,16 @@ class TagRepository extends MongoDbClient implements TagRepositoryInterface
             ]);
 
         return !empty($result->toArray());
+    }
+
+    public function update(Tag $tag, Tag $updatedTag): void
+    {
+        $this->database
+            ->selectCollection(self::TAG_TABLE)
+            ->updateOne(
+                ['name' => $tag->getName()->asString()],
+                ['$set' => $updatedTag->toArray()],
+                ['typeMap' => ['document' => 'array']]
+            );
     }
 }

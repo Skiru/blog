@@ -37,6 +37,7 @@ services:
             - [registerHandler, ['App\Application\Post\Command\PostUpdateCommand', '@App\Application\Post\Command\PostUpdateCommandHandler']]
             - [registerHandler, ['App\Application\Tag\Command\TagCreateCommand', '@App\Application\Tag\Command\TagCreateCommandHandler']]
             - [registerHandler, ['App\Application\Tag\Command\TagDeleteCommand', '@App\Application\Tag\Command\TagDeleteCommandHandler']]
+            - [registerHandler, ['App\Application\Tag\Command\TagUpdateCommand', '@App\Application\Tag\Command\TagUpdateCommandHandler']]
             - [registerHandler, ['App\Application\Category\Command\CategoryCreateCommand', '@App\Application\Category\Command\CategoryCreateCommandHandler']]
             - [registerHandler, ['App\Application\Post\Command\PostDeleteCommand', '@App\Application\Post\Command\PostDeleteCommandHandler']]
 
