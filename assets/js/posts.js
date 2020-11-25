@@ -44,7 +44,7 @@ import * as $ from 'jquery';
             '<td>' + post.title + '</td>' +
             '<td>' + post.author + '</td>' +
             '<td>' + post.category + '</td>' +
-            '<td>' + post.tags + '</td>' +
+            '<td>' + Object.values(post.tags) + '</td>' +
             '<td>' + post.published + '</td>' +
             '<td>' + post.read_time + '</td>' +
             '<td>' + post.created_at + '</td>' +

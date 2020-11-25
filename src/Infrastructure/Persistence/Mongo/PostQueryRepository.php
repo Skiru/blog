@@ -7,8 +7,10 @@ namespace App\Infrastructure\Persistence\Mongo;
 use App\Application\Post\Query\PostQueryInterface;
 use App\Application\Post\Query\PostView;
 use App\Domain\Post\Slug\Slug;
+use App\Domain\Post\Tag\Tag;
 use App\Domain\Shared\Uuid;
 use Exception;
+use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
 use stdClass;
 
@@ -148,5 +150,43 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             $document->updated_at,
             $document->deleted_at,
         ), $document->toArray());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllByTag(Tag $tag): array
+    {
+        /**
+         * @var Cursor $documents
+         */
+        $documents = $this
+            ->database
+            ->selectCollection(self::POST_TABLE)
+            ->find([
+                'tags' => [
+                    '$all' => [
+                        $tag->getName()->asString()
+                    ]
+                ]
+            ],[
+                'typeMap' => ['document' => 'array']
+            ]);
+
+        return array_map(fn(stdClass $document) => new PostView(
+            $document->uuid,
+            $document->title,
+            $document->slug,
+            $document->author,
+            base64_decode($document->content),
+            $document->category,
+            $document->read_time,
+            $document->tags,
+            $document->published,
+            $document->header_image,
+            $document->created_at,
+            $document->updated_at,
+            $document->deleted_at,
+        ), $documents->toArray());
     }
 }

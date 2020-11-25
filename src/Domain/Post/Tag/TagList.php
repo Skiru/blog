@@ -27,6 +27,38 @@ final class TagList
         return $this->tags;
     }
 
+    /**
+     * @throws TagException
+     */
+    public function removeTag(Tag $tag): void
+    {
+        foreach ($this->tags as $tagKey => $tagValue) {
+            if ($tagValue->getName()->equals($tag->getName())) {
+                unset($this->tags[$tagKey]);
+
+                return;
+            }
+        }
+
+        throw new TagException('Tag couldnt be deleted as it doesnt exist in the list');
+    }
+
+    public function add(Tag $tag): void
+    {
+        $this->tags[] = $tag;
+    }
+
+    public function hasTag(Tag $tag): bool
+    {
+        foreach ($this->tags as $existingTag) {
+            if ($existingTag->getName()->equals($tag->getName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function toArray(): array
     {
         return array_map(fn (Tag $tag) => $tag->getName()->asString(), $this->getTags());

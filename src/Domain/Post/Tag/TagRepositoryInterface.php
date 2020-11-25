@@ -9,4 +9,5 @@ interface TagRepositoryInterface
     public function insert(Tag $tag): void;
     public function delete(Tag $tag): void;
     public function isUsed(Tag $tag): bool;
+    public function update(Tag $tag, Tag $updatedTag): void;
 }

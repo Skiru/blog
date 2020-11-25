@@ -11,6 +11,7 @@ use App\Domain\Post\Content\Content;
 use App\Domain\Post\Image\HeaderImage;
 use App\Domain\Post\ReadTime\ReadTime;
 use App\Domain\Post\Slug\Slug;
+use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagList;
 use App\Domain\Post\Title\Title;
 use App\Domain\Shared\Uuid;
@@ -141,6 +142,26 @@ final class Post
         $this->updatedAt = $this->deletedAt = new DateTimeImmutable('now');
     }
 
+    /**
+     * @throws DomainException
+     */
+    public function updateTag(Tag $oldTag, Tag $newTag): void
+    {
+        $tagList = $this->getTagList();
+        if (!$tagList->hasTag($oldTag)) {
+            throw new DomainException(
+                sprintf(
+                    'Post %s doesnt have tag %s',
+                    $this->getUuid()->asString(),
+                    $oldTag->getName()->asString()
+                )
+            );
+        }
+
+        $tagList->removeTag($oldTag);
+        $tagList->add($newTag);
+    }
+
     public function getUuid(): Uuid
     {
         return $this->uuid;
@@ -161,7 +182,7 @@ final class Post
         return $this->content;
     }
 
-    public function getTags(): TagList
+    public function getTagList(): TagList
     {
         return $this->tags;
     }

@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Application\Post\Command\PostUpdateCommand;
+use App\Application\Post\Dto\PostUpdateDto;
 use App\Application\Tag\Command\TagCreateCommand;
 use App\Application\Tag\Command\TagDeleteCommand;
+use App\Application\Tag\Command\TagUpdateCommand;
+use App\Application\Tag\Dto\TagUpdateDto;
 use App\Application\Tag\Query\TagQueryInterface;
 use App\Application\Tag\Query\TagView;
 use App\Domain\Post\Tag\Tag;
 use App\Domain\Post\Tag\TagName;
+use App\Domain\Shared\Uuid as DomainUuid;
 use App\Infrastructure\CommandBus\CommandBusInterface;
+use App\Infrastructure\Form\PostModel;
+use App\Infrastructure\Form\PostType;
+use App\Infrastructure\Form\TagModel;
+use App\Infrastructure\Form\TagType;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,5 +90,57 @@ final class TagController extends AbstractController
                 'error' => $exception->getMessage()
             ], 403);
         }
+    }
+
+    public function update(string $name, Request $request): JsonResponse
+    {
+        try {
+            $tag = $this->tagQuery->findOneByName(TagName::fromString($name));
+
+            if (null === $tag) {
+                return new JsonResponse([
+                    'success' => false,
+                    'error' => sprintf('Tag with name %s not found', $name)
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            /**
+             * @var TagUpdateDto $tagUpdateDto
+             */
+            $tagUpdateDto = $this->serializer->deserialize(
+                $request->getContent(),
+                TagUpdateDto::class,
+                'json'
+            );
+
+            $this->bus->handle(new TagUpdateCommand($tag, $tagUpdateDto));
+
+            return new JsonResponse([
+                'success' => true
+            ]);
+        } catch (Throwable $e) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    //TODO Move this method to shared class
+    private function getErrorsFromForm(FormInterface $form)
+    {
+        $errors = [];
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                if ($childErrors = $this->getErrorsFromForm($childForm)) {
+                    $errors[$childForm->getName()] = $childErrors;
+                }
+            }
+        }
+
+        return $errors;
     }
 }

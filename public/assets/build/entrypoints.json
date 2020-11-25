@@ -25,6 +25,7 @@
       "js": [
         "/assets/build/runtime.js",
         "/assets/build/vendors~app~categories~post_update~posts~tags.js",
+        "/assets/build/vendors~posts.js",
         "/assets/build/posts.js"
       ]
     },
