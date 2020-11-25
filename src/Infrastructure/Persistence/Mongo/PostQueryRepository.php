@@ -164,6 +164,7 @@ class PostQueryRepository extends MongoDbClient implements PostQueryInterface
             ->database
             ->selectCollection(self::POST_TABLE)
             ->find([
+                'deleted_at' => null,
                 'tags' => [
                     '$all' => [
                         $tag->getName()->asString()

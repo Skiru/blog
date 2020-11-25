@@ -70,8 +70,7 @@ require('jquery-validation');
             tableBody.append(
                 '<tr>' +
                 '<td>' + tag.name + '</td>' +
-                '<td>' + updateButton + '</td>' +
-                '<td>' + deleteButton +'</td>' +
+                '<td>' + updateButton + deleteButton +'</td>' +
                 '</tr>'
             );
         }

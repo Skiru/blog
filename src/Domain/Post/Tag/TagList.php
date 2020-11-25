@@ -61,6 +61,8 @@ final class TagList
 
     public function toArray(): array
     {
-        return array_map(fn (Tag $tag) => $tag->getName()->asString(), $this->getTags());
+        return array_values(
+            array_map(fn (Tag $tag) => $tag->getName()->asString(), $this->getTags())
+        );
     }
 }
