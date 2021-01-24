@@ -103,7 +103,7 @@ pipeline {
                     export BLOG_PHP_IMAGE_BUILD_TAG=${FULL_PHP_IMAGE_NAME};\
                     docker-compose -f /var/www/PurpleClouds/blog/docker-compose.yml up -d;\
                     docker image prune -a -f || true;"\
-                    | ssh -o StrictHostKeyChecking=no -l root 77.55.222.35;'
+                    | ssh -o StrictHostKeyChecking=no -l root 77.55.194.92;'
                 }
             }
         }
