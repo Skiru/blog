@@ -11,8 +11,8 @@ use GuzzleHttp\ClientInterface;
 
 final class Connector implements IdpInterface
 {
-    private const ECORP_DOCKER_TOKEN_ENDPOINT = 'ecorp_ecorp_purple_clouds_nginx_1:8000/oauth/v2/token';
-    private const ECORP_USERS_ENDPOINT = 'ecorp_ecorp_purple_clouds_nginx_1:8000/api/users';
+    private const ECORP_DOCKER_TOKEN_ENDPOINT = 'ecorp_nginx_1:8000/oauth/v2/token';
+    private const ECORP_USERS_ENDPOINT = 'ecorp_nginx_1:8000/api/users';
 
     private string $clientId;
     private string $clientSecret;
